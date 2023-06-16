@@ -28,7 +28,7 @@ jobs:
                 pip install -r requirements.txt
             
             - name: Build 🏗️
-              run: shiny static myapp _site
+              run: shinylive export myapp _site
 
             - name: Deploy to GitHub Pages 🚀
               if: ${{ github.event_name != 'pull_request' }}
