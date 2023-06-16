@@ -1,10 +1,14 @@
 name: Deploy Shinylive on GH Pages
-on: push
+on: 
+    push:
+    workflow_dispatch:
+permissions:
+    contents: read
+    pages: write
+    id-token: write
 jobs:
-    build-deploy:
-        name: "Build and Deploy"
-        permissions:
-          contents: write
+    build:
+        name: "Build with Shinylive"
         runs-on: ubuntu-latest
         steps:
             - name: Checkout 🛎️
@@ -14,6 +18,9 @@ jobs:
               uses: actions/setup-python@v4
               with:
                 python-version: 3.x
+
+            - name: Setup Pages 🌐
+              uses: actions/configure-pages@v3
 
             - name: Cache Python packages 💾
               uses: actions/cache@v3
@@ -32,9 +39,18 @@ jobs:
             - name: Build 🏗️
               run: shinylive export myapp _site
 
-            - name: Deploy to GitHub Pages 🚀
-              if: ${{ github.event_name != 'pull_request' }}
-              uses: peaceiris/actions-gh-pages@v3
+            - name: Upload artifact 📦⬆️
+              uses: actions/upload-pages-artifact@v1
               with:
-                github_token: ${{ secrets.GITHUB_TOKEN }}
-                publish_dir: _site
+                path: ./_site
+    deploy:
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        needs: build
+        name: "Deploy with GitHub Pages"
+        runs-on: ubuntu-latest
+        steps:
+          - name: Deploy to GitHub Pages 🚀
+            id: deployment
+            uses: actions/deploy-pages@v1
