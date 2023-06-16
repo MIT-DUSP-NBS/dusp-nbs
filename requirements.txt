@@ -1,1 +1,4 @@
 shinylive
+shinywidgets
+ipyleaflet
+shinyswatch
