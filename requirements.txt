@@ -1,4 +1,2 @@
 shinylive
-shinywidgets
-ipyleaflet
 shinyswatch
