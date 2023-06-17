@@ -17,7 +17,15 @@ app_ui = ui.page_fluid(
 
 
 def server(input, output, session):
-    map = Map(center=(51.476852, -0.000500), zoom=12, scroll_wheel_zoom=True)
+    center = [38.128, 2.588] # FOR TESTING
+    zoom = 5 # FOR TESTING
+    map = Map(
+        basemap=basemaps.Gaode.Satellite,
+        center=center,
+        zoom=zoom,
+    )
     register_widget("map", map)
+
+
 
 app = App(app_ui, server)
