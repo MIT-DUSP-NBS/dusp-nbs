@@ -1,4 +1,3 @@
 shinylive
 shinywidgets
-shinyswatch
 ipyleaflet

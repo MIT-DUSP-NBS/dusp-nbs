@@ -4,7 +4,6 @@ import shinyswatch
 from ipyleaflet import Map
 
 app_ui = ui.page_fluid(
-    shinyswatch.theme.zephyr(),
     ui.panel_title("Nature-Based Solutions Dashboard to Support Carbon Neutrality in Major EU Cities"),
     ui.layout_sidebar(
         ui.panel_sidebar(
