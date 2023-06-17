@@ -1,6 +1,5 @@
 from shiny import App, render, ui
 from shinywidgets import output_widget, render_widget
-import shinyswatch
 from ipyleaflet import Map
 
 app_ui = ui.page_fluid(
