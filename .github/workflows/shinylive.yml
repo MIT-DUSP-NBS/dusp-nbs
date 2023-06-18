@@ -20,19 +20,11 @@ jobs:
                 python-version: 3.x
                 cache: pip
 
-            - name: Setup Pages 🌐
-              uses: actions/configure-pages@v3
-
             - name: Install dependencies 🔧
               run: pip install -r requirements.txt
             
             - name: Build 🏗️
               run: shinylive export myapp _site
-
-            - name: Upload artifact 📦⬆️
-              uses: actions/upload-pages-artifact@v1
-              with:
-                path: ./_site
     deploy:
         environment:
             name: github-pages
@@ -41,6 +33,14 @@ jobs:
         name: "Deploy with GitHub Pages"
         runs-on: ubuntu-latest
         steps:
-          - name: Deploy to GitHub Pages 🚀
-            id: deployment
-            uses: actions/deploy-pages@v1
+            - name: Setup Pages 🌐
+              uses: actions/configure-pages@v3
+              
+            - name: Upload artifact 📦⬆️
+              uses: actions/upload-pages-artifact@v1
+              with:
+                path: ./_site
+
+            - name: Deploy to GitHub Pages 🚀
+              id: deployment
+              uses: actions/deploy-pages@v1
