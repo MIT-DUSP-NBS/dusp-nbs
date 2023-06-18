@@ -25,6 +25,11 @@ jobs:
             
             - name: Build 🏗️
               run: shinylive export myapp _site
+
+            - name: Upload artifact 📦⬆️
+              uses: actions/upload-pages-artifact@v1
+              with:
+                path: ./_site
     deploy:
         environment:
             name: github-pages
@@ -35,11 +40,6 @@ jobs:
         steps:
             - name: Setup Pages 🌐
               uses: actions/configure-pages@v3
-              
-            - name: Upload artifact 📦⬆️
-              uses: actions/upload-pages-artifact@v1
-              with:
-                path: ./_site
 
             - name: Deploy to GitHub Pages 🚀
               id: deployment
