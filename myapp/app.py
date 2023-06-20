@@ -6,6 +6,9 @@ from shiny import App, ui, reactive
 from shinywidgets import output_widget, register_widget
 import shinyswatch
 from ipyleaflet import Map, basemaps, LocalTileLayer
+from pathlib import Path
+
+assets_dir = Path(__file__).parent / "assets"
 
 emissions_map = ui.page_fluid(
     shinyswatch.theme.zephyr(),
@@ -22,7 +25,7 @@ emissions_map = ui.page_fluid(
     ),
 )
 
-app_ui_nav = ui.page_navbar(
+app_ui = ui.page_navbar(
     ui.nav("Emissions Map", emissions_map),
     bg="#3459e6",
     inverse=True,
@@ -46,4 +49,4 @@ def server(input, output, session):
             m.add_layer(LocalTileLayer(path="ind/{z}/{x}/{y}.png"))
 
 
-app = App(app_ui_nav, server)
+app = App(app_ui, server, static_assets=assets_dir)
