@@ -37,15 +37,23 @@ def server(input, output, session):
         basemap=basemaps.Esri.WorldImagery,
         center=(3.8076478948134924, 62.51683370859948),
     )
+
+    residential = LocalTileLayer(path="res/{z}/{x}/{y}.png")
+    industrial = LocalTileLayer(path="ind/{z}/{x}/{y}.png")
+
+    m.add_layer(residential)
+
     register_widget("map", m)
 
     @reactive.Effect()
     def _():
         input_emissions = input.emissions()
         if input_emissions == "residential":
-            m.add_layer(LocalTileLayer(path="res/{z}/{x}/{y}.png"))
+            if m.layers[1] == industrial:
+                m.substitute_layer(industrial, residential)
         elif input_emissions == "industrial":
-            m.add_layer(LocalTileLayer(path="ind/{z}/{x}/{y}.png"))
+            if m.layers[1] == residential:
+                m.substitute_layer(residential, industrial)
 
 
 app = App(app_ui, server, static_assets=assets_dir)
