@@ -6,6 +6,10 @@ from shiny import App, ui, reactive
 from shinywidgets import output_widget, register_widget
 import shinyswatch
 
+import micropip  # noqa: F401
+
+await micropip.install("ipyleaflet")  # noqa: F704
+
 emissions_map = ui.page_fluid(
     shinyswatch.theme.zephyr(),
     ui.layout_sidebar(

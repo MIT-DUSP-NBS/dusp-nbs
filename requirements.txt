@@ -2,3 +2,4 @@ shinylive
 ipyleaflet
 leafmap
 shinyswatch
+micropip
