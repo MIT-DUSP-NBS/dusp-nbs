@@ -1,3 +1,6 @@
+# pyright: basic
+# pyright: reportUnusedFunction=false
+
 from ipyleaflet import Map, basemaps
 from shiny import App, ui
 from shinywidgets import output_widget, register_widget
