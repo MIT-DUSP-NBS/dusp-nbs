@@ -1,3 +1,4 @@
 shinylive
+ipyleaflet
 leafmap
 shinyswatch
