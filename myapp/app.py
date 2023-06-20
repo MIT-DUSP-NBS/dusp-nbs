@@ -33,10 +33,7 @@ app_ui = ui.page_navbar(
 
 
 def server(input, output, session):
-    m = Map(
-        basemap=basemaps.Esri.WorldImagery,
-        center=(3.8076478948134924, 62.51683370859948),
-    )
+    m = Map(basemap=basemaps.Esri.WorldImagery, zoom=0)
 
     residential = LocalTileLayer(path="res/{z}/{x}/{y}.png")
     industrial = LocalTileLayer(path="ind/{z}/{x}/{y}.png")
