@@ -5,6 +5,10 @@
 from shiny import App, ui  # , reactive
 from shinywidgets import output_widget, register_widget
 import shinyswatch
+import ipyleaflet  # noqa: F401
+import certifi  # noqa: F401
+import numpy  # noqa: F401
+import setuptools  # noqa: F401
 import leafmap.leafmap as leafmap
 
 # import xarray_leaflet
