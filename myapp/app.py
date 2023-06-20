@@ -1,36 +1,49 @@
 # pyright: basic
 # pyright: reportUnusedFunction=false
 
-from ipyleaflet import Map, basemaps
-from shiny import App, ui
+from leafmap import Map
+from shiny import App, ui, reactive
 from shinywidgets import output_widget, register_widget
+import shinyswatch
 
-app_ui = ui.page_fluid(
-    ui.panel_title(
-        "Nature-Based Solutions Dashboard "
-        "to Support Carbon Neutrality in Major EU Cities"
-    ),
+emissions_map = ui.page_fluid(
+    shinyswatch.theme.zephyr(),
     ui.layout_sidebar(
         ui.panel_sidebar(
-            ui.h2("Test!"),
-            ui.p(
-                "This is where all the sliders and things to configure the map will go"
+            ui.h2("Emission map visualization"),
+            ui.input_radio_buttons(
+                "emissions",
+                label="Select the desired emission properties",
+                choices=["residential", "industrial"],
             ),
         ),
         ui.panel_main(output_widget("map")),
     ),
 )
 
+app_ui_nav = ui.page_navbar(
+    ui.nav("Emissions Map", emissions_map),
+    bg="#3459e6",
+    inverse=True,
+    title="Nature-Based Solutions Dashboard",
+)
+
 
 def server(input, output, session):
-    center = [38.128, 2.588]  # FOR TESTING
-    zoom = 5  # FOR TESTING
-    map = Map(
-        basemap=basemaps.Gaode.Satellite,
-        center=center,
-        zoom=zoom,
-    )
+    residential = "res.tiff"
+    industrial = "ind.tiff"
+
+    map = Map(center=(40, -100), zoom=4)
+    map.add_basemap("Esri.WorldImagery")
     register_widget("map", map)
 
+    @reactive.Effect()
+    def _():
+        input_emissions = input.emissions()
+        if input_emissions == "residential":
+            map.add_raster(residential)
+        elif input_emissions == "industrial":
+            map.add_raster(industrial)
 
-app = App(app_ui, server)
+
+app = App(app_ui_nav, server)

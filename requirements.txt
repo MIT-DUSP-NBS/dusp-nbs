@@ -1,3 +1,4 @@
 shinylive
 shinywidgets
-ipyleaflet
+leafmap
+shinyswatch
