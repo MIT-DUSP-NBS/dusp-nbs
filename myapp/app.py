@@ -1,10 +1,13 @@
 # pyright: basic
 # pyright: reportUnusedFunction=false
 
-from ipyleaflet import basemaps, Map, ImageOverlay
-from shiny import App, ui, reactive
+# from ipyleaflet import basemaps, Map, ImageOverlay
+from shiny import App, ui  # , reactive
 from shinywidgets import output_widget, register_widget
 import shinyswatch
+import leafmap.leafmap as leafmap
+
+# import xarray_leaflet
 
 emissions_map = ui.page_fluid(
     shinyswatch.theme.zephyr(),
@@ -30,19 +33,20 @@ app_ui_nav = ui.page_navbar(
 
 
 def server(input, output, session):
-    map = Map(center=(40, -100), zoom=4, basemap=basemaps.Esri.WorldImagery)
-    register_widget("map", map)
+    m = leafmap.Map()
+    m.add_basemap("Esri.WorldImagery")
+    register_widget("map", m)
 
-    residential = ImageOverlay(url="./res.tif", bounds=map.bounds)
-    industrial = ImageOverlay(url="./ind.tif", bounds=map.bounds)
+    # residential = "res.tif"
+    # industrial = "ind.tif"
 
-    @reactive.Effect()
-    def _():
-        input_emissions = input.emissions()
-        if input_emissions == "residential":
-            map.add_layer(residential)
-        elif input_emissions == "industrial":
-            map.add_layer(industrial)
+    # @reactive.Effect()
+    # def _():
+    #     input_emissions = input.emissions()
+    #     if input_emissions == "residential":
+    #         m.add_raster(residential, colormap='terrain', layer_name='Residential')
+    #     elif input_emissions == "industrial":
+    #         m.add_raster(industrial, colormap='terrain', layer_name='Industrial')
 
 
 app = App(app_ui_nav, server)

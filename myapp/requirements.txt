@@ -1,1 +1,5 @@
 shinyswatch
+ipyleaflet
+leafmap
+xarray
+xarray_leaflet
