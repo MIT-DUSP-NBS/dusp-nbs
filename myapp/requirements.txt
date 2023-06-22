@@ -1,2 +1,2 @@
 shinyswatch
-https://github.com/cgohlke/geospatial-wheels/releases/download/v2023.4.22/GDAL-3.6.4-pp39-pypy39_pp73-win_amd64.whl
+gdal
