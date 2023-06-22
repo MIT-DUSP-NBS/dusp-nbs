@@ -4,33 +4,32 @@ import shinyswatch
 from ipyleaflet import Map, basemaps, LocalTileLayer
 from pathlib import Path
 
-try:
-    from osgeo import gdal  # noqa: F401
-except ImportError:
-    import gdal  # noqa: F401
+# try:
+#     from osgeo import gdal  # noqa: F401
+# except ImportError:
+#     import gdal  # noqa: F401
 
 assets_dir = Path(__file__).parent / "assets"
 
-emissions_map = ui.page_fluid(
-    shinyswatch.theme.zephyr(),
-    ui.layout_sidebar(
-        ui.panel_sidebar(
-            ui.h2("Emission map visualization"),
-            ui.input_radio_buttons(
-                "emissions",
-                label="Select the desired emission properties",
-                choices=["residential", "industrial"],
-            ),
+emissions_map = ui.layout_sidebar(
+    ui.panel_sidebar(
+        ui.h2("Emission map visualization"),
+        ui.input_radio_buttons(
+            "emissions",
+            label="Select the desired emission properties",
+            choices=["residential", "industrial"],
         ),
-        ui.panel_main(output_widget("map")),
     ),
+    ui.panel_main(output_widget("map")),
 )
 
 app_ui = ui.page_navbar(
+    shinyswatch.theme.zephyr(),
     ui.nav("Emissions Map", emissions_map),
     bg="#3459e6",
     inverse=True,
     title="Nature-Based Solutions Dashboard",
+    window_title="Nature-Based Solutions Dashboard",
 )
 
 
