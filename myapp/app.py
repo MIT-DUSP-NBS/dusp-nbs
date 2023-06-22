@@ -1,6 +1,3 @@
-# pyright: basic
-# pyright: reportUnusedFunction=false
-
 from shiny import App, ui, reactive
 from shinywidgets import output_widget, register_widget
 import shinyswatch
