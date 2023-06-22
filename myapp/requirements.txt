@@ -1,2 +1,3 @@
 shinyswatch
 ipyleaflet
+gdal

@@ -7,6 +7,11 @@ import shinyswatch
 from ipyleaflet import Map, basemaps, LocalTileLayer
 from pathlib import Path
 
+try:
+    from osgeo import gdal  # noqa: F401
+except ImportError:
+    import gdal  # noqa: F401
+
 assets_dir = Path(__file__).parent / "assets"
 
 emissions_map = ui.page_fluid(
