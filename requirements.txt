@@ -1,2 +1,2 @@
-shinylive==^0.1.3
-shinyswatch==^0.2.4
+shinylive
+shinyswatch
