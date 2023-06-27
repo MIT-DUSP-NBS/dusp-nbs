@@ -13,10 +13,10 @@ assets_dir = Path(__file__).parent / "assets"
 
 emissions_map = ui.layout_sidebar(
     ui.panel_sidebar(
-        ui.h2("Emission map visualization"),
+        ui.h2("Emission Map Visualization"),
         ui.input_radio_buttons(
             "emissions",
-            label="Select the desired emission properties",
+            label="Select the desired emission properties:",
             choices=["Residential", "Industrial"],
         ),
     ),
@@ -24,10 +24,10 @@ emissions_map = ui.layout_sidebar(
 )
 
 app_ui = ui.page_navbar(
-    shinyswatch.theme.zephyr(),
+    shinyswatch.theme.sandstone(),
     ui.nav("Emissions Map", emissions_map),
     title="Nature-Based Solutions Dashboard",
-    bg="#3459e6",
+    # bg="#3459e6",
     inverse=True,
     window_title="Nature-Based Solutions Dashboard",
 )
