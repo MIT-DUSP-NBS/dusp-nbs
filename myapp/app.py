@@ -1,13 +1,7 @@
 from shiny import App, ui, reactive
 from shinywidgets import output_widget, register_widget
-import shinyswatch
 from ipyleaflet import Map, basemaps, LocalTileLayer, Layer
 from pathlib import Path
-
-# try:
-#     from osgeo import gdal  # noqa: F401
-# except ImportError:
-#     import gdal  # noqa: F401
 
 assets_dir = Path(__file__).parent / "assets"
 
@@ -24,10 +18,8 @@ emissions_map = ui.layout_sidebar(
 )
 
 app_ui = ui.page_navbar(
-    shinyswatch.theme.sandstone(),
     ui.nav("Emissions Map", emissions_map),
     title="Nature-Based Solutions Dashboard",
-    # bg="#3459e6",
     inverse=True,
     window_title="Nature-Based Solutions Dashboard",
 )
