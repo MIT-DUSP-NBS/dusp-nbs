@@ -26,9 +26,9 @@ emissions_map = ui.layout_sidebar(
 app_ui = ui.page_navbar(
     shinyswatch.theme.zephyr(),
     ui.nav("Emissions Map", emissions_map),
+    title="Nature-Based Solutions Dashboard",
     bg="#3459e6",
     inverse=True,
-    title="Nature-Based Solutions Dashboard",
     window_title="Nature-Based Solutions Dashboard",
 )
 
