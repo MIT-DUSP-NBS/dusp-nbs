@@ -1,6 +1,6 @@
 from shiny import App, ui, reactive
 from shinywidgets import output_widget, register_widget
-from ipyleaflet import Map, basemaps, LocalTileLayer, ImageOverlay, Layer
+from ipyleaflet import Map, basemaps, LocalTileLayer, Layer
 from pathlib import Path
 
 assets_dir = Path(__file__).parent / "assets"
@@ -36,21 +36,21 @@ def server(input, output, session):
     residential = LocalTileLayer(path="res/{z}/{x}/{y}.png")
     industrial = LocalTileLayer(path="ind/{z}/{x}/{y}.png")
 
-    residential = ImageOverlay(
-        url="res.tif",
-        bounds=(
-            (58.65438722105614, 16.988155729719917),
-            (60.30851543731003, 19.657111642008925),
-        ),
-    )
+    # residential = ImageOverlay(
+    #     url="res.png",
+    #     bounds=(
+    #         (58.6543872, 16.9881557),
+    #         (60.3085154, 19.6571116),
+    #     ),
+    # )
 
-    industrial = ImageOverlay(
-        url="ind.tif",
-        bounds=(
-            (58.702049132317455, 17.14978736901311),
-            (60.273757817703256, 19.6363349226227),
-        ),
-    )
+    # industrial = ImageOverlay(
+    #     url="ind.png",
+    #     bounds=(
+    #         (58.7020492, 17.1497875),
+    #         (60.2737578, 19.6363349),
+    #     ),
+    # )
 
     empty_layer = Layer()
 
