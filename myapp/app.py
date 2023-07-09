@@ -62,12 +62,60 @@ def server(input, output, session):
     residential = ipyl.LocalTileLayer(path="emissions/res/{z}/{x}/{y}.png")
     industrial = ipyl.LocalTileLayer(path="emissions/ind/{z}/{x}/{y}.png")
 
-    industrial_key = {
-        "green_infrastructure": 2,
-        "green_buildings": 3,
-        "street_trees": 5,
-        "urban_green_areas": 7,
-        "greenbelt": 11,
+    gi = ipyl.LocalTileLayer(path="implementation/gi/{z}/{x}/{y}.png")
+    greenbuildings = ipyl.LocalTileLayer(
+        path="implementation/greenbuildings/{z}/{x}/{y}.png"
+    )
+    gi_greenbuildings = ipyl.LocalTileLayer(
+        path="implementation/gi_greenbuildings/{z}/{x}/{y}.png"
+    )
+    streettrees = ipyl.LocalTileLayer(path="implementation/streettrees/{z}/{x}/{y}.png")
+    gi_urbangreenareas = ipyl.LocalTileLayer(
+        path="implementation/gi_urbangreenareas/{z}/{x}/{y}.png"
+    )
+    greenbelt = ipyl.LocalTileLayer(path="implementation/greenbelt/{z}/{x}/{y}.png")
+    gi_streettrees = ipyl.LocalTileLayer(
+        path="implementation/gi_streettrees/{z}/{x}/{y}.png"
+    )
+    greenbuildings_streettrees = ipyl.LocalTileLayer(
+        path="implementation/greenbuildings_streettrees/{z}/{x}/{y}.png"
+    )
+    gi_greenbelt = ipyl.LocalTileLayer(
+        path="implementation/gi_greenbelt/{z}/{x}/{y}.png"
+    )
+    greenbuildings_greenbelt = ipyl.LocalTileLayer(
+        path="implementation/greenbuildings_greenbelt/{z}/{x}/{y}.png"
+    )
+    greenbuildings_urbangreenareas_streettrees = ipyl.LocalTileLayer(
+        path="implementation/greenbuildings_urbangreenareas_streettrees/{z}/{x}/{y}.png"
+    )
+
+    implementation_key = {
+        "green_infrastructure": (
+            gi,
+            gi_greenbuildings,
+            gi_urbangreenareas,
+            gi_streettrees,
+            gi_greenbelt,
+        ),
+        "green_buildings": (
+            greenbuildings,
+            gi_greenbuildings,
+            greenbuildings_streettrees,
+            greenbuildings_greenbelt,
+            greenbuildings_urbangreenareas_streettrees,
+        ),
+        "street_trees": (
+            streettrees,
+            gi_streettrees,
+            greenbuildings_streettrees,
+            greenbuildings_urbangreenareas_streettrees,
+        ),
+        "urban_green_areas": (
+            gi_urbangreenareas,
+            greenbuildings_urbangreenareas_streettrees,
+        ),
+        "greenbelt": (greenbelt, gi_greenbelt, greenbuildings_greenbelt),
     }
 
     empty_layer = ipyl.Layer()
@@ -96,8 +144,19 @@ def server(input, output, session):
         input_implementation = input.implementation()
         layers = tuple(map_implementation.layers)  # type: ignore
 
-        print(input_implementation)
-        # TODO: Add layer implementation and stuff
+        layers_to_have = set()
+        for input_layer in input_implementation:
+            translation = implementation_key[input_layer]
+            for translated in translation:
+                layers_to_have.add(translated)
+
+        for layer_present in layers[1:]:
+            if layer_present not in layers_to_have:
+                map_implementation.remove_layer(layer_present)
+
+        for layer_to_add in layers_to_have:
+            if layer_to_add not in layers:
+                map_implementation.add_layer(layer_to_add)
 
 
 app = App(app_ui, server, static_assets=assets_dir)
