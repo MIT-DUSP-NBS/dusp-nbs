@@ -1,6 +1,6 @@
 from shiny import App, ui, reactive
 from shinywidgets import output_widget, register_widget
-from ipyleaflet import Map, basemaps, LocalTileLayer, Layer
+import ipyleaflet as ipyl
 from pathlib import Path
 
 assets_dir = Path(__file__).parent / "assets"
@@ -23,13 +23,13 @@ implementation_visualization = ui.layout_sidebar(
         ui.input_checkbox_group(
             "implementation",
             label="Select the desired green infrastructure implementations:",
-            choices=[
-                "Green Infrastructure",
-                "Green Buildings",
-                "Street Trees",
-                "Urban Green Areas",
-                "Greenbelt",
-            ],
+            choices={
+                "green_infrastructure": "Green Infrastructure",
+                "green_buildings": "Green Buildings",
+                "street_trees": "Street Trees",
+                "urban_green_areas": "Urban Green Areas",
+                "greenbelt": "Greenbelt",
+            },
         ),
     ),
     ui.panel_main(output_widget("map_implementation")),
@@ -45,40 +45,32 @@ app_ui = ui.page_navbar(
 
 
 def server(input, output, session):
-    map_emissions = Map(
-        basemap=basemaps.Esri.WorldImagery,  # type: ignore
+    map_emissions = ipyl.Map(
+        basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
         zoom=9,
         center=(59.3293, 18.0686),
         max_zoom=13,
     )
 
-    map_implementation = Map(
-        basemap=basemaps.Esri.WorldImagery,  # type: ignore
+    map_implementation = ipyl.Map(
+        basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
         zoom=9,
         center=(59.3293, 18.0686),
         max_zoom=13,
     )
 
-    residential = LocalTileLayer(path="res/{z}/{x}/{y}.png")
-    industrial = LocalTileLayer(path="ind/{z}/{x}/{y}.png")
+    residential = ipyl.LocalTileLayer(path="emissions/res/{z}/{x}/{y}.png")
+    industrial = ipyl.LocalTileLayer(path="emissions/ind/{z}/{x}/{y}.png")
 
-    # residential = ImageOverlay(
-    #     url="res.png",
-    #     bounds=(
-    #         (58.6543872, 16.9881557),
-    #         (60.3085154, 19.6571116),
-    #     ),
-    # )
+    industrial_key = {
+        "green_infrastructure": 2,
+        "green_buildings": 3,
+        "street_trees": 5,
+        "urban_green_areas": 7,
+        "greenbelt": 11,
+    }
 
-    # industrial = ImageOverlay(
-    #     url="ind.png",
-    #     bounds=(
-    #         (58.7020492, 17.1497875),
-    #         (60.2737578, 19.6363349),
-    #     ),
-    # )
-
-    empty_layer = Layer()
+    empty_layer = ipyl.Layer()
 
     map_emissions.add_layer(empty_layer)
     map_implementation.add_layer(empty_layer)
@@ -104,6 +96,7 @@ def server(input, output, session):
         input_implementation = input.implementation()
         layers = tuple(map_implementation.layers)  # type: ignore
 
+        print(input_implementation)
         # TODO: Add layer implementation and stuff
 
 
