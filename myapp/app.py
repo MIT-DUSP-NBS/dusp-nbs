@@ -24,7 +24,7 @@ implementation_visualization = ui.layout_sidebar(
             "implementation",
             label="Select the desired green infrastructure implementations:",
             choices={
-                "green_infrastructure": "Green Infrastructure",
+                "green_infrastructure": "Green Infrastructure (GBI)",
                 "green_buildings": "Green Buildings",
                 "street_trees": "Street Trees",
                 "urban_green_areas": "Urban Green Areas",
@@ -39,7 +39,9 @@ app_ui = ui.page_navbar(
     ui.nav("Emissions Map", emissions_map),
     ui.nav("Implementation Visualization", implementation_visualization),
     title="Nature-Based Solutions Dashboard",
+    footer="Work in progress!",
     inverse=True,
+    lang="en",
     window_title="Nature-Based Solutions Dashboard",
 )
 
@@ -57,6 +59,25 @@ def server(input, output, session):
         zoom=9,
         center=(59.3293, 18.0686),
         max_zoom=13,
+        controls=[
+            ipyl.LegendControl(
+                title="Layer Key",
+                legend={
+                    "GBI": "#a8e16e",
+                    "Green Buildings": "#64efef",
+                    "GBI x Green Buildings": "#efef4d",
+                    "Street Trees": "#f01fcd",
+                    "GBI x Urban Green Areas": "#4587ca",
+                    "Greenbelt": "#cd73a0",
+                    "GBI x Street Trees": "#de7913",
+                    "Green Buildings x Street Trees": "#833dc9",
+                    "GBI x Greenbelt": "#dc1010",
+                    "Green Buildings x Greenbelt": "#3fea95",
+                    "GBI x Urban Green Areas x Street Trees": "#3333e6"
+                },
+                position="topright"
+            )
+        ]
     )
 
     residential = ipyl.LocalTileLayer(path="emissions/res/{z}/{x}/{y}.png")
@@ -122,6 +143,9 @@ def server(input, output, session):
 
     map_emissions.add_layer(empty_layer)
     map_implementation.add_layer(empty_layer)
+
+    map_implementation.layout.height = '720px'
+    map_emissions.layout.height = '720px'
 
     register_widget("map_emissions", map_emissions)
     register_widget("map_implementation", map_implementation)
