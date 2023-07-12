@@ -39,7 +39,6 @@ app_ui = ui.page_navbar(
     ui.nav("Emissions Map", emissions_map),
     ui.nav("Implementation Visualization", implementation_visualization),
     title="Nature-Based Solutions Dashboard",
-    footer="Work in progress!",
     inverse=True,
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
@@ -73,11 +72,11 @@ def server(input, output, session):
                     "Green Buildings x Street Trees": "#833dc9",
                     "GBI x Greenbelt": "#dc1010",
                     "Green Buildings x Greenbelt": "#3fea95",
-                    "GBI x Urban Green Areas x Street Trees": "#3333e6"
+                    "GBI x Urban Green Areas x Street Trees": "#3333e6",
                 },
-                position="topright"
+                position="topright",
             )
-        ]
+        ],
     )
 
     residential = ipyl.LocalTileLayer(path="emissions/res/{z}/{x}/{y}.png")
@@ -144,8 +143,8 @@ def server(input, output, session):
     map_emissions.add_layer(empty_layer)
     map_implementation.add_layer(empty_layer)
 
-    map_implementation.layout.height = '720px'
-    map_emissions.layout.height = '720px'
+    map_implementation.layout.height = "720px"
+    map_emissions.layout.height = "720px"
 
     register_widget("map_emissions", map_emissions)
     register_widget("map_implementation", map_implementation)
