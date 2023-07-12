@@ -41,6 +41,11 @@ app_ui = experimental.ui.page_navbar(
     title="Nature-Based Solutions Dashboard",
     inverse=True,
     fillable_mobile=True,
+    footer=ui.div(
+        "This is a work in progress, please contact ",
+        ui.a("Diego Temkin", href="mailto:dtemkin@mit.edu"),
+        " with any errors or suggestions!",
+    ),
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
 )
