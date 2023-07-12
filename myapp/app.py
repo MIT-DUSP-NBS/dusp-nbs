@@ -1,12 +1,12 @@
-from shiny import App, ui, reactive
+from shiny import App, ui, reactive, experimental
 from shinywidgets import output_widget, register_widget
 import ipyleaflet as ipyl
 from pathlib import Path
 
 assets_dir = Path(__file__).parent / "assets"
 
-emissions_map = ui.layout_sidebar(
-    ui.panel_sidebar(
+emissions_map = experimental.ui.layout_sidebar(
+    experimental.ui.sidebar(
         ui.h2("Emission Map Visualization"),
         ui.input_radio_buttons(
             "emissions",
@@ -14,12 +14,12 @@ emissions_map = ui.layout_sidebar(
             choices=["Residential", "Industrial"],
         ),
     ),
-    ui.panel_main(output_widget("map_emissions")),
+    experimental.ui.as_fill_item(output_widget("map_emissions")),
 )
 
-implementation_visualization = ui.layout_sidebar(
-    ui.panel_sidebar(
-        ui.h2("Implementation Visualization"),
+implementation_visualization = experimental.ui.layout_sidebar(
+    experimental.ui.sidebar(
+        ui.h2("Green Infrastructure Visualization"),
         ui.input_checkbox_group(
             "implementation",
             label="Select the desired green infrastructure implementations:",
@@ -32,14 +32,15 @@ implementation_visualization = ui.layout_sidebar(
             },
         ),
     ),
-    ui.panel_main(output_widget("map_implementation")),
+    experimental.ui.as_fill_item(output_widget("map_implementation")),
 )
 
-app_ui = ui.page_navbar(
+app_ui = experimental.ui.page_navbar(
     ui.nav("Emissions Map", emissions_map),
     ui.nav("Implementation Visualization", implementation_visualization),
     title="Nature-Based Solutions Dashboard",
     inverse=True,
+    fillable_mobile=True,
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
 )
@@ -51,6 +52,7 @@ def server(input, output, session):
         zoom=9,
         center=(59.3293, 18.0686),
         max_zoom=13,
+        scroll_wheel_zoom=True,
     )
 
     map_implementation = ipyl.Map(
@@ -58,6 +60,7 @@ def server(input, output, session):
         zoom=9,
         center=(59.3293, 18.0686),
         max_zoom=13,
+        scroll_wheel_zoom=True,
         controls=[
             ipyl.LegendControl(
                 title="Layer Key",
@@ -143,8 +146,8 @@ def server(input, output, session):
     map_emissions.add_layer(empty_layer)
     map_implementation.add_layer(empty_layer)
 
-    map_implementation.layout.height = "720px"
-    map_emissions.layout.height = "720px"
+    map_emissions.layout.height = "99%"
+    map_implementation.layout.height = "99%"
 
     register_widget("map_emissions", map_emissions)
     register_widget("map_implementation", map_implementation)
