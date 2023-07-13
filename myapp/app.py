@@ -196,20 +196,28 @@ def server(input, output, session):
                 map_implementation.substitute(layers[-1], gbi)
             case ("gbi", "greenbelt"):
                 map_implementation.substitute(layers[-1], gbi_greenbelt)
+            case ("gbi", "greenbuildings"):
+                map_implementation.substitute(layers[-1], gbi_greenbuildings)
             case ("gbi", "streettrees"):
                 map_implementation.substitute(layers[-1], gbi_streettrees)
             case ("gbi", "urbangreenareas"):
                 map_implementation.substitute(layers[-1], gbi_urbangreenareas)
             case ("greenbelt",):
                 map_implementation.substitute(layers[-1], greenbelt)
+            case ("greenbuildings",):
+                map_implementation.substitute(layers[-1], greenbuildings)
             case ("greenbuildings", "greenbelt"):
                 map_implementation.substitute(layers[-1], greenbuildings_greenbelt)
             case ("greenbuildings", "streettrees"):
                 map_implementation.substitute(layers[-1], greenbuildings_streettrees)
             case ("greenbuildings", "urbangreenareas"):
-                map_implementation.substitute(layers[-1], greenbuildings_urbangreenareas)
+                map_implementation.substitute(
+                    layers[-1], greenbuildings_urbangreenareas
+                )
             case ("greenbuildings", "urbangreenareas", "streettrees"):
-                map_implementation.substitute(layers[-1], greenbuildings_urbangreenareas_streettrees)
+                map_implementation.substitute(
+                    layers[-1], greenbuildings_urbangreenareas_streettrees
+                )
             case ("streettrees",):
                 map_implementation.substitute(layers[-1], streettrees)
             case ("urbangreenareas",):
