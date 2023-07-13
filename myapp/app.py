@@ -69,41 +69,22 @@ app_ui = experimental.ui.page_navbar(
 def server(input, output, session):
     map_layout = Layout(height="96%")
 
-    map_emissions = ipyl.Map(
-        basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
-        zoom=9,
-        center=(59.3293, 18.0686),
-        max_zoom=13,
-        scroll_wheel_zoom=True,
-        layout=map_layout,
-    )
-
-    map_implementation = ipyl.Map(
-        basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
-        zoom=9,
-        center=(59.3293, 18.0686),
-        max_zoom=13,
-        scroll_wheel_zoom=True,
-        layout=map_layout,
-        controls=[
-            ipyl.LegendControl(
-                title="Layer Key",
-                legend={
-                    "GBI": "#a8e16e",
-                    "Green Buildings": "#64efef",
-                    "GBI x Green Buildings": "#efef4d",
-                    "Street Trees": "#f01fcd",
-                    "GBI x Urban Green Areas": "#4587ca",
-                    "Greenbelt": "#cd73a0",
-                    "GBI x Street Trees": "#de7913",
-                    "Green Buildings x Street Trees": "#833dc9",
-                    "GBI x Greenbelt": "#dc1010",
-                    "Green Buildings x Greenbelt": "#3fea95",
-                    "GBI x Urban Green Areas x Street Trees": "#3333e6",
-                },
-                position="topright",
-            )
-        ],
+    implemetation_legend = ipyl.LegendControl(
+        title="Layer Key",
+        legend={
+            "GBI": "#a8e16e",
+            "Green Buildings": "#64efef",
+            "GBI x Green Buildings": "#efef4d",
+            "Street Trees": "#f01fcd",
+            "GBI x Urban Green Areas": "#4587ca",
+            "Greenbelt": "#cd73a0",
+            "GBI x Street Trees": "#de7913",
+            "Green Buildings x Street Trees": "#833dc9",
+            "GBI x Greenbelt": "#dc1010",
+            "Green Buildings x Greenbelt": "#3fea95",
+            "GBI x Urban Green Areas x Street Trees": "#3333e6",
+        },
+        position="topright",
     )
 
     residential = ipyl.LocalTileLayer(path="emissions/res/{z}/{x}/{y}.png")
@@ -165,20 +146,33 @@ def server(input, output, session):
         "greenbelt": (greenbelt, gbi_greenbelt, greenbuildings_greenbelt),
     }
 
-    geo_stockholm = gpd.read_file(assets_dir / "county/county.shp")
-    geo_stockholm = geo_stockholm.to_crs(4326)
     geo_stockholm = ipyl.GeoData(
-        geo_dataframe=geo_stockholm,
+        geo_dataframe=gpd.read_file(assets_dir / "county/county.shp").to_crs(4326),
         name="Stockholm County Boundary",
         style={"color": "white", "fillOpacity": "0.00"},
     )
 
+    map_emissions = ipyl.Map(
+        basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
+        zoom=9,
+        center=(59.3293, 18.0686),
+        max_zoom=13,
+        scroll_wheel_zoom=True,
+        layout=map_layout,
+    )
+
+    map_implementation = ipyl.Map(
+        basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
+        zoom=9,
+        center=(59.3293, 18.0686),
+        max_zoom=13,
+        scroll_wheel_zoom=True,
+        layout=map_layout,
+        controls=[implemetation_legend],
+    )
+
+    map_emissions.add_layer(ipyl.Layer())
     map_implementation.add_layer(geo_stockholm)
-
-    empty_layer = ipyl.Layer()
-
-    map_emissions.add_layer(empty_layer)
-    map_implementation.add_layer(empty_layer)
 
     register_widget("map_emissions", map_emissions)
     register_widget("map_implementation", map_implementation)
