@@ -129,7 +129,9 @@ def server(input, output, session):
     )
 
     geo_stockholm = ipyl.GeoData(
-        geo_dataframe=gpd.read_file(assets_dir / "county/county.shp").to_crs(4326),
+        geo_dataframe=gpd.read_file(
+            assets_dir / "implementation/county/county.shp"
+        ).to_crs(4326),
         name="Stockholm County Boundary",
         style={"color": "white", "fillOpacity": "0.00"},
     )
