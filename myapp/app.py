@@ -67,7 +67,7 @@ app_ui = experimental.ui.page_navbar(
 
 
 def server(input, output, session):
-    map_layout = Layout(height='96%')
+    map_layout = Layout(height="96%")
 
     map_emissions = ipyl.Map(
         basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
@@ -75,7 +75,7 @@ def server(input, output, session):
         center=(59.3293, 18.0686),
         max_zoom=13,
         scroll_wheel_zoom=True,
-        layout=map_layout
+        layout=map_layout,
     )
 
     map_implementation = ipyl.Map(
