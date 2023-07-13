@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import shinyswatch
 import geopandas as gpd
 import ipyleaflet as ipyl
 from ipywidgets import Layout
@@ -123,6 +123,7 @@ about = (
 )
 
 app_ui = experimental.ui.page_navbar(
+    shinyswatch.theme.zephyr(),
     ui.nav("Overview", overview),
     ui.nav("NbS Spatial Allocation", nbs_allocation),
     ui.nav("Implementation Visualization", implementation_visualization),
@@ -148,6 +149,7 @@ app_ui = experimental.ui.page_navbar(
     ),
     title="Nature-Based Solutions Dashboard",
     inverse=True,
+    bg="#3459e6",
     fillable_mobile=True,
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
