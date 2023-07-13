@@ -205,12 +205,11 @@ def server(input, output, session):
     def implementation():
         input_implementation = input.implementation()
         layers = tuple(map_implementation.layers)  # type: ignore
-
-        layers_to_have = set()
-        for input_layer in input_implementation:
-            translation = implementation_key[input_layer]
-            for translated in translation:
-                layers_to_have.add(translated)
+        layers_to_have = set(
+            translated
+            for input_layer in input_implementation
+            for translated in implementation_key[input_layer]
+        )
 
         for layer_present in layers[2:]:
             if layer_present not in layers_to_have:
