@@ -8,18 +8,6 @@ from shinywidgets import output_widget, register_widget
 
 assets_dir = Path(__file__).parent / "assets"
 
-# emissions_map = experimental.ui.layout_sidebar(
-#     experimental.ui.sidebar(
-#         ui.h2("Emission Map Visualization"),
-#         ui.input_radio_buttons(
-#             "emissions",
-#             label="Select the desired emission properties:",
-#             choices=["Residential", "Industrial"],
-#         ),
-#     ),
-#     experimental.ui.as_fill_item(output_widget("map_emissions")),
-# )
-
 overview = (
     ui.h1("Overview"),
     ui.p("Urban areas contribute more than 60% of global greenhouse gas (GHG) emissions, through residential, commercial, and transportation activities. Nature-based solutions (NbS) are increasingly being adopted by cities worldwide to enhance carbon sequestration, offsets emissions, and promotes sustainable land management practices, thus contributing to global climate change mitigation efforts."),
@@ -137,7 +125,6 @@ about = (
 app_ui = experimental.ui.page_navbar(
     ui.nav("Overview", overview),
     ui.nav("NbS Spatial Allocation", nbs_allocation),
-    # ui.nav("Emissions Map", emissions_map),
     ui.nav("Implementation Visualization", implementation_visualization),
     ui.nav("Interactive NbS Planning", interactive),
     ui.nav("About the Tool", about),
@@ -169,13 +156,6 @@ app_ui = experimental.ui.page_navbar(
 
 def server(input, output, session):
     map_layout = Layout(height="96%")
-
-    # residential = ipyl.LocalTileLayer(
-    #     path="emissions/res/{z}/{x}/{y}.png", name="Residential"
-    # )
-    # industrial = ipyl.LocalTileLayer(
-    #     path="emissions/ind/{z}/{x}/{y}.png", name="Industrial"
-    # )
 
     gbi = ipyl.LocalTileLayer(path="implementation/gbi/{z}/{x}/{y}.png", name="GBI")
     gbi_greenbelt = ipyl.LocalTileLayer(
@@ -236,15 +216,6 @@ def server(input, output, session):
         style={"color": "white", "fillOpacity": "0.00"},
     )
 
-    # map_emissions = ipyl.Map(
-    #     basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
-    #     zoom=9,
-    #     center=(59.3293, 18.0686),
-    #     max_zoom=13,
-    #     scroll_wheel_zoom=True,
-    #     layout=map_layout,
-    # )
-
     map_implementation = ipyl.Map(
         basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
         zoom=9,
@@ -257,11 +228,8 @@ def server(input, output, session):
     empty_layer = ipyl.Layer()
 
     map_implementation.add(geo_stockholm)
-
-    # map_emissions.add(empty_layer)
     map_implementation.add(empty_layer)
 
-    # register_widget("map_emissions", map_emissions)
     register_widget("map_implementation", map_implementation)
 
     start_modal = ui.modal(
@@ -274,19 +242,6 @@ def server(input, output, session):
     )
 
     ui.modal_show(start_modal)
-
-    # @reactive.Effect()
-    # def emmissions():
-    #     input_emissions = input.emissions()
-    #     layers = tuple(map_emissions.layers)  # type: ignore
-
-    #     match input_emissions:
-    #         case "Residential":
-    #             map_emissions.substitute(layers[-1], residential)
-    #         case "Industrial":
-    #             map_emissions.substitute(layers[-1], industrial)
-    #         case _:
-    #             map_emissions.substitute(layers[-1], empty_layer)
 
     @reactive.Effect()
     def implementation():
