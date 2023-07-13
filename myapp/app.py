@@ -90,26 +90,26 @@ def server(input, output, session):
     residential = ipyl.LocalTileLayer(path="emissions/res/{z}/{x}/{y}.png")
     industrial = ipyl.LocalTileLayer(path="emissions/ind/{z}/{x}/{y}.png")
 
-    gi = ipyl.LocalTileLayer(path="implementation/gi/{z}/{x}/{y}.png")
+    gbi = ipyl.LocalTileLayer(path="implementation/gbi/{z}/{x}/{y}.png")
     greenbuildings = ipyl.LocalTileLayer(
         path="implementation/greenbuildings/{z}/{x}/{y}.png"
     )
-    gi_greenbuildings = ipyl.LocalTileLayer(
-        path="implementation/gi_greenbuildings/{z}/{x}/{y}.png"
+    gbi_greenbuildings = ipyl.LocalTileLayer(
+        path="implementation/gbi_greenbuildings/{z}/{x}/{y}.png"
     )
     streettrees = ipyl.LocalTileLayer(path="implementation/streettrees/{z}/{x}/{y}.png")
-    gi_urbangreenareas = ipyl.LocalTileLayer(
-        path="implementation/gi_urbangreenareas/{z}/{x}/{y}.png"
+    gbi_urbangreenareas = ipyl.LocalTileLayer(
+        path="implementation/gbi_urbangreenareas/{z}/{x}/{y}.png"
     )
     greenbelt = ipyl.LocalTileLayer(path="implementation/greenbelt/{z}/{x}/{y}.png")
-    gi_streettrees = ipyl.LocalTileLayer(
-        path="implementation/gi_streettrees/{z}/{x}/{y}.png"
+    gbi_streettrees = ipyl.LocalTileLayer(
+        path="implementation/gbi_streettrees/{z}/{x}/{y}.png"
     )
     greenbuildings_streettrees = ipyl.LocalTileLayer(
         path="implementation/greenbuildings_streettrees/{z}/{x}/{y}.png"
     )
-    gi_greenbelt = ipyl.LocalTileLayer(
-        path="implementation/gi_greenbelt/{z}/{x}/{y}.png"
+    gbi_greenbelt = ipyl.LocalTileLayer(
+        path="implementation/gbi_greenbelt/{z}/{x}/{y}.png"
     )
     greenbuildings_greenbelt = ipyl.LocalTileLayer(
         path="implementation/greenbuildings_greenbelt/{z}/{x}/{y}.png"
@@ -120,30 +120,30 @@ def server(input, output, session):
 
     implementation_key = {
         "green_infrastructure": (
-            gi,
-            gi_greenbuildings,
-            gi_urbangreenareas,
-            gi_streettrees,
-            gi_greenbelt,
+            gbi,
+            gbi_greenbuildings,
+            gbi_urbangreenareas,
+            gbi_streettrees,
+            gbi_greenbelt,
         ),
         "green_buildings": (
             greenbuildings,
-            gi_greenbuildings,
+            gbi_greenbuildings,
             greenbuildings_streettrees,
             greenbuildings_greenbelt,
             greenbuildings_urbangreenareas_streettrees,
         ),
         "street_trees": (
             streettrees,
-            gi_streettrees,
+            gbi_streettrees,
             greenbuildings_streettrees,
             greenbuildings_urbangreenareas_streettrees,
         ),
         "urban_green_areas": (
-            gi_urbangreenareas,
+            gbi_urbangreenareas,
             greenbuildings_urbangreenareas_streettrees,
         ),
-        "greenbelt": (greenbelt, gi_greenbelt, greenbuildings_greenbelt),
+        "greenbelt": (greenbelt, gbi_greenbelt, greenbuildings_greenbelt),
     }
 
     empty_layer = ipyl.Layer()
