@@ -3,6 +3,7 @@ from shinywidgets import output_widget, register_widget
 import ipyleaflet as ipyl
 from pathlib import Path
 import geopandas as gpd
+from ipywidgets import Layout
 
 assets_dir = Path(__file__).parent / "assets"
 
@@ -66,12 +67,15 @@ app_ui = experimental.ui.page_navbar(
 
 
 def server(input, output, session):
+    map_layout = Layout(height='96%')
+
     map_emissions = ipyl.Map(
         basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
         zoom=9,
         center=(59.3293, 18.0686),
         max_zoom=13,
         scroll_wheel_zoom=True,
+        layout=map_layout
     )
 
     map_implementation = ipyl.Map(
@@ -80,6 +84,7 @@ def server(input, output, session):
         center=(59.3293, 18.0686),
         max_zoom=13,
         scroll_wheel_zoom=True,
+        layout=map_layout,
         controls=[
             ipyl.LegendControl(
                 title="Layer Key",
@@ -174,9 +179,6 @@ def server(input, output, session):
 
     map_emissions.add_layer(empty_layer)
     map_implementation.add_layer(empty_layer)
-
-    map_emissions.layout.height = "96%"
-    map_implementation.layout.height = "96%"
 
     register_widget("map_emissions", map_emissions)
     register_widget("map_implementation", map_implementation)
