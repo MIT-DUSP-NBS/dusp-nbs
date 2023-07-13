@@ -185,7 +185,7 @@ def server(input, output, session):
         ui.div(
             "Hi there! This project is a work in progress, please contact ",
             ui.a("Diego Temkin", href="mailto:dtemkin@mit.edu"),
-            " if you experience any errors or if you have any suggestions!",
+            " if you experience any errors or if you have any suggestions.",
         ),
     )
 
