@@ -41,11 +41,6 @@ app_ui = experimental.ui.page_navbar(
     title="Nature-Based Solutions Dashboard",
     inverse=True,
     fillable_mobile=True,
-    footer=ui.div(
-        "This is a work in progress, please contact ",
-        ui.a("Diego Temkin", href="mailto:dtemkin@mit.edu"),
-        " with any errors or suggestions!",
-    ),
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
 )
@@ -156,6 +151,16 @@ def server(input, output, session):
 
     register_widget("map_emissions", map_emissions)
     register_widget("map_implementation", map_implementation)
+
+    start_modal = ui.modal(
+        ui.div(
+            "Hi there! This project is a work in progress, please contact ",
+            ui.a("Diego Temkin", href="mailto:dtemkin@mit.edu"),
+            " if you experience any errors or if you have any suggestions!",
+        ),
+    )
+
+    ui.modal_show(start_modal)
 
     @reactive.Effect()
     def emmissions():
