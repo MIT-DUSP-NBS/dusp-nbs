@@ -49,7 +49,8 @@ app_ui = experimental.ui.page_navbar(
         ui.a(
             ui.tags.i({"class": "bi bi-github"}),
             href="https://github.com/dtemkin1/dusp-nbs",
-        )
+            target="_blank",
+        ),
     ),
     title="Nature-Based Solutions Dashboard",
     inverse=True,
@@ -157,12 +158,9 @@ def server(input, output, session):
     geo_stockholm = gpd.read_file(assets_dir / "county/county.shp")
     geo_stockholm = geo_stockholm.to_crs(4326)
     geo_stockholm = ipyl.GeoData(
-        geo_dataframe=geo_stockholm, 
+        geo_dataframe=geo_stockholm,
         name="Stockholm County Boundary",
-        style={
-            'color': 'white',
-            'fillOpacity': '0.00'
-        }
+        style={"color": "white", "fillOpacity": "0.00"},
     )
 
     map_implementation.add_layer(geo_stockholm)
