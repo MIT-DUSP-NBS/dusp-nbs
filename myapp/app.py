@@ -199,7 +199,7 @@ def server(input, output, session):
             case "Industrial":
                 map_emissions.substitute_layer(layers[-1], industrial)
             case _:
-                map_emissions.substitute_layer(layers[-1], empty_layer)
+                map_emissions.substitute_layer(layers[-1], ipyl.Layer())
 
     @reactive.Effect()
     def implementation():
