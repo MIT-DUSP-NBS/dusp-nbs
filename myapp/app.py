@@ -2,6 +2,7 @@ from shiny import App, ui, reactive, experimental
 from shinywidgets import output_widget, register_widget
 import ipyleaflet as ipyl
 from pathlib import Path
+import geopandas as gpd
 
 assets_dir = Path(__file__).parent / "assets"
 
@@ -141,13 +142,26 @@ def server(input, output, session):
         "greenbelt": (greenbelt, gbi_greenbelt, greenbuildings_greenbelt),
     }
 
+    geo_stockholm = gpd.read_file(assets_dir / "county/county.shp")
+    geo_stockholm = geo_stockholm.to_crs(4326)
+    geo_stockholm = ipyl.GeoData(
+        geo_dataframe=geo_stockholm, 
+        name="Stockholm County Boundary",
+        style={
+            'color': 'white',
+            'fillOpacity': '0.00'
+        }
+    )
+
+    map_implementation.add_layer(geo_stockholm)
+
     empty_layer = ipyl.Layer()
 
     map_emissions.add_layer(empty_layer)
     map_implementation.add_layer(empty_layer)
 
-    map_emissions.layout.height = "99%"
-    map_implementation.layout.height = "99%"
+    map_emissions.layout.height = "96%"
+    map_implementation.layout.height = "96%"
 
     register_widget("map_emissions", map_emissions)
     register_widget("map_implementation", map_implementation)
@@ -186,7 +200,7 @@ def server(input, output, session):
             for translated in translation:
                 layers_to_have.add(translated)
 
-        for layer_present in layers[1:]:
+        for layer_present in layers[2:]:
             if layer_present not in layers_to_have:
                 map_implementation.remove_layer(layer_present)
 
