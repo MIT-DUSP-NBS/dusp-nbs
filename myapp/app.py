@@ -39,6 +39,18 @@ implementation_visualization = experimental.ui.layout_sidebar(
 app_ui = experimental.ui.page_navbar(
     ui.nav("Emissions Map", emissions_map),
     ui.nav("Implementation Visualization", implementation_visualization),
+    ui.nav_spacer(),
+    ui.nav_control(
+        ui.tags.style(
+            """
+            @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
+            """
+        ),
+        ui.a(
+            ui.tags.i({"class": "bi bi-github"}),
+            href="https://github.com/dtemkin1/dusp-nbs",
+        )
+    ),
     title="Nature-Based Solutions Dashboard",
     inverse=True,
     fillable_mobile=True,
