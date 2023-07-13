@@ -1,9 +1,10 @@
-from shiny import App, ui, reactive, experimental
-from shinywidgets import output_widget, register_widget
-import ipyleaflet as ipyl
 from pathlib import Path
+
 import geopandas as gpd
+import ipyleaflet as ipyl
 from ipywidgets import Layout
+from shiny import App, experimental, reactive, ui
+from shinywidgets import output_widget, register_widget
 
 assets_dir = Path(__file__).parent / "assets"
 
