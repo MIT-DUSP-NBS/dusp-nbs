@@ -41,16 +41,21 @@ app_ui = experimental.ui.page_navbar(
     ui.nav("Implementation Visualization", implementation_visualization),
     ui.nav_spacer(),
     ui.nav_control(
-        ui.tags.style(
-            """
-            @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
-            """
-        ),
         ui.a(
             ui.tags.i({"class": "bi bi-github"}),
             href="https://github.com/dtemkin1/dusp-nbs",
             target="_blank",
         ),
+    ),
+    ui.nav_control(
+        ui.a(
+            ui.tags.i({"class": "bi bi-mortarboard-fill"}),
+            href="https://doi.org/10.21203/rs.3.rs-2399348/v1",
+            target="_blank",
+        ),
+    ),
+    header=ui.tags.style(
+        "@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');"
     ),
     title="Nature-Based Solutions Dashboard",
     inverse=True,
