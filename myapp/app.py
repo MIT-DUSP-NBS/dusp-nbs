@@ -184,11 +184,12 @@ def server(input, output, session):
     register_widget("map_implementation", map_implementation)
 
     start_modal = ui.modal(
-        ui.div(
+        (
             "Hi there! This project is a work in progress, please contact ",
             ui.a("Diego Temkin", href="mailto:dtemkin@mit.edu"),
             " if you experience any errors or if you have any suggestions.",
         ),
+        easy_close=True,
     )
 
     ui.modal_show(start_modal)
