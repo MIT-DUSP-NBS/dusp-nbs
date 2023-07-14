@@ -215,11 +215,11 @@ about = ui.tags.table(
 )
 
 app_ui = experimental.ui.page_navbar(
-    shinyswatch.theme.zephyr(),
+    shinyswatch.theme.litera(),
     ui.nav("Overview", overview),
     ui.nav("NbS Spatial Allocation", nbs_allocation),
     ui.nav("Implementation Visualization", implementation_visualization),
-    ui.nav("Interactive NbS Planning", interactive),
+    ui.nav_control(ui.input_action_link("wip_notif", "Interactive NbS Planning")),
     ui.nav("About the Tool", about),
     ui.nav_spacer(),
     ui.nav_control(
@@ -242,7 +242,7 @@ app_ui = experimental.ui.page_navbar(
     ),
     title="Nature-Based Solutions Dashboard",
     inverse=True,
-    bg="#3459e6",
+    bg="#4582ec",
     fillable_mobile=True,
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
@@ -329,17 +329,6 @@ def server(input, output, session):
 
     register_widget("map_implementation", map_implementation)
 
-    start_modal = ui.modal(
-        (
-            "Hi there! This project is a work in progress, please contact ",
-            ui.a("Diego Temkin", href="mailto:dtemkin@mit.edu"),
-            " if you experience any errors or if you have any suggestions.",
-        ),
-        easy_close=True,
-    )
-
-    ui.modal_show(start_modal)
-
     @reactive.Effect()
     def implementation():
         input_implementation = input.implementation()
@@ -380,6 +369,11 @@ def server(input, output, session):
                 map_implementation.substitute(layers[-1], urbangreenareas_streettrees)
             case _:
                 map_implementation.substitute(layers[-1], empty_layer)
+
+        @reactive.Effect
+        @reactive.event(input.wip_notif)
+        def _():
+            ui.notification_show("This is a work in progress. Check back later!")
 
 
 app = App(app_ui, server, static_assets=assets_dir)
