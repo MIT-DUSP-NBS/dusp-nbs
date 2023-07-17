@@ -1,2 +1,3 @@
-shinylive
-shinyswatch
+shinylive>=0.0.14
+shinyswatch>=0.2.4
+faicons>=0.2.1
