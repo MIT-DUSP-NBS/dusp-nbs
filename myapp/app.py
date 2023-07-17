@@ -1,9 +1,6 @@
-from pathlib import Path
 import download
-
 import ipyleaflet as ipyl
 import shinyswatch
-from geopandas import read_file
 from ipywidgets import Layout
 from shiny import App, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
