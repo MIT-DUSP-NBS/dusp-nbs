@@ -334,15 +334,6 @@ def server(input, output, session):
         name="Urban Green Areas x Street Trees",
     )
 
-    async def get_boundary(url):
-        response = await download.get_url(url, 'json')
-        data = response.data
-        return ipyl.GeoJSON(
-            data=data,
-            name="Stockholm County Boundary",
-            style={"color": "white", "fillOpacity": "0.00"},
-        )
-
     map_implementation = ipyl.Map(
         basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
         zoom=9,
@@ -354,6 +345,15 @@ def server(input, output, session):
 
     map_implementation.add(ipyl.Layer())
     map_implementation.add(ipyl.Layer())
+
+    async def get_boundary(url, name):
+        response = await download.get_url(url, "json")
+        data = response.data
+        return ipyl.GeoJSON(
+            data=data,
+            name=name,
+            style={"color": "white", "fillOpacity": "0.00"},
+        )
 
     register_widget("map_implementation", map_implementation)
 
@@ -403,11 +403,12 @@ def server(input, output, session):
     @reactive.event(input.boundary)
     async def boundary():
         input_boundary = input.boundary()
-        layers = tuple(map_implementation.layers)
+        layers = tuple(map_implementation.layers)  # type: ignore
 
         boundary = await get_boundary(
             "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
-            "assets/county.json"
+            "assets/county.json",
+            "Stockholm County Boundary",
         )
 
         if input_boundary:
@@ -415,10 +416,10 @@ def server(input, output, session):
         else:
             map_implementation.substitute_layer(layers[1], ipyl.Layer())
 
-        @reactive.Effect
-        @reactive.event(input.wip_notif)
-        def _():
-            ui.notification_show("This is a work in progress. Check back later!")
+    @reactive.Effect
+    @reactive.event(input.wip_notif)
+    def _():
+        ui.notification_show("This is a work in progress. Check back later!")
 
 
 app = App(app_ui, server)
