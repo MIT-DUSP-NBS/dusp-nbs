@@ -1,7 +1,10 @@
 from pathlib import Path
-import shinyswatch
-import geopandas as gpd
+from pprint import pformat
+import pyodide.http
+
 import ipyleaflet as ipyl
+import shinyswatch
+from geopandas import read_file
 from ipywidgets import Layout
 from shiny import App, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
@@ -40,7 +43,11 @@ overview = (
     ),
     ui.tags.figure(
         {"class": "figure"},
-        ui.img({"class": "figure-img img-fluid"}, src="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/figures/overview.png"),
+        ui.img(
+            {"class": "figure-img img-fluid"},
+            src="https://raw.githubusercontent"
+            ".com/dtemkin1/dusp-nbs/main/assets/figures/overview.png",
+        ),
         ui.tags.figcaption(
             {"class": "figure-caption"}, "Potential pathways of NbS to reduce emissions"
         ),
@@ -60,7 +67,11 @@ nbs_allocation = (
     ),
     ui.tags.figure(
         {"class": "figure"},
-        ui.img({"class": "figure-img img-fluid"}, src="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/figures/nbs_1.png"),
+        ui.img(
+            {"class": "figure-img img-fluid"},
+            src="https://raw.githubusercontent"
+            ".com/dtemkin1/dusp-nbs/main/assets/figures/nbs_1.png",
+        ),
         ui.tags.figcaption(
             {"class": "figure-caption"},
             "Comparative summary of NbS impacts to sectoral emissions",
@@ -78,7 +89,11 @@ nbs_allocation = (
     ),
     ui.tags.figure(
         {"class": "figure"},
-        ui.img({"class": "figure-img img-fluid"}, src="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/figures/nbs_2.png"),
+        ui.img(
+            {"class": "figure-img img-fluid"},
+            src="https://raw.githubusercontent"
+            ".com/dtemkin1/dusp-nbs/main/assets/figures/nbs_2.png",
+        ),
     ),
 )
 
@@ -324,9 +339,13 @@ def server(input, output, session):
         name="Urban Green Areas x Street Trees",
     )
 
-    geo_stockholm = ipyl.GeoData(
-        geo_dataframe=gpd.read_file(assets_dir / "county/county.shp"
-        ).to_crs(4326),
+    async def get_boundary():
+        response = await pyodide.http.pyfetch('https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/county.json')
+        data = await response.json()
+        return data
+
+    geo_stockholm = ipyl.GeoJSON(
+        data=get_boundary(),
         name="Stockholm County Boundary",
         style={"color": "white", "fillOpacity": "0.00"},
     )
