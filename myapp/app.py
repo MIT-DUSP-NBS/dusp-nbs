@@ -1,9 +1,12 @@
+from pathlib import Path
 import shinyswatch
 import geopandas as gpd
 import ipyleaflet as ipyl
 from ipywidgets import Layout
 from shiny import App, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
+
+assets_dir = Path(__file__).parent / "assets"
 
 overview = (
     ui.h1("Overview"),
@@ -322,7 +325,7 @@ def server(input, output, session):
     )
 
     geo_stockholm = ipyl.GeoData(
-        geo_dataframe=gpd.read_file("https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/implementation/county/county.shp"
+        geo_dataframe=gpd.read_file(assets_dir / "county/county.shp"
         ).to_crs(4326),
         name="Stockholm County Boundary",
         style={"color": "white", "fillOpacity": "0.00"},
@@ -391,4 +394,4 @@ def server(input, output, session):
             ui.notification_show("This is a work in progress. Check back later!")
 
 
-app = App(app_ui, server)
+app = App(app_ui, server, static_assets=assets_dir)
