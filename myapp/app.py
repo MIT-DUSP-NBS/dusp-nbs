@@ -1,12 +1,9 @@
-from pathlib import Path
 import shinyswatch
 import geopandas as gpd
 import ipyleaflet as ipyl
 from ipywidgets import Layout
 from shiny import App, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
-
-assets_dir = Path(__file__).parent / "assets"
 
 overview = (
     ui.h1("Overview"),
@@ -394,4 +391,4 @@ def server(input, output, session):
             ui.notification_show("This is a work in progress. Check back later!")
 
 
-app = App(app_ui, server, static_assets=assets_dir)
+app = App(app_ui, server)
