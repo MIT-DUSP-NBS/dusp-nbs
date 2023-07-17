@@ -9,8 +9,6 @@ from ipywidgets import Layout
 from shiny import App, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
 
-assets_dir = Path(__file__).parent / "assets"
-
 overview = (
     ui.h1("Overview"),
     ui.p(
@@ -340,7 +338,10 @@ def server(input, output, session):
     )
 
     async def get_boundary():
-        response = await pyodide.http.pyfetch('https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/county.json')
+        response = await pyodide.http.pyfetch(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
+            "assets/county.json"
+        )
         data = await response.json()
         return data
 
@@ -413,4 +414,4 @@ def server(input, output, session):
             ui.notification_show("This is a work in progress. Check back later!")
 
 
-app = App(app_ui, server, static_assets=assets_dir)
+app = App(app_ui, server)
