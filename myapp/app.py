@@ -40,7 +40,7 @@ overview = (
     ),
     ui.tags.figure(
         {"class": "figure"},
-        ui.img({"class": "figure-img img-fluid"}, src="figures/overview.png"),
+        ui.img({"class": "figure-img img-fluid"}, src="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/figures/overview.png"),
         ui.tags.figcaption(
             {"class": "figure-caption"}, "Potential pathways of NbS to reduce emissions"
         ),
@@ -60,7 +60,7 @@ nbs_allocation = (
     ),
     ui.tags.figure(
         {"class": "figure"},
-        ui.img({"class": "figure-img img-fluid"}, src="figures/nbs_1.png"),
+        ui.img({"class": "figure-img img-fluid"}, src="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/figures/nbs_1.png"),
         ui.tags.figcaption(
             {"class": "figure-caption"},
             "Comparative summary of NbS impacts to sectoral emissions",
@@ -78,7 +78,7 @@ nbs_allocation = (
     ),
     ui.tags.figure(
         {"class": "figure"},
-        ui.img({"class": "figure-img img-fluid"}, src="figures/nbs_2.png"),
+        ui.img({"class": "figure-img img-fluid"}, src="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/figures/nbs_2.png"),
     ),
 )
 
@@ -252,62 +252,80 @@ app_ui = experimental.ui.page_navbar(
 def server(input, output, session):
     map_layout = Layout(height="96%")
 
-    gbi = ipyl.LocalTileLayer(path="implementation/gbi/{z}/{x}/{y}.png", name="GBI")
-    gbi_greenbelt = ipyl.LocalTileLayer(
-        path="implementation/gbi_greenbelt/{z}/{x}/{y}.png", name="GBI x Greenbelt"
+    gbi = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/gbi/{z}/{x}/{y}.png",
+        name="GBI",
     )
-    gbi_greenbuildings = ipyl.LocalTileLayer(
-        path="implementation/gbi_greenbuildings/{z}/{x}/{y}.png",
+    gbi_greenbelt = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/gbi_greenbelt/{z}/{x}/{y}.png",
+        name="GBI x Greenbelt",
+    )
+    gbi_greenbuildings = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/gbi_greenbuildings/{z}/{x}/{y}.png",
         name="GBI x Green Buildings",
     )
-    gbi_streettrees = ipyl.LocalTileLayer(
-        path="implementation/gbi_streettrees/{z}/{x}/{y}.png", name="GBI x Street Trees"
+    gbi_streettrees = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/gbi_streettrees/{z}/{x}/{y}.png",
+        name="GBI x Street Trees",
     )
-    gbi_urbangreenareas = ipyl.LocalTileLayer(
-        path="implementation/gbi_urbangreenareas/{z}/{x}/{y}.png",
+    gbi_urbangreenareas = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/gbi_urbangreenareas/{z}/{x}/{y}.png",
         name="GBI x Urban Green Areas",
     )
-    greenbelt = ipyl.LocalTileLayer(
-        path="implementation/greenbelt/{z}/{x}/{y}.png",
+    greenbelt = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/greenbelt/{z}/{x}/{y}.png",
         name="Greenbelt",
     )
-    greenbuildings = ipyl.LocalTileLayer(
-        path="implementation/greenbuildings/{z}/{x}/{y}.png", name="Green Buildings"
+    greenbuildings = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/greenbuildings/{z}/{x}/{y}.png",
+        name="Green Buildings",
     )
-    greenbuildings_greenbelt = ipyl.LocalTileLayer(
-        path="implementation/greenbuildings_greenbelt/{z}/{x}/{y}.png",
+    greenbuildings_greenbelt = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/greenbuildings_greenbelt/{z}/{x}/{y}.png",
         name="Green Buildings x Greenbelt",
     )
-    greenbuildings_streettrees = ipyl.LocalTileLayer(
-        path="implementation/greenbuildings_streettrees/{z}/{x}/{y}.png",
+    greenbuildings_streettrees = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/greenbuildings_streettrees/{z}/{x}/{y}.png",
         name="Green Buildings x Street Trees",
     )
-    greenbuildings_urbangreenareas = ipyl.LocalTileLayer(
-        path="implementation/greenbuildings_urbangreenareas/{z}/{x}/{y}.png",
+    greenbuildings_urbangreenareas = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/greenbuildings_urbangreenareas/{z}/{x}/{y}.png",
         name="Green Buildings x Urban Green Areas",
     )
-    greenbuildings_urbangreenareas_streettrees = ipyl.LocalTileLayer(
-        path="implementation/greenbuildings_urbangreenareas_streettrees/"
-        "{z}/{x}/{y}.png",
+    greenbuildings_urbangreenareas_streettrees = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/greenbuildings_urbangreenareas_streettrees/{z}/{x}/{y}.png",
         name="Green Buildings x Urban Green Areas x Street Trees",
     )
-    streettrees = ipyl.LocalTileLayer(
-        path="implementation/streettrees/{z}/{x}/{y}.png",
+    streettrees = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/streettrees/{z}/{x}/{y}.png",
         name="Street Trees",
     )
-    urbangreenareas = ipyl.LocalTileLayer(
-        path="implementation/urbangreenareas/{z}/{x}/{y}.png",
+    urbangreenareas = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/urbangreenareas/{z}/{x}/{y}.png",
         name="Urban Green Areas ",
     )
-    urbangreenareas_streettrees = ipyl.LocalTileLayer(
-        path="implementation/greenbuildings_urbangreenareas_streettrees/"
+    urbangreenareas_streettrees = ipyl.TileLayer(
+        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+        "implementation/greenbuildings_urbangreenareas_streettrees/"
         "{z}/{x}/{y}.png",
         name="Urban Green Areas x Street Trees",
     )
 
     geo_stockholm = ipyl.GeoData(
-        geo_dataframe=gpd.read_file(
-            assets_dir / "implementation/county/county.shp"
+        geo_dataframe=gpd.read_file("https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/implementation/county/county.shp"
         ).to_crs(4326),
         name="Stockholm County Boundary",
         style={"color": "white", "fillOpacity": "0.00"},
