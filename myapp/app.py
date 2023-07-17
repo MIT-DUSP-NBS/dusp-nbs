@@ -93,7 +93,6 @@ nbs_allocation = (
 
 implementation_visualization = experimental.ui.layout_sidebar(
     experimental.ui.sidebar(
-        ui.h2("Green Infrastructure Visualization"),
         ui.input_checkbox_group(
             "implementation",
             label="Select the desired green infrastructure implementations:",
@@ -106,6 +105,7 @@ implementation_visualization = experimental.ui.layout_sidebar(
             },
         ),
         ui.input_switch("boundary", label="Show Stockholm county boundary", value=True),
+        title="Green Infrastructure Visualization",
     ),
     experimental.ui.as_fill_item(output_widget("map_implementation")),
 )
