@@ -1,6 +1,5 @@
 from pathlib import Path
-from pprint import pformat
-import pyodide.http
+import download
 
 import ipyleaflet as ipyl
 import shinyswatch
@@ -109,6 +108,7 @@ implementation_visualization = experimental.ui.layout_sidebar(
                 "urbangreenareas": "Urban Green Areas",
             },
         ),
+        ui.input_switch("boundary", label="Show Stockholm county boundary", value=True),
     ),
     experimental.ui.as_fill_item(output_widget("map_implementation")),
 )
@@ -337,19 +337,14 @@ def server(input, output, session):
         name="Urban Green Areas x Street Trees",
     )
 
-    async def get_boundary():
-        response = await pyodide.http.pyfetch(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
-            "assets/county.json"
+    async def get_boundary(url):
+        response = await download.get_url(url, 'json')
+        data = response.data
+        return ipyl.GeoJSON(
+            data=data,
+            name="Stockholm County Boundary",
+            style={"color": "white", "fillOpacity": "0.00"},
         )
-        data = await response.json()
-        return data
-
-    geo_stockholm = ipyl.GeoJSON(
-        data=get_boundary(),
-        name="Stockholm County Boundary",
-        style={"color": "white", "fillOpacity": "0.00"},
-    )
 
     map_implementation = ipyl.Map(
         basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
@@ -362,7 +357,7 @@ def server(input, output, session):
 
     empty_layer = ipyl.Layer()
 
-    map_implementation.add(geo_stockholm)
+    # map_implementation.add(geo_stockholm)
     map_implementation.add(empty_layer)
 
     register_widget("map_implementation", map_implementation)
@@ -407,6 +402,21 @@ def server(input, output, session):
                 map_implementation.substitute(layers[-1], urbangreenareas_streettrees)
             case _:
                 map_implementation.substitute(layers[-1], empty_layer)
+
+        @reactive.Effect
+        async def boundary():
+            input_boundary = input.boundary()
+            layers = tuple(map_implementation.layers)
+
+            boundary = await get_boundary(
+                "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
+                "assets/county.json"
+            )
+
+            if input_boundary:
+                map_implementation.substitute_layer(layers[1], boundary)
+            else:
+                map_implementation.substitute_layer(layers[1], empty_layer)
 
         @reactive.Effect
         @reactive.event(input.wip_notif)
