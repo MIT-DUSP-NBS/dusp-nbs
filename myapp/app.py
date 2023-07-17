@@ -352,14 +352,13 @@ def server(input, output, session):
         layout=map_layout,
     )
 
-    empty_layer = ipyl.Layer()
-
-    # map_implementation.add(geo_stockholm)
-    map_implementation.add(empty_layer)
+    map_implementation.add(ipyl.Layer())
+    map_implementation.add(ipyl.Layer())
 
     register_widget("map_implementation", map_implementation)
 
     @reactive.Effect()
+    @reactive.event(input.implementation)
     def implementation():
         input_implementation = input.implementation()
         layers = tuple(map_implementation.layers)  # type: ignore
@@ -398,22 +397,23 @@ def server(input, output, session):
             case ("urbangreenareas", "streettrees"):
                 map_implementation.substitute(layers[-1], urbangreenareas_streettrees)
             case _:
-                map_implementation.substitute(layers[-1], empty_layer)
+                map_implementation.substitute(layers[-1], ipyl.Layer())
 
-        @reactive.Effect
-        async def boundary():
-            input_boundary = input.boundary()
-            layers = tuple(map_implementation.layers)
+    @reactive.Effect
+    @reactive.event(input.boundary)
+    async def boundary():
+        input_boundary = input.boundary()
+        layers = tuple(map_implementation.layers)
 
-            boundary = await get_boundary(
-                "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
-                "assets/county.json"
-            )
+        boundary = await get_boundary(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
+            "assets/county.json"
+        )
 
-            if input_boundary:
-                map_implementation.substitute_layer(layers[1], boundary)
-            else:
-                map_implementation.substitute_layer(layers[1], empty_layer)
+        if input_boundary:
+            map_implementation.substitute_layer(layers[1], boundary)
+        else:
+            map_implementation.substitute_layer(layers[1], ipyl.Layer())
 
         @reactive.Effect
         @reactive.event(input.wip_notif)
