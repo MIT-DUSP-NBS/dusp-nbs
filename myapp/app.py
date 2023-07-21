@@ -235,14 +235,14 @@ app_ui = experimental.ui.page_navbar(
     ui.nav_spacer(),
     ui.nav_control(
         ui.a(
-            icon_svg("github"),
+            icon_svg(name="github"),
             href="https://github.com/dtemkin1/dusp-nbs",
             target="_blank",
         ),
     ),
     ui.nav_control(
         ui.a(
-            icon_svg("graduation-cap"),
+            icon_svg(name="graduation-cap"),
             href="https://doi.org/10.1038/s41558-023-01737-x",
             target="_blank",
         ),
