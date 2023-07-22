@@ -13,32 +13,33 @@ app_ui = experimental.ui.page_navbar(
         (
             ui.h1("Overview"),
             ui.p(
-                "Urban areas contribute more than 60% of global greenhouse gas (GHG) emissions,"
-                " through residential, commercial, and transportation activities. Nature-based "
-                "solutions (NbS) are increasingly being adopted by cities worldwide to enhance "
-                "carbon sequestration, offsets emissions, and promotes sustainable land "
-                "management practices, thus contributing to global climate change mitigation "
-                "efforts."
+                "Urban areas contribute more than 60% of global greenhouse gas (GHG) "
+                "emissions, through residential, commercial, and transportation "
+                "activities. Nature-based solutions (NbS) are increasingly being "
+                "adopted by cities worldwide to enhance carbon sequestration, offsets "
+                "emissions, and promotes sustainable land management practices, thus "
+                "contributing to global climate change mitigation efforts."
             ),
             ui.p(
                 "Realistic NbS implementation plans toward carbon neutrality, such as "
-                "restoring natural ecosystems and increasing urban green resources,  need to be"
-                " both effective in mitigating carbon emissions at the global level and "
-                "suitable for the socio-economic and physical conditions at the local level. "
-                "Prioritizing suitable sites and solutions can enhance the long-term viability "
-                "of NbS. In our research, we have explored a systematic approach to spatially "
-                "prioritizing different types of NbS implementations in multiple major EU "
-                "cities."
+                "restoring natural ecosystems and increasing urban green resources, "
+                "need to be both effective in mitigating carbon emissions at the "
+                "global level and suitable for the socio-economic and physical "
+                "conditions at the local level. Prioritizing suitable sites and "
+                "solutions can enhance the long-term viability of NbS. In our research,"
+                "we have explored a systematic approach to spatially prioritizing "
+                "different types of NbS implementations in multiple major EU cities."
             ),
             ui.p(
-                "The motivation for developing this tool is to offer the necessary flexibility "
-                "for NbS planning, by enabling users to interact and iterate through our "
-                "spatial allocation processes. Successful adoption of NbS and realization of "
-                "their functionality requires a holistic and collaborative planning approach "
-                "that incorporates stakeholders across scales and disciplines. This platform "
-                "aims to serve as a point of departure to facilitate the identifying suitable "
-                "interventions and enhancing the awareness of NbS opportunities in urban "
-                "settings."
+                "The motivation for developing this tool is to offer the necessary "
+                "flexibility for NbS planning, by enabling users to interact and "
+                "iterate through our spatial allocation processes. Successful adoption "
+                "of NbS and realization of their functionality requires a holistic and "
+                "collaborative planning approach that incorporates stakeholders across "
+                "scales and disciplines. This platform aims to serve as a point of "
+                "departure to facilitate the identifying suitable "
+                "interventions and enhancing the awareness of NbS opportunities in "
+                "urban settings."
             ),
             ui.tags.figure(
                 {"class": "figure"},
@@ -59,13 +60,13 @@ app_ui = experimental.ui.page_navbar(
         (
             ui.h1("NbS Spatial Allocation"),
             ui.p(
-                "We selected five types of NbS (green infrastructure (GI), street trees & green"
-                " pavements, urban green spaces & agriculture, habitat preservation & "
-                "remediation, and green buildings) as our study objectives. From established "
-                "definitions of NbS in the literature, we identified the level of benefit of "
-                "different types of NbS at different urban settings and synthesized "
-                "quantitative indicators to describe the impact of NbS on sectoral carbon "
-                "emissions."
+                "We selected five types of NbS (green infrastructure (GI), street "
+                "trees & green pavements, urban green spaces & agriculture, habitat "
+                "preservation & remediation, and green buildings) as our study "
+                "objectives. From established definitions of NbS in the literature, we "
+                "identified the level of benefit of different types of NbS at "
+                "different urban settings and synthesized quantitative indicators to "
+                "describe the impact of NbS on sectoral carbon emissions."
             ),
             ui.tags.figure(
                 {"class": "figure"},
@@ -80,13 +81,14 @@ app_ui = experimental.ui.page_navbar(
                 ),
             ),
             ui.p(
-                "The NbS implementations were spatially allocated based on three major factors:"
-                " the sectoral carbon emission, potential NbS benefits, and the local context "
-                "of each location. For example, street trees & green pavements as an NbS to "
-                "promote walking and cycling should ideally be located along city roads in high"
-                "-density urban areas, while preserved habitats should be located at the urban "
-                "fringe where new urban developments are likely to occur. We have developed "
-                "practical principles and criteria that systematically guide the spatial "
+                "The NbS implementations were spatially allocated based on three major "
+                "factors: the sectoral carbon emission, potential NbS benefits, and "
+                "the local context of each location. For example, street trees & green "
+                "pavements as an NbS to promote walking and cycling should ideally be "
+                "located along city roads in high-density urban areas, while preserved "
+                "habitats should be located at the urban fringe where new urban "
+                "developments are likely to occur. We have developed practical "
+                "principles and criteria that systematically guide the spatial "
                 "allocations of each type of NbS."
             ),
             ui.tags.figure(
