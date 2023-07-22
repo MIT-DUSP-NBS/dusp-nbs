@@ -18,29 +18,46 @@ license: MIT
 preferred-citation:
   type: article
   authors:
-  - family-names: Pan
-    given-names: Haozhi
-  - family-names: Page
-    given-names: Jessica
-  - family-names: Shi
-    given-names: Rui
-  - family-names: Cong
-    given-names: Cong
-  - family-names: Cai
-    given-names: Zipan
-  - family-names: Barthel
-    given-names: Stephan
-  - family-names: Thollander
-    given-names: Patrik
-  - family-names: Colding
-    given-names: Johan
-  - family-names: Kalantari
-    given-names: Zahra
+    - family-names: Pan
+      given-names: Haozhi
+    - family-names: Page
+      given-names: Jessica
+    - family-names: Shi
+      given-names: Rui
+    - family-names: Cong
+      given-names: Cong
+    - family-names: Cai
+      given-names: Zipan
+    - family-names: Barthel
+      given-names: Stephan
+    - family-names: Thollander
+      given-names: Patrik
+    - family-names: Colding
+      given-names: Johan
+    - family-names: Kalantari
+      given-names: Zahra
   year: 2023
-  date-published: "2023-07-20"
-  title: "Contribution of prioritized urban nature-based solutions allocation to carbon neutrality"
-  journal: "Nature Climate Change"
-  abstract: "Nature-based solutions (NBS) are essential for carbon-neutral cities, yet how to effectively allocate them remains a question. Carbon neutrality requires city-led climate action plans that incorporate both indirect and direct contributions of NBS. Here we assessed the carbon emissions mitigation potential of NBS in European cities, focusing particularly on commonly overlooked indirect pathways, for example, human behavioural interventions and resource savings. Assuming maximum theoretical implementation, NBS in the residential, transport and industrial sectors could reduce urban carbon emissions by up to 25%. Spatially prioritizing different types of NBS in 54 major European Union cities could reduce anthropogenic carbon emissions by on average 17.4%. Coupling NBS with other existing measures in Representative Concentration Pathway scenarios could reduce total carbon emissions by 57.3% in 2030, with both indirect pathways and sequestration. Our results indicate that carbon neutrality will be near for some pioneering cities by 2030, while three can achieve it completely."
+  date-published: '2023-07-20'
+  title: >-
+    Contribution of prioritized urban nature-based solutions allocation to
+    carbon neutrality
+  journal: Nature Climate Change
+  abstract: >-
+    Nature-based solutions (NBS) are essential for carbon-neutral cities, yet
+    how to effectively allocate them remains a question. Carbon neutrality
+    requires city-led climate action plans that incorporate both indirect and
+    direct contributions of NBS. Here we assessed the carbon emissions
+    mitigation potential of NBS in European cities, focusing particularly on
+    commonly overlooked indirect pathways, for example, human behavioural
+    interventions and resource savings. Assuming maximum theoretical
+    implementation, NBS in the residential, transport and industrial sectors
+    could reduce urban carbon emissions by up to 25%. Spatially prioritizing
+    different types of NBS in 54 major European Union cities could reduce
+    anthropogenic carbon emissions by on average 17.4%. Coupling NBS with other
+    existing measures in Representative Concentration Pathway scenarios could
+    reduce total carbon emissions by 57.3% in 2030, with both indirect pathways
+    and sequestration. Our results indicate that carbon neutrality will be near
+    for some pioneering cities by 2030, while three can achieve it completely.
   issn: 1758-6798
-  url: "https://doi.org/10.1038/s41558-023-01737-x"
+  url: 'https://doi.org/10.1038/s41558-023-01737-x'
   doi: 10.1038/s41558-023-01737-x
