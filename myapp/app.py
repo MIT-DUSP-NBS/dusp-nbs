@@ -54,6 +54,7 @@ app_ui = experimental.ui.page_navbar(
                 ),
             ),
         ),
+        value="overview",
     ),
     ui.nav(
         "NbS Spatial Allocation",
@@ -100,6 +101,7 @@ app_ui = experimental.ui.page_navbar(
                 ),
             ),
         ),
+        value="nbs_spacial_allocation",
     ),
     ui.nav(
         "Implementation Visualization",
@@ -123,6 +125,7 @@ app_ui = experimental.ui.page_navbar(
             ),
             experimental.ui.as_fill_item(output_widget("map_implementation")),
         ),
+        value="implementation",
     ),
     ui.nav_control(ui.input_action_link("wip_notif", "Interactive NbS Planning")),
     ui.nav(
@@ -240,6 +243,7 @@ app_ui = experimental.ui.page_navbar(
                 ),
             ),
         ),
+        value="about",
     ),
     ui.nav_spacer(),
     ui.nav_control(
@@ -262,6 +266,7 @@ app_ui = experimental.ui.page_navbar(
     fillable_mobile=True,
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
+    selected="overview",
 )
 
 
