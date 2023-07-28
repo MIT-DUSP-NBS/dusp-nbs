@@ -7,7 +7,7 @@ from shiny import App, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
 
 app_ui = experimental.ui.page_navbar(
-    shinyswatch.theme.litera(),
+    shinyswatch.theme.sandstone(),
     ui.nav(
         "Overview",
         (
@@ -128,6 +128,16 @@ app_ui = experimental.ui.page_navbar(
         value="implementation",
     ),
     ui.nav_control(ui.input_action_link("wip_notif", "Interactive NbS Planning")),
+    # ui.nav(
+    #     "Interactive NbS Planning",
+    #     experimental.ui.layout_sidebar(
+    #         experimental.ui.sidebar(
+    #             title="Interactive NbS Planning",
+    #         ),
+    #         "This is a work in progress. Check back later!",
+    #     ),
+    #     value="interactive",
+    # ),
     ui.nav(
         "About the Tool",
         ui.tags.table(
@@ -262,7 +272,7 @@ app_ui = experimental.ui.page_navbar(
     ),
     title="Nature-Based Solutions Dashboard",
     inverse=True,
-    bg="#4582ec",
+    bg="#325d88",
     fillable_mobile=True,
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
