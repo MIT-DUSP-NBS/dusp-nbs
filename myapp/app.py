@@ -120,7 +120,7 @@ app_ui = experimental.ui.page_navbar(
                     "boundary", label="Show Stockholm county boundary", value=True
                 ),
                 title="Green Infrastructure Visualization",
-                open='open'
+                open="open",
             ),
             experimental.ui.as_fill_item(output_widget("map_implementation")),
         ),
