@@ -1,13 +1,11 @@
 import download
 import ipyleaflet as ipyl
-import shinyswatch
 from faicons import icon_svg
 from ipywidgets import Layout
 from shiny import App, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
 
 app_ui = experimental.ui.page_navbar(
-    shinyswatch.theme.sandstone(),
     ui.nav(
         "Overview",
         (
@@ -122,6 +120,7 @@ app_ui = experimental.ui.page_navbar(
                     "boundary", label="Show Stockholm county boundary", value=True
                 ),
                 title="Green Infrastructure Visualization",
+                open='open'
             ),
             experimental.ui.as_fill_item(output_widget("map_implementation")),
         ),
@@ -271,8 +270,6 @@ app_ui = experimental.ui.page_navbar(
         ),
     ),
     title="Nature-Based Solutions Dashboard",
-    inverse=True,
-    bg="#325d88",
     fillable_mobile=True,
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
@@ -359,7 +356,7 @@ def server(input, output, session):
         center=(59.3293, 18.0686),
         max_zoom=13,
         scroll_wheel_zoom=True,
-        layout=Layout(height="96%"),
+        layout=Layout(height="100%"),
     )
 
     empty_boundary = ipyl.Layer()
