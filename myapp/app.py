@@ -357,7 +357,7 @@ def server(input, output, session):
         center=(59.3293, 18.0686),
         max_zoom=13,
         scroll_wheel_zoom=True,
-        layout=Layout(height="100%"),
+        layout=Layout(height="96%"),
     )
 
     empty_boundary = ipyl.Layer()
