@@ -155,6 +155,58 @@ app_ui = experimental.ui.page_navbar(
         "About the Tool",
         ui.tags.table(
             {"class": "table"},
+            ui.tags.caption(
+                "Typology: ",
+                ui.a(
+                    "Click here!",
+                    href="https://ec.europa.eu/eurostat/web/gisco/geodata/"
+                    "reference-data/population-distribution-demography/geostat",
+                    target="_blank",
+                ),
+            ),
+            ui.tags.thead(
+                ui.tags.tr(
+                    ui.tags.th({"scope": "col"}, "Infrastructure"),
+                    ui.tags.th({"scope": "col"}, "Criteria"),
+                )
+            ),
+            ui.tags.tbody(
+                ui.tags.tr(
+                    ui.tags.td("Street trees"),
+                    ui.tags.td("High transport emissions AND High population density"),
+                ),
+                ui.tags.tr(
+                    ui.tags.td("Green buildings"),
+                    ui.tags.td(
+                        "(High residential emission OR High industry emission) AND "
+                        "Building rooftops"
+                    ),
+                ),
+                ui.tags.tr(
+                    ui.tags.td("Green infrastructure"),
+                    ui.tags.td(
+                        "(High residential emissions OR High industrial emissions) AND "
+                        "Available land cover",
+                        ui.input_action_link("asterisk_one", "*"),
+                        " AND (NOT existing preserved areas)",
+                    ),
+                ),
+                ui.tags.tr(
+                    ui.tags.td("Urban green areas"),
+                    ui.tags.td(
+                        "(High population density OR High built-up areas) AND "
+                        "Available land cover",
+                        ui.input_action_link("asterisk_two", "**"),
+                    ),
+                ),
+                ui.tags.tr(
+                    ui.tags.td("Greenbelts"),
+                    ui.tags.td("Low population density AND Existing preserved areas"),
+                ),
+            ),
+        ),
+        ui.tags.table(
+            {"class": "table"},
             ui.tags.caption("Key variables and data sources used in the analysis"),
             ui.tags.thead(
                 ui.tags.tr(
@@ -450,6 +502,50 @@ def server(input, output, session):
             )
         else:
             map_implementation.substitute(layers[1], empty_boundary)
+
+    @reactive.Effect
+    @reactive.event(input.asterisk_one)
+    def _():
+        m = ui.modal(
+            "Fairly broad category that includes parks, forests, wetlands, bioswales, "
+            "permeable pavements, green corridors, and other natural or nature-based "
+            "elements",
+            ui.tags.ul(
+                ui.tags.li("13400 Land without current use"),
+                ui.tags.li("14100 Green urban areas"),
+                ui.tags.li("23000 Pastures"),
+                ui.tags.li("31000 Forests"),
+                ui.tags.li(
+                    "32000 Herbaceous vegetation associations (natural grassland, "
+                    "moors...)"
+                ),
+                ui.tags.li("40000 Wetland"),
+            ),
+            title="Available land cover for GI",
+            easy_close=True,
+            footer=None,
+        )
+        ui.modal_show(m)
+
+    @reactive.Effect
+    @reactive.event(input.asterisk_two)
+    def _():
+        m = ui.modal(
+            ui.tags.ul(
+                ui.tags.li(
+                    "11230 Discontinuous Low-Density Urban Fabric (S.L.: 10% "
+                    "\u2013 30%)"
+                ),
+                ui.tags.li(
+                    "11240 Discontinuous Very Low-Density Urban Fabric (S.L.: < 10%)"
+                ),
+                ui.tags.li("14100 Green urban areas"),
+            ),
+            title="Available land cover for Urban green areas",
+            easy_close=True,
+            footer=None,
+        )
+        ui.modal_show(m)
 
 
 app = App(app_ui, server)
