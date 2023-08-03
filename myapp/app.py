@@ -126,17 +126,31 @@ app_ui = experimental.ui.page_navbar(
         ),
         value="implementation",
     ),
-    ui.nav_control(ui.input_action_link("wip_notif", "Interactive NbS Planning")),
-    # ui.nav(
-    #     "Interactive NbS Planning",
-    #     experimental.ui.layout_sidebar(
-    #         experimental.ui.sidebar(
-    #             title="Interactive NbS Planning",
-    #         ),
-    #         "This is a work in progress. Check back later!",
-    #     ),
-    #     value="interactive",
-    # ),
+    ui.nav(
+        "Interactive NbS Planning",
+        experimental.ui.layout_sidebar(
+            experimental.ui.sidebar(
+                ui.input_slider(
+                    "transport_emissions",
+                    "High Transportation Emissions",
+                    min=0,
+                    max=100,
+                    value=50,
+                ),
+                ui.input_slider(
+                    "population_density",
+                    "High Population Density",
+                    min=0,
+                    max=100,
+                    value=50,
+                ),
+                ui.download_button("download_interactive", "Download Rendered Map"),
+                title="Interactive NbS Planning",
+            ),
+            "This is a work in progress. Check back later!",
+        ),
+        value="interactive",
+    ),
     ui.nav(
         "About the Tool",
         ui.tags.table(
@@ -436,11 +450,6 @@ def server(input, output, session):
             )
         else:
             map_implementation.substitute(layers[1], empty_boundary)
-
-    @reactive.Effect
-    @reactive.event(input.wip_notif)
-    def _():
-        ui.notification_show("This is a work in progress. Check back later!")
 
 
 app = App(app_ui, server)
