@@ -4,8 +4,10 @@ from faicons import icon_svg
 from ipywidgets import Layout
 from shiny import App, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
+import shinyswatch
 
 app_ui = experimental.ui.page_navbar(
+    shinyswatch.theme.zephyr(),
     ui.nav(
         "Overview",
         (
@@ -336,7 +338,7 @@ app_ui = experimental.ui.page_navbar(
         ),
     ),
     title="Nature-Based Solutions Dashboard",
-    inverse=True,
+    bg="#3459e6",
     fillable_mobile=True,
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
