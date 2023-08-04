@@ -339,6 +339,7 @@ app_ui = experimental.ui.page_navbar(
     ),
     title="Nature-Based Solutions Dashboard",
     bg="#3459e6",
+    inverse=True,
     fillable_mobile=True,
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
