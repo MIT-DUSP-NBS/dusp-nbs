@@ -1,13 +1,11 @@
 import download
 import ipyleaflet as ipyl
-import shinyswatch
 from faicons import icon_svg
 from ipywidgets import Layout
 from shiny import App, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
 
 app_ui = experimental.ui.page_navbar(
-    shinyswatch.theme.sandstone(),
     ui.nav(
         "Overview",
         (
@@ -340,7 +338,6 @@ app_ui = experimental.ui.page_navbar(
         ),
     ),
     title="Nature-Based Solutions Dashboard",
-    bg="#325d88",
     fillable_mobile=True,
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
