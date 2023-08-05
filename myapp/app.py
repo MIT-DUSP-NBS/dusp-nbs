@@ -136,6 +136,7 @@ app_ui = experimental.ui.page_navbar(
                     min=0,
                     max=100,
                     value=50,
+                    post="%",
                 ),
                 ui.input_slider(
                     "population_density",
@@ -143,6 +144,7 @@ app_ui = experimental.ui.page_navbar(
                     min=0,
                     max=100,
                     value=50,
+                    post="%",
                 ),
                 ui.download_button("download_interactive", "Download Rendered Map"),
                 title="Interactive NbS Planning",
