@@ -1,2 +1,2 @@
-shinylive>=0.0.15
+shinylive>=0.0.16
 faicons>=0.2.1
