@@ -11,40 +11,42 @@ app_ui = experimental.ui.page_navbar(
         (
             ui.h1("Overview"),
             ui.p(
-                "Urban areas contribute more than 60% of global greenhouse gas (GHG) "
-                "emissions, through residential, commercial, and transportation "
-                "activities. Nature-based solutions (NbS) are increasingly being "
-                "adopted by cities worldwide to enhance carbon sequestration, offsets "
-                "emissions, and promotes sustainable land management practices, thus "
-                "contributing to global climate change mitigation efforts."
+                "Urban areas contribute more than 60% of global greenhouse gas (GHG)"
+                " emissions, through residential, commercial, and transportation"
+                " activities. Nature-based solutions (NbS) are increasingly being"
+                " adopted by cities worldwide to enhance carbon sequestration, offsets"
+                " emissions, and promotes sustainable land management practices, thus"
+                " contributing to global climate change mitigation efforts."
             ),
             ui.p(
-                "Realistic NbS implementation plans toward carbon neutrality, such as "
-                "restoring natural ecosystems and increasing urban green resources, "
-                "need to be both effective in mitigating carbon emissions at the "
-                "global level and suitable for the socio-economic and physical "
-                "conditions at the local level. Prioritizing suitable sites and "
-                "solutions can enhance the long-term viability of NbS. In our research,"
-                "we have explored a systematic approach to spatially prioritizing "
-                "different types of NbS implementations in multiple major EU cities."
+                "Realistic NbS implementation plans toward carbon neutrality, such as"
+                " restoring natural ecosystems and increasing urban green resources,"
+                " need to be both effective in mitigating carbon emissions at the"
+                " global level and suitable for the socio-economic and physical"
+                " conditions at the local level. Prioritizing suitable sites and"
+                " solutions can enhance the long-term viability of NbS. In our"
+                " research,we have explored a systematic approach to spatially"
+                " prioritizing different types of NbS implementations in multiple major"
+                " EU cities."
             ),
             ui.p(
-                "The motivation for developing this tool is to offer the necessary "
-                "flexibility for NbS planning, by enabling users to interact and "
-                "iterate through our spatial allocation processes. Successful adoption "
-                "of NbS and realization of their functionality requires a holistic and "
-                "collaborative planning approach that incorporates stakeholders across "
-                "scales and disciplines. This platform aims to serve as a point of "
-                "departure to facilitate the identifying suitable "
-                "interventions and enhancing the awareness of NbS opportunities in "
-                "urban settings."
+                "The motivation for developing this tool is to offer the necessary"
+                " flexibility for NbS planning, by enabling users to interact and"
+                " iterate through our spatial allocation processes. Successful adoption"
+                " of NbS and realization of their functionality requires a holistic and"
+                " collaborative planning approach that incorporates stakeholders across"
+                " scales and disciplines. This platform aims to serve as a point of"
+                " departure to facilitate the identifying suitable interventions and"
+                " enhancing the awareness of NbS opportunities in urban settings."
             ),
             ui.tags.figure(
                 {"class": "figure"},
                 ui.img(
                     {"class": "figure-img img-fluid"},
-                    src="https://raw.githubusercontent"
-                    ".com/dtemkin1/dusp-nbs/main/assets/figures/overview.png",
+                    src=(
+                        "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
+                        "assets/figures/overview.png"
+                    ),
                 ),
                 ui.tags.figcaption(
                     {"class": "figure-caption"},
@@ -59,20 +61,22 @@ app_ui = experimental.ui.page_navbar(
         (
             ui.h1("NbS Spatial Allocation"),
             ui.p(
-                "We selected five types of NbS (green infrastructure (GI), street "
-                "trees & green pavements, urban green spaces & agriculture, habitat "
-                "preservation & remediation, and green buildings) as our study "
-                "objectives. From established definitions of NbS in the literature, we "
-                "identified the level of benefit of different types of NbS at "
-                "different urban settings and synthesized quantitative indicators to "
-                "describe the impact of NbS on sectoral carbon emissions."
+                "We selected five types of NbS (green infrastructure (GI), street trees"
+                " & green pavements, urban green spaces & agriculture, habitat"
+                " preservation & remediation, and green buildings) as our study"
+                " objectives. From established definitions of NbS in the literature, we"
+                " identified the level of benefit of different types of NbS at"
+                " different urban settings and synthesized quantitative indicators to"
+                " describe the impact of NbS on sectoral carbon emissions."
             ),
             ui.tags.figure(
                 {"class": "figure"},
                 ui.img(
                     {"class": "figure-img img-fluid"},
-                    src="https://raw.githubusercontent"
-                    ".com/dtemkin1/dusp-nbs/main/assets/figures/nbs_1.png",
+                    src=(
+                        "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
+                        "assets/figures/nbs_1.png"
+                    ),
                 ),
                 ui.tags.figcaption(
                     {"class": "figure-caption"},
@@ -80,22 +84,24 @@ app_ui = experimental.ui.page_navbar(
                 ),
             ),
             ui.p(
-                "The NbS implementations were spatially allocated based on three major "
-                "factors: the sectoral carbon emission, potential NbS benefits, and "
-                "the local context of each location. For example, street trees & green "
-                "pavements as an NbS to promote walking and cycling should ideally be "
-                "located along city roads in high-density urban areas, while preserved "
-                "habitats should be located at the urban fringe where new urban "
-                "developments are likely to occur. We have developed practical "
-                "principles and criteria that systematically guide the spatial "
-                "allocations of each type of NbS."
+                "The NbS implementations were spatially allocated based on three major"
+                " factors: the sectoral carbon emission, potential NbS benefits, and"
+                " the local context of each location. For example, street trees & green"
+                " pavements as an NbS to promote walking and cycling should ideally be"
+                " located along city roads in high-density urban areas, while preserved"
+                " habitats should be located at the urban fringe where new urban"
+                " developments are likely to occur. We have developed practical"
+                " principles and criteria that systematically guide the spatial"
+                " allocations of each type of NbS."
             ),
             ui.tags.figure(
                 {"class": "figure"},
                 ui.img(
                     {"class": "figure-img img-fluid"},
-                    src="https://raw.githubusercontent"
-                    ".com/dtemkin1/dusp-nbs/main/assets/figures/nbs_2.png",
+                    src=(
+                        "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
+                        "assets/figures/nbs_2.png"
+                    ),
                 ),
             ),
         ),
@@ -161,8 +167,10 @@ app_ui = experimental.ui.page_navbar(
                 "Typology: ",
                 ui.a(
                     "Click here!",
-                    href="https://ec.europa.eu/eurostat/web/gisco/geodata/"
-                    "reference-data/population-distribution-demography/geostat",
+                    href=(
+                        "https://ec.europa.eu/eurostat/web/gisco/geodata/reference-"
+                        "data/population-distribution-demography/geostat"
+                    ),
                     target="_blank",
                 ),
             ),
@@ -187,8 +195,10 @@ app_ui = experimental.ui.page_navbar(
                 ui.tags.tr(
                     ui.tags.td("Green infrastructure"),
                     ui.tags.td(
-                        "(High residential emissions OR High industrial emissions) AND "
-                        "Available land cover",
+                        (
+                            "(High residential emissions OR High industrial emissions)"
+                            " AND Available land cover"
+                        ),
                         ui.input_action_link("asterisk_one", "*"),
                         " AND (NOT existing preserved areas)",
                     ),
@@ -196,8 +206,10 @@ app_ui = experimental.ui.page_navbar(
                 ui.tags.tr(
                     ui.tags.td("Urban green areas"),
                     ui.tags.td(
-                        "(High population density OR High built-up areas) AND "
-                        "Available land cover",
+                        (
+                            "(High population density OR High built-up areas) AND"
+                            " Available land cover"
+                        ),
                         ui.input_action_link("asterisk_two", "**"),
                     ),
                 ),
@@ -241,8 +253,10 @@ app_ui = experimental.ui.page_navbar(
                     ui.tags.td(
                         ui.a(
                             "Click here!",
-                            href="https://land.copernicus.eu/local/urban-atlas/"
-                            "urban-atlas-2018",
+                            href=(
+                                "https://land.copernicus.eu/local/urban-atlas/urban-"
+                                "atlas-2018"
+                            ),
                             target="_blank",
                         )
                     ),
@@ -255,8 +269,11 @@ app_ui = experimental.ui.page_navbar(
                     ui.tags.td(
                         ui.a(
                             "Click here!",
-                            href="https://ec.europa.eu/eurostat/web/gisco/geodata/"
-                            "reference-data/population-distribution-demography/geostat",
+                            href=(
+                                "https://ec.europa.eu/eurostat/web/gisco/geodata/"
+                                "reference-data/population-distribution-demography/"
+                                "geostat"
+                            ),
                             target="_blank",
                         )
                     ),
@@ -269,8 +286,10 @@ app_ui = experimental.ui.page_navbar(
                     ui.tags.td(
                         ui.a(
                             "Click here!",
-                            href="https://land.copernicus.eu/local/urban-atlas/"
-                            "urban-atlas-2018",
+                            href=(
+                                "https://land.copernicus.eu/local/urban-atlas/urban-"
+                                "atlas-2018"
+                            ),
                             target="_blank",
                         )
                     ),
@@ -298,8 +317,10 @@ app_ui = experimental.ui.page_navbar(
                     ui.tags.td(
                         ui.a(
                             "Click here!",
-                            href="https://land.copernicus.eu/local/urban-atlas/"
-                            "urban-atlas-2018",
+                            href=(
+                                "https://land.copernicus.eu/local/urban-atlas/urban-"
+                                "atlas-2018"
+                            ),
                             target="_blank",
                         )
                     ),
@@ -312,8 +333,10 @@ app_ui = experimental.ui.page_navbar(
                     ui.tags.td(
                         ui.a(
                             "Click here!",
-                            href="https://data.jrc.ec.europa.eu/dataset/"
-                            "jrc-luisa-ui-boundaries-fua",
+                            href=(
+                                "https://data.jrc.ec.europa.eu/dataset/jrc-luisa-ui-"
+                                "boundaries-fua"
+                            ),
                             target="_blank",
                         )
                     ),
@@ -347,74 +370,101 @@ app_ui = experimental.ui.page_navbar(
 
 def server(input, output, session):
     gbi = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/gbi/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/gbi/{z}/{x}/{y}.png"
+        ),
         name="GBI",
     )
     gbi_greenbelt = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/gbi_greenbelt/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/gbi_greenbelt/{z}/{x}/{y}.png"
+        ),
         name="GBI x Greenbelt",
     )
     gbi_greenbuildings = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/gbi_greenbuildings/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/gbi_greenbuildings/{z}/{x}/{y}.png"
+        ),
         name="GBI x Green Buildings",
     )
     gbi_streettrees = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/gbi_streettrees/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/gbi_streettrees/{z}/{x}/{y}.png"
+        ),
         name="GBI x Street Trees",
     )
     gbi_urbangreenareas = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/gbi_urbangreenareas/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/gbi_urbangreenareas/{z}/{x}/{y}.png"
+        ),
         name="GBI x Urban Green Areas",
     )
     greenbelt = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/greenbelt/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/greenbelt/{z}/{x}/{y}.png"
+        ),
         name="Greenbelt",
     )
     greenbuildings = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/greenbuildings/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/greenbuildings/{z}/{x}/{y}.png"
+        ),
         name="Green Buildings",
     )
     greenbuildings_greenbelt = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/greenbuildings_greenbelt/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/greenbuildings_greenbelt/{z}/{x}/{y}.png"
+        ),
         name="Green Buildings x Greenbelt",
     )
     greenbuildings_streettrees = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/greenbuildings_streettrees/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/greenbuildings_streettrees/{z}/{x}/{y}.png"
+        ),
         name="Green Buildings x Street Trees",
     )
     greenbuildings_urbangreenareas = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/greenbuildings_urbangreenareas/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/greenbuildings_urbangreenareas/{z}/{x}/{y}.png"
+        ),
         name="Green Buildings x Urban Green Areas",
     )
     greenbuildings_urbangreenareas_streettrees = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/greenbuildings_urbangreenareas_streettrees/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/greenbuildings_urbangreenareas_streettrees/{z}/{x}/{y}.png"
+        ),
         name="Green Buildings x Urban Green Areas x Street Trees",
     )
     streettrees = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/streettrees/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/streettrees/{z}/{x}/{y}.png"
+        ),
         name="Street Trees",
     )
     urbangreenareas = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/urbangreenareas/{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/urbangreenareas/{z}/{x}/{y}.png"
+        ),
         name="Urban Green Areas ",
     )
     urbangreenareas_streettrees = ipyl.TileLayer(
-        url="https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-        "implementation/greenbuildings_urbangreenareas_streettrees/"
-        "{z}/{x}/{y}.png",
+        url=(
+            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+            "implementation/greenbuildings_urbangreenareas_streettrees/{z}/{x}/{y}.png"
+        ),
         name="Urban Green Areas x Street Trees",
     )
 
@@ -496,8 +546,10 @@ def server(input, output, session):
             map_implementation.substitute(
                 layers[1],
                 await get_boundary_geojson(
-                    "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
-                    "assets/county.json",
+                    (
+                        "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
+                        "assets/county.json"
+                    ),
                     "Stockholm County Boundary",
                 ),
             )
@@ -508,17 +560,19 @@ def server(input, output, session):
     @reactive.event(input.asterisk_one)
     def _():
         m = ui.modal(
-            "Fairly broad category that includes parks, forests, wetlands, bioswales, "
-            "permeable pavements, green corridors, and other natural or nature-based "
-            "elements",
+            (
+                "Fairly broad category that includes parks, forests, wetlands,"
+                " bioswales, permeable pavements, green corridors, and other natural or"
+                " nature-based elements"
+            ),
             ui.tags.ul(
                 ui.tags.li("13400 Land without current use"),
                 ui.tags.li("14100 Green urban areas"),
                 ui.tags.li("23000 Pastures"),
                 ui.tags.li("31000 Forests"),
                 ui.tags.li(
-                    "32000 Herbaceous vegetation associations (natural grassland, "
-                    "moors...)"
+                    "32000 Herbaceous vegetation associations (natural grassland,"
+                    " moors...)"
                 ),
                 ui.tags.li("40000 Wetland"),
             ),
