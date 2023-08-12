@@ -160,7 +160,11 @@ app_ui = experimental.ui.page_navbar(
                     value=50,
                     post="%",
                 ),
-                ui.download_button("download_interactive", "Download Rendered Map"),
+                ui.download_button(
+                    "download_interactive",
+                    "Download Rendered Map",
+                    class_="btn-primary",
+                ),
                 title="Interactive NbS Planning",
             ),
             (
