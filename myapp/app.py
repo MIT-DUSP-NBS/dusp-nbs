@@ -516,6 +516,7 @@ def server(input, output, session):
     )
 
     register_widget("map_interactive", map_interactive)
+    register_widget("map_implementation", map_implementation)
 
     async def get_boundary_geojson(url: str, name: str) -> ipyl.GeoJSON:
         response = await download.get_url(url, "json")
