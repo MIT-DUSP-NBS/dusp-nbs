@@ -172,10 +172,10 @@ app_ui = experimental.ui.page_navbar(
                 title="Interactive NbS Planning",
             ),
             (
-                "GDAL was not found on this platform. Please try again."
+                "GDAL was not imported. Please try again."
                 if "osgeo" not in sys.modules
                 else (
-                    "Rasterio was not found on this platform. Please try again."
+                    "Rasterio was not imported. Please try again."
                     if "rasterio" not in sys.modules
                     else experimental.ui.as_fill_item(output_widget("map_interactive"))
                 )
@@ -635,6 +635,9 @@ def server(input: Inputs, output: Outputs, session: Session):
             scroll_wheel_zoom=True,
             layout=Layout(height="96%"),
         )
+
+        empty_interactive = ipyl.Layer()
+        map_interactive.add(empty_interactive)
 
         @reactive.Effect()
         @reactive.event(input.transport_emissions, input.population_density)
