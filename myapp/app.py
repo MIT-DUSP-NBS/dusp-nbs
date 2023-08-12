@@ -1,3 +1,6 @@
+import importlib.util
+import sys
+
 import download
 import ipyleaflet as ipyl
 from faicons import icon_svg
@@ -155,7 +158,11 @@ app_ui = experimental.ui.page_navbar(
                 ui.download_button("download_interactive", "Download Rendered Map"),
                 title="Interactive NbS Planning",
             ),
-            "This is a work in progress. Check back later!",
+            (
+                experimental.ui.as_fill_item(output_widget("map_interactive"))
+                if (spec := importlib.util.find_spec("osgeo"))
+                else "This is currently not supported on your platform."
+            ),
         ),
         value="interactive",
     ),
@@ -492,8 +499,6 @@ def server(input, output, session):
             style={"color": "white", "fillOpacity": "0.00"},
         )
 
-    register_widget("map_implementation", map_implementation)
-
     @reactive.Effect()
     @reactive.event(input.implementation)
     def implementation():
@@ -601,6 +606,17 @@ def server(input, output, session):
             footer=None,
         )
         ui.modal_show(m)
+
+    map_interactive = ipyl.Map(
+        basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
+        zoom=9,
+        center=(59.3293, 18.0686),
+        max_zoom=13,
+        scroll_wheel_zoom=True,
+        layout=Layout(height="96%"),
+    )
+
+    register_widget("map_interactive", map_interactive)
 
 
 app = App(app_ui, server)
