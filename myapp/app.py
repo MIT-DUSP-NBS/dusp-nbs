@@ -611,10 +611,9 @@ def server(input, output, session):
         )
         ui.modal_show(m)
 
-    necessary_package = "rasterio"
-    if (
-        spec := importlib.util.find_spec(necessary_package)
-    ) is not None and spec.loader is not None:
+    necessary_packages = ["osgeo", "rasterio"]
+    specs = list(importlib.util.find_spec(package) for package in necessary_packages)
+    if None not in specs:
         map_interactive = ipyl.Map(
             basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
             zoom=9,
@@ -623,12 +622,12 @@ def server(input, output, session):
             scroll_wheel_zoom=True,
             layout=Layout(height="96%"),
         )
+        for spec in specs:
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[repr(module)] = module
+            spec.loader.exec_module(module)
 
-        rasterio = importlib.util.module_from_spec(spec)
-        sys.modules[necessary_package] = rasterio
-        spec.loader.exec_module(rasterio)
-
-        print(f"{necessary_package!r} has been imported")
+            print(f"{module.__name__} has been imported")
 
         register_widget("map_interactive", map_interactive)
 
