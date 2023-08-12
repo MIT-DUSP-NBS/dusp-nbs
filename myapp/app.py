@@ -612,7 +612,9 @@ def server(input, output, session):
         ui.modal_show(m)
 
     necessary_package = "rasterio"
-    if (spec := importlib.util.find_spec(necessary_package)) is not None:
+    if (
+        spec := importlib.util.find_spec(necessary_package)
+    ) is not None and spec.loader is not None:
         map_interactive = ipyl.Map(
             basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
             zoom=9,
