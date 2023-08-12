@@ -1,4 +1,5 @@
 import importlib.util
+import io
 import sys
 
 import download
@@ -642,8 +643,8 @@ def server(input: Inputs, output: Outputs, session: Session):
 
         @session.download(filename="map.tif")
         async def download_interactive():
-            yield "map goes here"
-            raise NotImplementedError()
+            with io.BytesIO() as buf:
+                yield buf.getvalue()
 
         register_widget("map_interactive", map_interactive)
 
