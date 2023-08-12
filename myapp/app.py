@@ -8,6 +8,18 @@ from ipywidgets import Layout
 from shiny import App, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
 
+necessary_packages = ["osgeo", "rasterio"]
+specs = (importlib.util.find_spec(package) for package in necessary_packages)
+for spec in specs:
+    if spec is not None and spec.loader is not None:
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[repr(module)] = module
+        spec.loader.exec_module(module)
+        print(f"{module.__name__} has been imported")
+    else:
+        print("There was an error importing packages. Please try again.")
+        continue
+
 app_ui = experimental.ui.page_navbar(
     ui.nav(
         "Overview",
@@ -160,10 +172,10 @@ app_ui = experimental.ui.page_navbar(
             ),
             (
                 "GDAL was not found on this platform. Please try again."
-                if importlib.util.find_spec("osgeo") is None
+                if "osgeo" not in sys.modules
                 else (
                     "Rasterio was not found on this platform. Please try again."
-                    if importlib.util.find_spec("rasterio") is None
+                    if "rasterio" not in sys.modules
                     else experimental.ui.as_fill_item(output_widget("map_interactive"))
                 )
             ),
@@ -494,6 +506,17 @@ def server(input, output, session):
     map_implementation.add(empty_boundary)
     map_implementation.add(empty_overlay)
 
+    map_interactive = ipyl.Map(
+        basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
+        zoom=9,
+        center=(59.3293, 18.0686),
+        max_zoom=13,
+        scroll_wheel_zoom=True,
+        layout=Layout(height="96%"),
+    )
+
+    register_widget("map_interactive", map_interactive)
+
     async def get_boundary_geojson(url: str, name: str) -> ipyl.GeoJSON:
         response = await download.get_url(url, "json")
         data = response.data
@@ -610,29 +633,6 @@ def server(input, output, session):
             footer=None,
         )
         ui.modal_show(m)
-
-    map_interactive = ipyl.Map(
-        basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
-        zoom=9,
-        center=(59.3293, 18.0686),
-        max_zoom=13,
-        scroll_wheel_zoom=True,
-        layout=Layout(height="96%"),
-    )
-
-    necessary_packages = ["osgeo", "rasterio"]
-    specs = [importlib.util.find_spec(package) for package in necessary_packages]
-    for spec in specs:
-        if spec is not None and spec.loader is not None:
-            module = importlib.util.module_from_spec(spec)
-            sys.modules[repr(module)] = module
-            spec.loader.exec_module(module)
-            print(f"{module.__name__} has been imported")
-        else:
-            print("There was an error importing packages. Please try again.")
-            break
-
-    register_widget("map_interactive", map_interactive)
 
 
 app = App(app_ui, server)
