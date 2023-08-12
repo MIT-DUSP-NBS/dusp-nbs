@@ -1,7 +1,5 @@
-import importlib.util
 import io
 import json
-import sys
 from pathlib import Path
 
 import ipyleaflet as ipyl
@@ -10,17 +8,17 @@ from ipywidgets import Layout
 from shiny import App, Inputs, Outputs, Session, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
 
-necessary_packages = ["osgeo", "rasterio"]
-specs = ((importlib.util.find_spec(package), package) for package in necessary_packages)
-for spec, package_name in specs:
-    if spec is not None and spec.loader is not None:
-        module = importlib.util.module_from_spec(spec)
-        sys.modules[package_name] = module
-        spec.loader.exec_module(module)
-        print(f"{package_name} has been imported")
-    else:
-        print(f"There was an error importing {package_name}. Please try again.")
-        continue
+try:
+    import osgeo
+except ImportError:
+    osgeo = None
+    print("osgeo was not imported. Please try again.")
+
+try:
+    import rasterio
+except ImportError:
+    rasterio = None
+    print("rasterio was not imported. Please try again.")
 
 assets_dir = Path(__file__).parent / "assets"
 
@@ -167,10 +165,10 @@ app_ui = experimental.ui.page_navbar(
             ),
             (
                 "GDAL was not imported. Please try again."
-                if "osgeo" not in sys.modules
+                if osgeo is None
                 else (
                     "Rasterio was not imported. Please try again."
-                    if "rasterio" not in sys.modules
+                    if rasterio is None
                     else experimental.ui.as_fill_item(output_widget("map_interactive"))
                 )
             ),
@@ -576,7 +574,7 @@ def server(input: Inputs, output: Outputs, session: Session):
 
     register_widget("map_implementation", map_implementation)
 
-    if "osgeo" in sys.modules and "rasterio" in sys.modules:
+    if osgeo is not None and rasterio is not None:
         map_interactive = ipyl.Map(
             basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
             zoom=9,
@@ -589,10 +587,22 @@ def server(input: Inputs, output: Outputs, session: Session):
         empty_interactive = ipyl.Layer()
         map_interactive.add(empty_interactive)
 
+        transport_tif = rasterio.open(
+            assets_dir / "interactive" / "transport_emission.tif"
+        )
+        population_tif = rasterio.open(
+            assets_dir / "interactive" / "pop_tot_stock_corine.tif"
+        )
+
+        print(transport_tif.name, population_tif.name)
+
         @reactive.Effect()
         @reactive.event(input.transport_emissions, input.population_density)
         def sliders():
-            print(input.transport_emissions(), input.population_density())
+            transport_slider = input.transport_emissions()
+            population_slider = input.population_density()
+
+            print(transport_slider, population_slider)
 
         @session.download(filename="map.tif")
         async def download_interactive():
