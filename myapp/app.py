@@ -5,19 +5,19 @@ import download
 import ipyleaflet as ipyl
 from faicons import icon_svg
 from ipywidgets import Layout
-from shiny import App, experimental, reactive, ui
+from shiny import App, Inputs, Outputs, Session, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
 
 necessary_packages = ["osgeo", "rasterio"]
 specs = ((importlib.util.find_spec(package), package) for package in necessary_packages)
-for spec, package in specs:
+for spec, package_name in specs:
     if spec is not None and spec.loader is not None:
         module = importlib.util.module_from_spec(spec)
-        sys.modules[repr(module)] = module
+        sys.modules[package_name] = module
         spec.loader.exec_module(module)
-        print(f"{package} has been imported")
+        print(f"{package_name} has been imported")
     else:
-        print(f"There was an error importing {package}. Please try again.")
+        print(f"There was an error importing {package_name}. Please try again.")
         continue
 
 app_ui = experimental.ui.page_navbar(
@@ -506,20 +506,6 @@ def server(input, output, session):
     map_implementation.add(empty_boundary)
     map_implementation.add(empty_overlay)
 
-    register_widget("map_implementation", map_implementation)
-
-    if "osgeo" in sys.modules and "rasterio" in sys.modules:
-        map_interactive = ipyl.Map(
-            basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
-            zoom=9,
-            center=(59.3293, 18.0686),
-            max_zoom=13,
-            scroll_wheel_zoom=True,
-            layout=Layout(height="96%"),
-        )
-
-        register_widget("map_interactive", map_interactive)
-
     async def get_boundary_geojson(url: str, name: str) -> ipyl.GeoJSON:
         response = await download.get_url(url, "json")
         data = response.data
@@ -636,6 +622,29 @@ def server(input, output, session):
             footer=None,
         )
         ui.modal_show(m)
+
+    register_widget("map_implementation", map_implementation)
+
+    if "osgeo" in sys.modules and "rasterio" in sys.modules:
+        map_interactive = ipyl.Map(
+            basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
+            zoom=9,
+            center=(59.3293, 18.0686),
+            max_zoom=13,
+            scroll_wheel_zoom=True,
+            layout=Layout(height="96%"),
+        )
+
+        @reactive.Effect()
+        @reactive.event(input.transport_emissions, input.population_density)
+        def sliders():
+            print(input.transport_emissions(), input.population_density())
+
+        @session.download(filename="map.tif")
+        async def download_interactive():
+            raise Exception("This is still a work in progress!")
+
+        register_widget("map_interactive", map_interactive)
 
 
 app = App(app_ui, server)
