@@ -391,7 +391,7 @@ app_ui = experimental.ui.page_navbar(
 )
 
 
-def server(input, output, session):
+def server(input: Inputs, output: Outputs, session: Session):
     gbi = ipyl.TileLayer(
         url=(
             "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
@@ -642,7 +642,8 @@ def server(input, output, session):
 
         @session.download(filename="map.tif")
         async def download_interactive():
-            raise Exception("This is still a work in progress!")
+            yield "map goes here"
+            raise NotImplementedError()
 
         register_widget("map_interactive", map_interactive)
 
