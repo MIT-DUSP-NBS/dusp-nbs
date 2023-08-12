@@ -1,8 +1,9 @@
 import importlib.util
 import io
+import json
 import sys
+from pathlib import Path
 
-import download
 import ipyleaflet as ipyl
 from faicons import icon_svg
 from ipywidgets import Layout
@@ -20,6 +21,8 @@ for spec, package_name in specs:
     else:
         print(f"There was an error importing {package_name}. Please try again.")
         continue
+
+assets_dir = Path(__file__).parent / "assets"
 
 app_ui = experimental.ui.page_navbar(
     ui.nav(
@@ -59,10 +62,7 @@ app_ui = experimental.ui.page_navbar(
                 {"class": "figure"},
                 ui.img(
                     {"class": "figure-img img-fluid"},
-                    src=(
-                        "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
-                        "assets/figures/overview.png"
-                    ),
+                    src="figures/overview.png",
                 ),
                 ui.tags.figcaption(
                     {"class": "figure-caption"},
@@ -89,10 +89,7 @@ app_ui = experimental.ui.page_navbar(
                 {"class": "figure"},
                 ui.img(
                     {"class": "figure-img img-fluid"},
-                    src=(
-                        "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
-                        "assets/figures/nbs_1.png"
-                    ),
+                    src="figures/nbs_1.png",
                 ),
                 ui.tags.figcaption(
                     {"class": "figure-caption"},
@@ -114,10 +111,7 @@ app_ui = experimental.ui.page_navbar(
                 {"class": "figure"},
                 ui.img(
                     {"class": "figure-img img-fluid"},
-                    src=(
-                        "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
-                        "assets/figures/nbs_2.png"
-                    ),
+                    src="figures/nbs_2.png",
                 ),
             ),
         ),
@@ -393,103 +387,74 @@ app_ui = experimental.ui.page_navbar(
 
 
 def server(input: Inputs, output: Outputs, session: Session):
-    gbi = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-            "implementation/gbi/{z}/{x}/{y}.png"
-        ),
+    gbi = ipyl.LocalTileLayer(
+        path="implementation/gbi/{z}/{x}/{y}.png",
         name="GBI",
     )
-    gbi_greenbelt = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-            "implementation/gbi_greenbelt/{z}/{x}/{y}.png"
-        ),
+    gbi_greenbelt = ipyl.LocalTileLayer(
+        path="implementation/gbi_greenbelt/{z}/{x}/{y}.png",
         name="GBI x Greenbelt",
     )
-    gbi_greenbuildings = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-            "implementation/gbi_greenbuildings/{z}/{x}/{y}.png"
-        ),
+    gbi_greenbuildings = ipyl.LocalTileLayer(
+        path="implementation/gbi_greenbuildings/{z}/{x}/{y}.png",
         name="GBI x Green Buildings",
     )
-    gbi_streettrees = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-            "implementation/gbi_streettrees/{z}/{x}/{y}.png"
-        ),
+    gbi_streettrees = ipyl.LocalTileLayer(
+        path="implementation/gbi_streettrees/{z}/{x}/{y}.png",
         name="GBI x Street Trees",
     )
-    gbi_urbangreenareas = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-            "implementation/gbi_urbangreenareas/{z}/{x}/{y}.png"
-        ),
+    gbi_urbangreenareas = ipyl.LocalTileLayer(
+        path="implementation/gbi_urbangreenareas/{z}/{x}/{y}.png",
         name="GBI x Urban Green Areas",
     )
-    greenbelt = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-            "implementation/greenbelt/{z}/{x}/{y}.png"
-        ),
+    greenbelt = ipyl.LocalTileLayer(
+        path="implementation/greenbelt/{z}/{x}/{y}.png",
         name="Greenbelt",
     )
-    greenbuildings = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-            "implementation/greenbuildings/{z}/{x}/{y}.png"
-        ),
+    greenbuildings = ipyl.LocalTileLayer(
+        path="implementation/greenbuildings/{z}/{x}/{y}.png",
         name="Green Buildings",
     )
-    greenbuildings_greenbelt = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-            "implementation/greenbuildings_greenbelt/{z}/{x}/{y}.png"
-        ),
+    greenbuildings_greenbelt = ipyl.LocalTileLayer(
+        path="implementation/greenbuildings_greenbelt/{z}/{x}/{y}.png",
         name="Green Buildings x Greenbelt",
     )
-    greenbuildings_streettrees = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-            "implementation/greenbuildings_streettrees/{z}/{x}/{y}.png"
-        ),
+    greenbuildings_streettrees = ipyl.LocalTileLayer(
+        path="implementation/greenbuildings_streettrees/{z}/{x}/{y}.png",
         name="Green Buildings x Street Trees",
     )
-    greenbuildings_urbangreenareas = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-            "implementation/greenbuildings_urbangreenareas/{z}/{x}/{y}.png"
-        ),
+    greenbuildings_urbangreenareas = ipyl.LocalTileLayer(
+        path="implementation/greenbuildings_urbangreenareas/{z}/{x}/{y}.png",
         name="Green Buildings x Urban Green Areas",
     )
-    greenbuildings_urbangreenareas_streettrees = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+    greenbuildings_urbangreenareas_streettrees = ipyl.LocalTileLayer(
+        path=(
             "implementation/greenbuildings_urbangreenareas_streettrees/{z}/{x}/{y}.png"
         ),
         name="Green Buildings x Urban Green Areas x Street Trees",
     )
-    streettrees = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-            "implementation/streettrees/{z}/{x}/{y}.png"
-        ),
+    streettrees = ipyl.LocalTileLayer(
+        path="implementation/streettrees/{z}/{x}/{y}.png",
         name="Street Trees",
     )
-    urbangreenareas = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
-            "implementation/urbangreenareas/{z}/{x}/{y}.png"
-        ),
+    urbangreenareas = ipyl.LocalTileLayer(
+        path="implementation/urbangreenareas/{z}/{x}/{y}.png",
         name="Urban Green Areas ",
     )
-    urbangreenareas_streettrees = ipyl.TileLayer(
-        url=(
-            "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/assets/"
+    urbangreenareas_streettrees = ipyl.LocalTileLayer(
+        path=(
             "implementation/greenbuildings_urbangreenareas_streettrees/{z}/{x}/{y}.png"
         ),
         name="Urban Green Areas x Street Trees",
+    )
+
+    with open(assets_dir / "county.json", "r") as f:
+        boundary_data = json.load(f)
+
+    boundary_geojson = ipyl.GeoJSON(
+        data=boundary_data,
+        name="Stockholm County Boundary",
+        style={"color": "white", "fillOpacity": "0.00"},
     )
 
     map_implementation = ipyl.Map(
@@ -506,15 +471,6 @@ def server(input: Inputs, output: Outputs, session: Session):
 
     map_implementation.add(empty_boundary)
     map_implementation.add(empty_overlay)
-
-    async def get_boundary_geojson(url: str, name: str) -> ipyl.GeoJSON:
-        response = await download.get_url(url, "json")
-        data = response.data
-        return ipyl.GeoJSON(
-            data=data,
-            name=name,
-            style={"color": "white", "fillOpacity": "0.00"},
-        )
 
     @reactive.Effect()
     @reactive.event(input.implementation)
@@ -567,13 +523,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         if input_boundary:
             map_implementation.substitute(
                 layers[1],
-                await get_boundary_geojson(
-                    (
-                        "https://raw.githubusercontent.com/dtemkin1/dusp-nbs/main/"
-                        "assets/county.json"
-                    ),
-                    "Stockholm County Boundary",
-                ),
+                boundary_geojson,
             )
         else:
             map_implementation.substitute(layers[1], empty_boundary)
@@ -652,4 +602,4 @@ def server(input: Inputs, output: Outputs, session: Session):
         register_widget("map_interactive", map_interactive)
 
 
-app = App(app_ui, server)
+app = App(app_ui, server, static_assets=assets_dir)
