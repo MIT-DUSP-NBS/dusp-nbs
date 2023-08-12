@@ -9,15 +9,15 @@ from shiny import App, experimental, reactive, ui
 from shinywidgets import output_widget, register_widget
 
 necessary_packages = ["osgeo", "rasterio"]
-specs = (importlib.util.find_spec(package) for package in necessary_packages)
-for spec in specs:
+specs = ((importlib.util.find_spec(package), package) for package in necessary_packages)
+for spec, package in specs:
     if spec is not None and spec.loader is not None:
         module = importlib.util.module_from_spec(spec)
         sys.modules[repr(module)] = module
         spec.loader.exec_module(module)
-        print(f"{module.__name__} has been imported")
+        print(f"{package} has been imported")
     else:
-        print("There was an error importing packages. Please try again.")
+        print(f"There was an error importing {package}. Please try again.")
         continue
 
 app_ui = experimental.ui.page_navbar(
@@ -506,17 +506,19 @@ def server(input, output, session):
     map_implementation.add(empty_boundary)
     map_implementation.add(empty_overlay)
 
-    map_interactive = ipyl.Map(
-        basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
-        zoom=9,
-        center=(59.3293, 18.0686),
-        max_zoom=13,
-        scroll_wheel_zoom=True,
-        layout=Layout(height="96%"),
-    )
-
-    register_widget("map_interactive", map_interactive)
     register_widget("map_implementation", map_implementation)
+
+    if "osgeo" in sys.modules and "rasterio" in sys.modules:
+        map_interactive = ipyl.Map(
+            basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
+            zoom=9,
+            center=(59.3293, 18.0686),
+            max_zoom=13,
+            scroll_wheel_zoom=True,
+            layout=Layout(height="96%"),
+        )
+
+        register_widget("map_interactive", map_interactive)
 
     async def get_boundary_geojson(url: str, name: str) -> ipyl.GeoJSON:
         response = await download.get_url(url, "json")
