@@ -159,9 +159,13 @@ app_ui = experimental.ui.page_navbar(
                 title="Interactive NbS Planning",
             ),
             (
-                experimental.ui.as_fill_item(output_widget("map_interactive"))
-                if (spec := importlib.util.find_spec("osgeo"))
-                else "This is currently not supported on your platform."
+                "GDAL was not found on this platform. Please try again."
+                if importlib.util.find_spec("osgeo.gdal") is None
+                else (
+                    "Rasterio was not found on this platform. Please try again."
+                    if importlib.util.find_spec("rasterio") is None
+                    else experimental.ui.as_fill_item(output_widget("map_interactive"))
+                )
             ),
         ),
         value="interactive",
@@ -607,16 +611,24 @@ def server(input, output, session):
         )
         ui.modal_show(m)
 
-    map_interactive = ipyl.Map(
-        basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
-        zoom=9,
-        center=(59.3293, 18.0686),
-        max_zoom=13,
-        scroll_wheel_zoom=True,
-        layout=Layout(height="96%"),
-    )
+    necessary_package = "rasterio"
+    if (spec := importlib.util.find_spec(necessary_package)) is not None:
+        map_interactive = ipyl.Map(
+            basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
+            zoom=9,
+            center=(59.3293, 18.0686),
+            max_zoom=13,
+            scroll_wheel_zoom=True,
+            layout=Layout(height="96%"),
+        )
 
-    register_widget("map_interactive", map_interactive)
+        rasterio = importlib.util.module_from_spec(spec)
+        sys.modules[necessary_package] = rasterio
+        spec.loader.exec_module(rasterio)
+
+        print(f"{necessary_package!r} has been imported")
+
+        register_widget("map_interactive", map_interactive)
 
 
 app = App(app_ui, server)
