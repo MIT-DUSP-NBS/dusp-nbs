@@ -611,25 +611,28 @@ def server(input, output, session):
         )
         ui.modal_show(m)
 
+    map_interactive = ipyl.Map(
+        basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
+        zoom=9,
+        center=(59.3293, 18.0686),
+        max_zoom=13,
+        scroll_wheel_zoom=True,
+        layout=Layout(height="96%"),
+    )
+
     necessary_packages = ["osgeo", "rasterio"]
     specs = [importlib.util.find_spec(package) for package in necessary_packages]
-    if None not in specs:
-        map_interactive = ipyl.Map(
-            basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
-            zoom=9,
-            center=(59.3293, 18.0686),
-            max_zoom=13,
-            scroll_wheel_zoom=True,
-            layout=Layout(height="96%"),
-        )
-        for spec in specs:
-            if spec is not None and spec.loader is not None:
-                module = importlib.util.module_from_spec(spec)
-                sys.modules[repr(module)] = module
-                spec.loader.exec_module(module)
-                print(f"{module.__name__} has been imported")
+    for spec in specs:
+        if spec is not None and spec.loader is not None:
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[repr(module)] = module
+            spec.loader.exec_module(module)
+            print(f"{module.__name__} has been imported")
+        else:
+            print("There was an error importing packages. Please try again.")
+            break
 
-        register_widget("map_interactive", map_interactive)
+    register_widget("map_interactive", map_interactive)
 
 
 app = App(app_ui, server)
