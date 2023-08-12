@@ -160,7 +160,7 @@ app_ui = experimental.ui.page_navbar(
             ),
             (
                 "GDAL was not found on this platform. Please try again."
-                if importlib.util.find_spec("osgeo.gdal") is None
+                if importlib.util.find_spec("osgeo") is None
                 else (
                     "Rasterio was not found on this platform. Please try again."
                     if importlib.util.find_spec("rasterio") is None
@@ -612,7 +612,7 @@ def server(input, output, session):
         ui.modal_show(m)
 
     necessary_packages = ["osgeo", "rasterio"]
-    specs = list(importlib.util.find_spec(package) for package in necessary_packages)
+    specs = [importlib.util.find_spec(package) for package in necessary_packages]
     if None not in specs:
         map_interactive = ipyl.Map(
             basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
@@ -623,11 +623,11 @@ def server(input, output, session):
             layout=Layout(height="96%"),
         )
         for spec in specs:
-            module = importlib.util.module_from_spec(spec)
-            sys.modules[repr(module)] = module
-            spec.loader.exec_module(module)
-
-            print(f"{module.__name__} has been imported")
+            if spec is not None and spec.loader is not None:
+                module = importlib.util.module_from_spec(spec)
+                sys.modules[repr(module)] = module
+                spec.loader.exec_module(module)
+                print(f"{module.__name__} has been imported")
 
         register_widget("map_interactive", map_interactive)
 
