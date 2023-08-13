@@ -14,7 +14,8 @@ try:
     import rasterio
     import rasterio.enums
 except ImportError:
-    raise ImportError("rasterio was not imported. Please try again.")
+    rasterio = None
+    print("rasterio was not imported. Please try again.")
 
 assets_dir = Path(__file__).parent / "assets"
 
