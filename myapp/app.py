@@ -11,12 +11,6 @@ from shiny import App, Inputs, Outputs, Session, experimental, reactive, render,
 from shinywidgets import output_widget, register_widget
 
 try:
-    import osgeo
-except ImportError:
-    osgeo = None
-    print("osgeo was not imported. Please try again.")
-
-try:
     import rasterio
     import rasterio.enums
     import rasterio.features
@@ -168,7 +162,7 @@ app_ui = experimental.ui.page_navbar(
                 ui.download_button(
                     "download_interactive",
                     "Download Rendered Map",
-                    class_="btn-primary",
+                    class_=f"btn-primary{' disabled' if rasterio is None else ''}",
                 ),
                 title="Interactive NbS Planning",
             ),
