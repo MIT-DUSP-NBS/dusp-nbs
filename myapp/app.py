@@ -10,11 +10,11 @@ from matplotlib import pyplot as plt
 from shiny import App, Inputs, Outputs, Session, experimental, reactive, render, ui
 from shinywidgets import output_widget, register_widget
 
-try:
-    import osgeo
-except ImportError:
-    osgeo = None
-    print("osgeo was not imported. Please try again.")
+# try:
+#     import osgeo
+# except ImportError:
+#     osgeo = None
+#     print("osgeo was not imported. Please try again.")
 
 try:
     import rasterio
@@ -154,7 +154,7 @@ app_ui = experimental.ui.page_navbar(
                     "High Transportation Emissions",
                     min=0,
                     max=100,
-                    value=90,
+                    value=50,
                     post="%",
                 ),
                 ui.input_slider(
@@ -162,7 +162,7 @@ app_ui = experimental.ui.page_navbar(
                     "High Population Density",
                     min=0,
                     max=100,
-                    value=90,
+                    value=50,
                     post="%",
                 ),
                 ui.download_button(
@@ -173,13 +173,9 @@ app_ui = experimental.ui.page_navbar(
                 title="Interactive NbS Planning",
             ),
             (
-                "GDAL was not imported. Please try again."
-                if osgeo is None
-                else (
-                    "Rasterio was not imported. Please try again."
-                    if rasterio is None
-                    else experimental.ui.as_fill_item(ui.output_plot("interactive"))
-                )
+                "Rasterio was not imported. Please try again."
+                if rasterio is None
+                else experimental.ui.as_fill_item(ui.output_plot("interactive"))
             ),
         ),
         value="interactive",
@@ -583,7 +579,7 @@ def server(input: Inputs, output: Outputs, session: Session):
 
     register_widget("map_implementation", map_implementation)
 
-    if osgeo is not None and rasterio is not None:
+    if rasterio is not None:
         transport_tif = rasterio.open(assets_dir / "interactive" / "transportation.tif")
         population_tif = rasterio.open(assets_dir / "interactive" / "population.tif")
         landcover_tif = rasterio.open(assets_dir / "interactive" / "landcover.tif")
