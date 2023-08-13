@@ -580,8 +580,6 @@ def server(input: Inputs, output: Outputs, session: Session):
             tif_height = int(benchmark_dataset.height)
             tif_width = int(benchmark_dataset.width)
             tif_count = benchmark_dataset.count
-            tif_crs = benchmark_dataset.crs
-            tif_transform = benchmark_dataset.transform
 
         with rasterio.open(transport_tif) as transport_dataset:
             transport_array = transport_dataset.read(
@@ -621,7 +619,7 @@ def server(input: Inputs, output: Outputs, session: Session):
                 added = transport_array + population_array
                 added[added < 2] = 0
                 added[added == 2] = 1
-                return added
+                return (added, benchmark_dataset.crs, benchmark_dataset.transform)
             else:
                 raise ImportError("rasterio was not imported. Please try again.")
 
@@ -629,7 +627,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         @render.plot
         def interactive():
             if rasterio is not None:
-                new_map = calculate_new_interactive(
+                new_map, _, _ = calculate_new_interactive(
                     input.transport_emissions() / 100,
                     input.population_density() / 100,
                 )
@@ -638,7 +636,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         @session.download(filename="map.tif")
         async def download_interactive():
             if rasterio is not None:
-                new_map = calculate_new_interactive(
+                new_map, new_map_crs, new_map_transform = calculate_new_interactive(
                     input.transport_emissions() / 100,
                     input.population_density() / 100,
                 )
@@ -651,8 +649,8 @@ def server(input: Inputs, output: Outputs, session: Session):
                         width=new_map.shape[1],
                         count=1,
                         dtype=new_map.dtype,
-                        crs=tif_crs,
-                        transform=tif_transform,
+                        crs=new_map_crs,
+                        transform=new_map_transform,
                         nodata=0,
                     )
                     opened_map.write(new_map, 1)
