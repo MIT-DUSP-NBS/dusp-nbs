@@ -3,9 +3,11 @@ import json
 from pathlib import Path
 
 import ipyleaflet as ipyl
+import numpy as np
 from faicons import icon_svg
 from ipywidgets import Layout
-from shiny import App, Inputs, Outputs, Session, experimental, reactive, ui
+from matplotlib import pyplot as plt
+from shiny import App, Inputs, Outputs, Session, experimental, reactive, render, ui
 from shinywidgets import output_widget, register_widget
 
 try:
@@ -16,6 +18,9 @@ except ImportError:
 
 try:
     import rasterio
+    import rasterio.enums
+    import rasterio.features
+    import rasterio.io
 except ImportError:
     rasterio = None
     print("rasterio was not imported. Please try again.")
@@ -149,7 +154,7 @@ app_ui = experimental.ui.page_navbar(
                     "High Transportation Emissions",
                     min=0,
                     max=100,
-                    value=50,
+                    value=90,
                     post="%",
                 ),
                 ui.input_slider(
@@ -157,7 +162,7 @@ app_ui = experimental.ui.page_navbar(
                     "High Population Density",
                     min=0,
                     max=100,
-                    value=50,
+                    value=90,
                     post="%",
                 ),
                 ui.download_button(
@@ -173,7 +178,7 @@ app_ui = experimental.ui.page_navbar(
                 else (
                     "Rasterio was not imported. Please try again."
                     if rasterio is None
-                    else experimental.ui.as_fill_item(output_widget("map_interactive"))
+                    else experimental.ui.as_fill_item(ui.output_plot("interactive"))
                 )
             ),
         ),
@@ -579,41 +584,97 @@ def server(input: Inputs, output: Outputs, session: Session):
     register_widget("map_implementation", map_implementation)
 
     if osgeo is not None and rasterio is not None:
-        map_interactive = ipyl.Map(
-            basemap=ipyl.basemaps.Esri.WorldImagery,  # type: ignore
-            zoom=9,
-            center=(59.3293, 18.0686),
-            max_zoom=13,
-            scroll_wheel_zoom=True,
-            layout=Layout(height="96%"),
-        )
+        transport_tif = rasterio.open(assets_dir / "interactive" / "transportation.tif")
+        population_tif = rasterio.open(assets_dir / "interactive" / "population.tif")
+        landcover_tif = rasterio.open(assets_dir / "interactive" / "landcover.tif")
 
-        empty_interactive = ipyl.Layer()
-        map_interactive.add(empty_interactive)
+        def calculate_new_interactive(
+            file_1_dataset,
+            file_1_prob: float,
+            file_2_dataset,
+            file_2_prob: float,
+            benchmark_dataset,
+        ):
+            if rasterio is not None:
+                file_1_array = file_1_dataset.read(
+                    1,
+                    out_shape=(
+                        benchmark_dataset.count,
+                        int(benchmark_dataset.height),
+                        int(benchmark_dataset.width),
+                    ),
+                    resampling=rasterio.enums.Resampling.bilinear,
+                )
+                file_2_array = file_2_dataset.read(
+                    1,
+                    out_shape=(
+                        benchmark_dataset.count,
+                        int(benchmark_dataset.height),
+                        int(benchmark_dataset.width),
+                    ),
+                    resampling=rasterio.enums.Resampling.bilinear,
+                )
 
-        transport_tif = rasterio.open(
-            assets_dir / "interactive" / "transport_emission.tif"
-        )
-        population_tif = rasterio.open(
-            assets_dir / "interactive" / "pop_tot_stock_corine.tif"
-        )
+                file_1_bar = np.nanquantile(file_1_array, file_1_prob)
+                file_2_bar = np.nanquantile(file_2_array, file_2_prob)
 
-        print(transport_tif.name, population_tif.name)
+                file_1_array[file_1_array < file_1_bar] = 0
+                file_1_array[file_1_array >= file_1_bar] = 1
+                file_2_array[file_2_array <= file_2_bar] = 0
+                file_2_array[file_2_array > file_2_bar] = 1
 
-        @reactive.Effect()
-        @reactive.event(input.transport_emissions, input.population_density)
-        def sliders():
-            transport_slider = input.transport_emissions()
-            population_slider = input.population_density()
+                added = file_1_array + file_2_array
+                added[added < 2] = 0
+                added[added == 2] = 1
+                print(added)
+                return (added, benchmark_dataset.crs, benchmark_dataset.transform)
+            else:
+                raise ImportError("rasterio was not imported. Please try again.")
 
-            print(transport_slider, population_slider)
+        @output
+        @render.plot
+        def interactive():
+            if rasterio is not None:
+                new_map, _, _ = calculate_new_interactive(
+                    transport_tif,
+                    input.transport_emissions() / 100,
+                    population_tif,
+                    input.population_density() / 100,
+                    landcover_tif,
+                )
+
+                return plt.imshow(new_map, cmap="gray", vmin=0, vmax=1)
+            else:
+                raise ImportError("rasterio was not imported. Please try again.")
 
         @session.download(filename="map.tif")
         async def download_interactive():
-            with io.BytesIO() as buf:
-                yield buf.getvalue()
-
-        register_widget("map_interactive", map_interactive)
+            if rasterio is not None:
+                new_map, new_map_crs, new_map_transform = calculate_new_interactive(
+                    transport_tif,
+                    input.transport_emissions() / 100,
+                    population_tif,
+                    input.population_density() / 100,
+                    landcover_tif,
+                )
+                with io.BytesIO() as buf:
+                    opened_map = rasterio.open(
+                        buf,
+                        "w",
+                        driver="GTiff",
+                        height=new_map.shape[0],
+                        width=new_map.shape[1],
+                        count=1,
+                        dtype=new_map.dtype,
+                        crs=new_map_crs,
+                        transform=new_map_transform,
+                        nodata=0,
+                    )
+                    opened_map.write(new_map, 1)
+                    opened_map.close()
+                    yield buf.getvalue()
+            else:
+                raise ImportError("rasterio was not imported. Please try again.")
 
 
 app = App(app_ui, server, static_assets=assets_dir)
