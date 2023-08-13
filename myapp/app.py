@@ -13,8 +13,6 @@ from shinywidgets import output_widget, register_widget
 try:
     import rasterio
     import rasterio.enums
-    import rasterio.features
-    import rasterio.io
 except ImportError:
     rasterio = None
     print("rasterio was not imported. Please try again.")
