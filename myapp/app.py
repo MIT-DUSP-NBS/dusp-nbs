@@ -571,50 +571,57 @@ def server(input: Inputs, output: Outputs, session: Session):
 
     register_widget("map_implementation", map_implementation)
 
+    transport_tif = assets_dir / "interactive" / "transportation.tif"
+    population_tif = assets_dir / "interactive" / "population.tif"
+    landcover_tif = assets_dir / "interactive" / "landcover.tif"
+
     if rasterio is not None:
-        transport_tif = rasterio.open(assets_dir / "interactive" / "transportation.tif")
-        population_tif = rasterio.open(assets_dir / "interactive" / "population.tif")
-        landcover_tif = rasterio.open(assets_dir / "interactive" / "landcover.tif")
+        with rasterio.open(landcover_tif) as benchmark_dataset:
+            tif_height = int(benchmark_dataset.height)
+            tif_width = int(benchmark_dataset.width)
+            tif_count = benchmark_dataset.count
+            tif_crs = benchmark_dataset.crs
+            tif_transform = benchmark_dataset.transform
+
+        with rasterio.open(transport_tif) as transport_dataset:
+            transport_array = transport_dataset.read(
+                1,
+                out_shape=(
+                    tif_count,
+                    tif_height,
+                    tif_width,
+                ),
+                resampling=rasterio.enums.Resampling.bilinear,
+            )
+
+        with rasterio.open(population_tif) as population_dataset:
+            population_array = population_dataset.read(
+                1,
+                out_shape=(
+                    tif_count,
+                    tif_height,
+                    tif_width,
+                ),
+                resampling=rasterio.enums.Resampling.bilinear,
+            )
 
         def calculate_new_interactive(
-            transport_dataset,
             transport_prob: float,
-            population_dataset,
             population_prob: float,
-            benchmark_dataset,
         ):
             if rasterio is not None:
-                transport_array = transport_dataset.read(
-                    1,
-                    out_shape=(
-                        benchmark_dataset.count,
-                        int(benchmark_dataset.height),
-                        int(benchmark_dataset.width),
-                    ),
-                    resampling=rasterio.enums.Resampling.bilinear,
-                )
-                population_array = population_dataset.read(
-                    1,
-                    out_shape=(
-                        benchmark_dataset.count,
-                        int(benchmark_dataset.height),
-                        int(benchmark_dataset.width),
-                    ),
-                    resampling=rasterio.enums.Resampling.bilinear,
-                )
+                transport_bar = np.nanquantile(transport_array, transport_prob)
+                population_bar = np.nanquantile(population_array, population_prob)
 
-                file_1_bar = np.nanquantile(transport_array, transport_prob)
-                file_2_bar = np.nanquantile(population_array, population_prob)
-
-                transport_array[transport_array < file_1_bar] = 0
-                transport_array[transport_array >= file_1_bar] = 1
-                population_array[population_array <= file_2_bar] = 0
-                population_array[population_array > file_2_bar] = 1
+                transport_array[transport_array < transport_bar] = 0
+                transport_array[transport_array >= transport_bar] = 1
+                population_array[population_array <= population_bar] = 0
+                population_array[population_array > population_bar] = 1
 
                 added = transport_array + population_array
                 added[added < 2] = 0
                 added[added == 2] = 1
-                return (added, benchmark_dataset.crs, benchmark_dataset.transform)
+                return added
             else:
                 raise ImportError("rasterio was not imported. Please try again.")
 
@@ -622,37 +629,30 @@ def server(input: Inputs, output: Outputs, session: Session):
         @render.plot
         def interactive():
             if rasterio is not None:
-                new_map, _, _ = calculate_new_interactive(
-                    transport_tif,
+                new_map = calculate_new_interactive(
                     input.transport_emissions() / 100,
-                    population_tif,
                     input.population_density() / 100,
-                    landcover_tif,
                 )
-
                 return plt.imshow(new_map, cmap="gray", vmin=0, vmax=1)
 
         @session.download(filename="map.tif")
         async def download_interactive():
             if rasterio is not None:
-                new_map, new_map_crs, new_map_transform = calculate_new_interactive(
-                    transport_tif,
+                new_map = calculate_new_interactive(
                     input.transport_emissions() / 100,
-                    population_tif,
                     input.population_density() / 100,
-                    landcover_tif,
                 )
                 with io.BytesIO() as buf:
                     opened_map = rasterio.open(
                         buf,
                         "w",
                         driver="GTiff",
-                        height=new_map.shape[0],
-                        width=new_map.shape[1],
+                        height=tif_height,
+                        width=tif_width,
                         count=1,
                         dtype=new_map.dtype,
-                        crs=new_map_crs,
-                        transform=new_map_transform,
+                        crs=tif_crs,
+                        transform=tif_transform,
                         nodata=0,
                     )
                     opened_map.write(new_map, 1)
