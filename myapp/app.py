@@ -589,14 +589,14 @@ def server(input: Inputs, output: Outputs, session: Session):
         landcover_tif = rasterio.open(assets_dir / "interactive" / "landcover.tif")
 
         def calculate_new_interactive(
-            file_1_dataset,
-            file_1_prob: float,
-            file_2_dataset,
-            file_2_prob: float,
+            transport_dataset,
+            transport_prob: float,
+            population_dataset,
+            population_prob: float,
             benchmark_dataset,
         ):
             if rasterio is not None:
-                file_1_array = file_1_dataset.read(
+                transport_array = transport_dataset.read(
                     1,
                     out_shape=(
                         benchmark_dataset.count,
@@ -605,7 +605,7 @@ def server(input: Inputs, output: Outputs, session: Session):
                     ),
                     resampling=rasterio.enums.Resampling.bilinear,
                 )
-                file_2_array = file_2_dataset.read(
+                population_array = population_dataset.read(
                     1,
                     out_shape=(
                         benchmark_dataset.count,
@@ -615,18 +615,17 @@ def server(input: Inputs, output: Outputs, session: Session):
                     resampling=rasterio.enums.Resampling.bilinear,
                 )
 
-                file_1_bar = np.nanquantile(file_1_array, file_1_prob)
-                file_2_bar = np.nanquantile(file_2_array, file_2_prob)
+                file_1_bar = np.nanquantile(transport_array, transport_prob)
+                file_2_bar = np.nanquantile(population_array, population_prob)
 
-                file_1_array[file_1_array < file_1_bar] = 0
-                file_1_array[file_1_array >= file_1_bar] = 1
-                file_2_array[file_2_array <= file_2_bar] = 0
-                file_2_array[file_2_array > file_2_bar] = 1
+                transport_array[transport_array < file_1_bar] = 0
+                transport_array[transport_array >= file_1_bar] = 1
+                population_array[population_array <= file_2_bar] = 0
+                population_array[population_array > file_2_bar] = 1
 
-                added = file_1_array + file_2_array
+                added = transport_array + population_array
                 added[added < 2] = 0
                 added[added == 2] = 1
-                print(added)
                 return (added, benchmark_dataset.crs, benchmark_dataset.transform)
             else:
                 raise ImportError("rasterio was not imported. Please try again.")
