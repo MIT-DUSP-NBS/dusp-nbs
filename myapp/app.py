@@ -14,8 +14,7 @@ try:
     import rasterio
     import rasterio.enums
 except ImportError:
-    rasterio = None
-    print("rasterio was not imported. Please try again.")
+    raise ImportError("rasterio was not imported. Please try again.")
 
 assets_dir = Path(__file__).parent / "assets"
 
@@ -631,8 +630,6 @@ def server(input: Inputs, output: Outputs, session: Session):
                 )
 
                 return plt.imshow(new_map, cmap="gray", vmin=0, vmax=1)
-            else:
-                raise ImportError("rasterio was not imported. Please try again.")
 
         @session.download(filename="map.tif")
         async def download_interactive():
@@ -660,8 +657,6 @@ def server(input: Inputs, output: Outputs, session: Session):
                     opened_map.write(new_map, 1)
                     opened_map.close()
                     yield buf.getvalue()
-            else:
-                raise ImportError("rasterio was not imported. Please try again.")
 
 
 app = App(app_ui, server, static_assets=assets_dir)
