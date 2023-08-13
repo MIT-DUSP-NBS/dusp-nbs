@@ -583,33 +583,30 @@ def server(input: Inputs, output: Outputs, session: Session):
             tif_crs = benchmark_dataset.crs
             tif_transform = benchmark_dataset.transform
 
-        with rasterio.open(transport_tif) as transport_dataset:
-            transport_array = transport_dataset.read(
-                1,
-                out_shape=(
-                    tif_count,
-                    tif_height,
-                    tif_width,
-                ),
-                resampling=rasterio.enums.Resampling.bilinear,
-            )
-
-        with rasterio.open(population_tif) as population_dataset:
-            population_array = population_dataset.read(
-                1,
-                out_shape=(
-                    tif_count,
-                    tif_height,
-                    tif_width,
-                ),
-                resampling=rasterio.enums.Resampling.bilinear,
-            )
-
         def calculate_new_interactive(
             transport_prob: float,
             population_prob: float,
         ):
             if rasterio is not None:
+                transport_array = rasterio.open(transport_tif).read(
+                    1,
+                    out_shape=(
+                        tif_count,
+                        tif_height,
+                        tif_width,
+                    ),
+                    resampling=rasterio.enums.Resampling.bilinear,
+                )
+                population_array = rasterio.open(population_tif).read(
+                    1,
+                    out_shape=(
+                        tif_count,
+                        tif_height,
+                        tif_width,
+                    ),
+                    resampling=rasterio.enums.Resampling.bilinear,
+                )
+
                 transport_bar = np.nanquantile(transport_array, transport_prob)
                 population_bar = np.nanquantile(population_array, population_prob)
 
