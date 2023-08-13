@@ -10,11 +10,11 @@ from matplotlib import pyplot as plt
 from shiny import App, Inputs, Outputs, Session, experimental, reactive, render, ui
 from shinywidgets import output_widget, register_widget
 
-# try:
-#     import osgeo
-# except ImportError:
-#     osgeo = None
-#     print("osgeo was not imported. Please try again.")
+try:
+    import osgeo
+except ImportError:
+    osgeo = None
+    print("osgeo was not imported. Please try again.")
 
 try:
     import rasterio
