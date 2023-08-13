@@ -51,29 +51,34 @@ if rasterio is not None:
             ),
             resampling=rasterio.enums.Resampling.bilinear,
         )
+else:
+    tif_height = None
+    tif_width = None
+    tif_crs = None
+    tif_transform = None
+    transport_array = np.empty((0, 0))
+    population_array = np.empty((0, 0))
 
-    def calculate_new_interactive(
-        transport_prob: float,
-        population_prob: float,
-    ):
-        if rasterio is not None:
-            transport = np.copy(transport_array)
-            population = np.copy(population_array)
 
-            transport_bar = np.nanquantile(transport, transport_prob)
-            population_bar = np.nanquantile(population, population_prob)
+def calculate_new_interactive(
+    transport_prob: float,
+    population_prob: float,
+):
+    transport = np.copy(transport_array)
+    population = np.copy(population_array)
 
-            transport[transport < transport_bar] = 0
-            transport[transport >= transport_bar] = 1
-            population[population <= population_bar] = 0
-            population[population > population_bar] = 1
+    transport_bar = np.nanquantile(transport, transport_prob)
+    population_bar = np.nanquantile(population, population_prob)
 
-            added = transport + population
-            added[added < 2] = 0
-            added[added == 2] = 1
-            return added
-        else:
-            raise ImportError("rasterio was not imported. Please try again.")
+    transport[transport < transport_bar] = 0
+    transport[transport >= transport_bar] = 1
+    population[population <= population_bar] = 0
+    population[population > population_bar] = 1
+
+    added = transport + population
+    added[added < 2] = 0
+    added[added == 2] = 1
+    return added
 
 
 app_ui = experimental.ui.page_navbar(
@@ -224,7 +229,7 @@ app_ui = experimental.ui.page_navbar(
             (
                 "Rasterio was not imported. Please try again."
                 if rasterio is None
-                else experimental.ui.as_fill_item(ui.output_plot("interactive"))
+                else (experimental.ui.as_fill_item(ui.output_plot("interactive")))
             ),
         ),
         value="interactive",
@@ -629,18 +634,20 @@ def server(input: Inputs, output: Outputs, session: Session):
     register_widget("map_implementation", map_implementation)
 
     @output
-    @render.plot
+    @render.plot(alt="TIF file for specified values as plot")
     def interactive():
-        if rasterio is not None:
-            new_map = calculate_new_interactive(
-                input.transport_emissions() / 100,
-                input.population_density() / 100,
-            )
-            return plt.imshow(new_map, cmap="gray", vmin=0, vmax=1)
+        new_map = calculate_new_interactive(
+            input.transport_emissions() / 100,
+            input.population_density() / 100,
+        )
+        return plt.imshow(new_map, cmap="gray", vmin=0, vmax=1)
 
     @session.download(filename="map.tif")
     async def download_interactive():
-        if rasterio is not None:
+        if all(
+            item is not None
+            for item in (tif_height, tif_width, tif_crs, tif_transform)
+        ) and rasterio is not None:
             new_map = calculate_new_interactive(
                 input.transport_emissions() / 100,
                 input.population_density() / 100,
