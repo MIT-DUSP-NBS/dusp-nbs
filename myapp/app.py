@@ -1,12 +1,14 @@
 import io
 import json
+import pickle
 from pathlib import Path
-
+import blosc
 import ipyleaflet as ipyl
 import numpy as np
 from faicons import icon_svg
 from ipywidgets import Layout
-from matplotlib import pyplot as plt
+
+# from matplotlib import pyplot as plt
 from shiny import App, Inputs, Outputs, Session, experimental, reactive, render, ui
 from shinywidgets import output_widget, register_widget
 
@@ -208,6 +210,7 @@ app_ui = experimental.ui.page_navbar(
                     "High Transportation Emissions",
                     min=0,
                     max=100,
+                    step=10,
                     value=50,
                     post="%",
                 ),
@@ -216,6 +219,7 @@ app_ui = experimental.ui.page_navbar(
                     "High Population Density",
                     min=0,
                     max=100,
+                    step=10,
                     value=50,
                     post="%",
                 ),
@@ -227,9 +231,10 @@ app_ui = experimental.ui.page_navbar(
                 title="Interactive NbS Planning",
             ),
             (
-                "Rasterio was not imported. Please try again."
-                if rasterio is None
-                else (experimental.ui.as_fill_item(ui.output_plot("interactive")))
+                # "Rasterio was not imported. Please try again."
+                # if rasterio is None
+                # else (experimental.ui.as_fill_item(ui.output_plot("interactive")))
+                experimental.ui.as_fill_item(ui.output_plot("interactive"))
             ),
         ),
         value="interactive",
@@ -634,20 +639,35 @@ def server(input: Inputs, output: Outputs, session: Session):
     register_widget("map_implementation", map_implementation)
 
     @output
-    @render.plot(alt="TIF file for specified values as plot")
+    @render.plot(alt="Plot for selected slider values")
     def interactive():
-        new_map = calculate_new_interactive(
-            input.transport_emissions() / 100,
-            input.population_density() / 100,
-        )
-        return plt.imshow(new_map, cmap="gray", vmin=0, vmax=1)
+        # new_map = calculate_new_interactive(
+        #     input.transport_emissions() / 100,
+        #     input.population_density() / 100,
+        # )
+        # return plt.imshow(new_map, cmap="gray", vmin=0, vmax=1)
+        with open(
+            assets_dir
+            / "interactive"
+            / "plots"
+            / f"{input.transport_emissions()}_{input.population_density()}.pkl.dat",
+            "rb",
+        ) as f:
+            compressed_plot = f.read()
+
+        decompressed_plot = blosc.decompress(compressed_plot)
+
+        return pickle.loads(decompressed_plot)
 
     @session.download(filename="map.tif")
     async def download_interactive():
-        if all(
-            item is not None
-            for item in (tif_height, tif_width, tif_crs, tif_transform)
-        ) and rasterio is not None:
+        if (
+            all(
+                item is not None
+                for item in (tif_height, tif_width, tif_crs, tif_transform)
+            )
+            and rasterio is not None
+        ):
             new_map = calculate_new_interactive(
                 input.transport_emissions() / 100,
                 input.population_density() / 100,
