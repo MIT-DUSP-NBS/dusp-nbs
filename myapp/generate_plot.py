@@ -65,12 +65,18 @@ def calculate_new_interactive(
 
 for transport_prob in range(0, 101, 10):
     for population_prob in range(0, 101, 10):
-        print(f"Generating {transport_prob}_{population_prob}.pkl.dat...")
+        print(f"Generating {transport_prob}_{population_prob}...")
         new_interactive = calculate_new_interactive(
             transport_prob / 100,
             population_prob / 100,
         )
         plot = plt.imshow(new_interactive, cmap="gray", vmin=0, vmax=1)
+        plt.savefig(
+            assets_dir
+            / "interactive"
+            / "plots"
+            / f"{transport_prob}_{population_prob}.png"
+        )
         plot_data = pickle.dumps(plot)
         compressed_plot = blosc.compress(plot_data)
         with open(
@@ -84,12 +90,6 @@ for transport_prob in range(0, 101, 10):
                 compressed_plot,
             )
         plt.close()
-        print(f"Done generating {transport_prob}_{population_prob}.pkl.dat!")
-        # plt.savefig(
-        #     assets_dir
-        #     / "interactive"
-        #     / "plots"
-        #     / f"{transport_prob}_{population_prob}.png"
-        # )
+        print(f"Done generating {transport_prob}_{population_prob}!")
 
 print("Done!")

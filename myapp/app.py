@@ -1,16 +1,18 @@
 import io
 import json
-import pickle
 from pathlib import Path
-import blosc
+
 import ipyleaflet as ipyl
 import numpy as np
 from faicons import icon_svg
 from ipywidgets import Layout
-
-# from matplotlib import pyplot as plt
 from shiny import App, Inputs, Outputs, Session, experimental, reactive, render, ui
+from shiny.types import ImgData
 from shinywidgets import output_widget, register_widget
+
+# import pickle
+# import blosc
+# from matplotlib import pyplot as plt
 
 try:
     import rasterio
@@ -234,7 +236,9 @@ app_ui = experimental.ui.page_navbar(
                 # "Rasterio was not imported. Please try again."
                 # if rasterio is None
                 # else (experimental.ui.as_fill_item(ui.output_plot("interactive")))
-                experimental.ui.as_fill_item(ui.output_plot("interactive"))
+                experimental.ui.as_fill_item(
+                    ui.output_image("interactive", "100%", "100%")
+                )
             ),
         ),
         value="interactive",
@@ -638,26 +642,41 @@ def server(input: Inputs, output: Outputs, session: Session):
 
     register_widget("map_implementation", map_implementation)
 
+    # @output
+    # @render.plot(alt="Plot for selected slider values")
+    # def interactive():
+    #     # new_map = calculate_new_interactive(
+    #     #     input.transport_emissions() / 100,
+    #     #     input.population_density() / 100,
+    #     # )
+    #     # return plt.imshow(new_map, cmap="gray", vmin=0, vmax=1)
+    #     with open(
+    #         assets_dir
+    #         / "interactive"
+    #         / "plots"
+    #         / f"{input.transport_emissions()}_{input.population_density()}.pkl.dat",
+    #         "rb",
+    #     ) as f:
+    #         compressed_plot = f.read()
+
+    #     decompressed_plot = blosc.decompress(compressed_plot)
+
+    #     return pickle.loads(decompressed_plot)
+
     @output
-    @render.plot(alt="Plot for selected slider values")
+    @render.image()
     def interactive():
-        # new_map = calculate_new_interactive(
-        #     input.transport_emissions() / 100,
-        #     input.population_density() / 100,
-        # )
-        # return plt.imshow(new_map, cmap="gray", vmin=0, vmax=1)
-        with open(
+        alt = "Plot for selected slider values"
+        src = str(
             assets_dir
             / "interactive"
             / "plots"
-            / f"{input.transport_emissions()}_{input.population_density()}.pkl.dat",
-            "rb",
-        ) as f:
-            compressed_plot = f.read()
+            / f"{input.transport_emissions()}_{input.population_density()}.png"
+        )
 
-        decompressed_plot = blosc.decompress(compressed_plot)
+        img: ImgData = {"src": src, "alt": alt, "class": "img-fluid"}
 
-        return pickle.loads(decompressed_plot)
+        return img
 
     @session.download(filename="map.tif")
     async def download_interactive():
