@@ -674,10 +674,14 @@ def server(input: Inputs, output: Outputs, session: Session):
             assets_dir
             / "interactive"
             / "plots"
-            / f"{input.transport_emissions()}_{input.population_density()}.png"
+            / f"{input.transport_emissions()}_{input.population_density()}.svg"
         )
 
-        img: ImgData = {"src": src, "alt": alt, "class": "img-fluid"}
+        img: ImgData = {
+            "src": src,
+            "alt": alt,
+            "style": "max-width: 100%; height: 96%; display: block; margin: auto;",
+        }
 
         return img
 
@@ -717,7 +721,7 @@ def server(input: Inputs, output: Outputs, session: Session):
             assets_dir
             / "interactive"
             / "plots"
-            / f"{input.transport_emissions()}_{input.population_density()}.png"
+            / f"{input.transport_emissions()}_{input.population_density()}.svg"
         )
         return path
 

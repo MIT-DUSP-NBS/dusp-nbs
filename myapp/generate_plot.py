@@ -1,11 +1,12 @@
-import pickle
 from pathlib import Path
 
-import blosc
 import numpy as np
 import rasterio
 import rasterio.enums
 from matplotlib import pyplot as plt
+
+# import pickle
+# import blosc
 
 assets_dir = Path(__file__).parent / "assets"
 
@@ -75,20 +76,22 @@ for transport_prob in range(0, 101, 10):
             assets_dir
             / "interactive"
             / "plots"
-            / f"{transport_prob}_{population_prob}.png"
+            / f"{transport_prob}_{population_prob}.svg",
+            bbox_inches="tight",
+            format="svg",
         )
-        plot_data = pickle.dumps(plot)
-        compressed_plot = blosc.compress(plot_data)
-        with open(
-            assets_dir
-            / "interactive"
-            / "plots"
-            / f"{transport_prob}_{population_prob}.pkl.dat",
-            "wb",
-        ) as f:
-            f.write(
-                compressed_plot,
-            )
+        # plot_data = pickle.dumps(plot)
+        # compressed_plot = blosc.compress(plot_data)
+        # with open(
+        #     assets_dir
+        #     / "interactive"
+        #     / "plots"
+        #     / f"{transport_prob}_{population_prob}.pkl.dat",
+        #     "wb",
+        # ) as f:
+        #     f.write(
+        #         compressed_plot,
+        #     )
         plt.close()
         print(f"Done generating {transport_prob}_{population_prob}!")
 
