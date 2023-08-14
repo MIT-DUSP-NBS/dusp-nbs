@@ -1,15 +1,14 @@
-import io
 import json
 from pathlib import Path
 
 import ipyleaflet as ipyl
-import numpy as np
 from faicons import icon_svg
 from ipywidgets import Layout
 from shiny import App, Inputs, Outputs, Session, experimental, reactive, render, ui
 from shiny.types import ImgData
 from shinywidgets import output_widget, register_widget
 
+# import numpy as np
 # import pickle
 # import blosc
 # from matplotlib import pyplot as plt
@@ -23,66 +22,66 @@ except ImportError:
 
 assets_dir = Path(__file__).parent / "assets"
 
-transport_tif = assets_dir / "interactive" / "transportation.tif"
-population_tif = assets_dir / "interactive" / "population.tif"
-landcover_tif = assets_dir / "interactive" / "landcover.tif"
+# transport_tif = assets_dir / "interactive" / "transportation.tif"
+# population_tif = assets_dir / "interactive" / "population.tif"
+# landcover_tif = assets_dir / "interactive" / "landcover.tif"
 
-if rasterio is not None:
-    with rasterio.open(landcover_tif) as benchmark_dataset:
-        tif_height = int(benchmark_dataset.height)
-        tif_width = int(benchmark_dataset.width)
-        tif_crs = benchmark_dataset.crs
-        tif_transform = benchmark_dataset.transform
+# if rasterio is not None:
+#     with rasterio.open(landcover_tif) as benchmark_dataset:
+#         tif_height = int(benchmark_dataset.height)
+#         tif_width = int(benchmark_dataset.width)
+#         tif_crs = benchmark_dataset.crs
+#         tif_transform = benchmark_dataset.transform
 
-    with rasterio.open(transport_tif) as transport_dataset:
-        transport_array = transport_dataset.read(
-            1,
-            out_shape=(
-                transport_dataset.count,
-                tif_height,
-                tif_width,
-            ),
-            resampling=rasterio.enums.Resampling.bilinear,
-        )
+#     with rasterio.open(transport_tif) as transport_dataset:
+#         transport_array = transport_dataset.read(
+#             1,
+#             out_shape=(
+#                 transport_dataset.count,
+#                 tif_height,
+#                 tif_width,
+#             ),
+#             resampling=rasterio.enums.Resampling.bilinear,
+#         )
 
-    with rasterio.open(population_tif) as population_dataset:
-        population_array = population_dataset.read(
-            1,
-            out_shape=(
-                population_dataset.count,
-                tif_height,
-                tif_width,
-            ),
-            resampling=rasterio.enums.Resampling.bilinear,
-        )
-else:
-    tif_height = None
-    tif_width = None
-    tif_crs = None
-    tif_transform = None
-    transport_array = np.empty((0, 0))
-    population_array = np.empty((0, 0))
+#     with rasterio.open(population_tif) as population_dataset:
+#         population_array = population_dataset.read(
+#             1,
+#             out_shape=(
+#                 population_dataset.count,
+#                 tif_height,
+#                 tif_width,
+#             ),
+#             resampling=rasterio.enums.Resampling.bilinear,
+#         )
+# else:
+#     tif_height = None
+#     tif_width = None
+#     tif_crs = None
+#     tif_transform = None
+#     transport_array = np.empty((0, 0))
+#     population_array = np.empty((0, 0))
 
 
-def calculate_new_interactive(
-    transport_prob: float,
-    population_prob: float,
-):
-    transport = np.copy(transport_array)
-    population = np.copy(population_array)
+# def calculate_new_interactive(
+#     transport_prob: float,
+#     population_prob: float,
+# ):
+#     transport = np.copy(transport_array)
+#     population = np.copy(population_array)
 
-    transport_bar = np.nanquantile(transport, transport_prob)
-    population_bar = np.nanquantile(population, population_prob)
+#     transport_bar = np.nanquantile(transport, transport_prob)
+#     population_bar = np.nanquantile(population, population_prob)
 
-    transport[transport < transport_bar] = 0
-    transport[transport >= transport_bar] = 1
-    population[population <= population_bar] = 0
-    population[population > population_bar] = 1
+#     transport[transport < transport_bar] = 0
+#     transport[transport >= transport_bar] = 1
+#     population[population <= population_bar] = 0
+#     population[population > population_bar] = 1
 
-    added = transport + population
-    added[added < 2] = 0
-    added[added == 2] = 1
-    return added
+#     added = transport + population
+#     added[added < 2] = 0
+#     added[added == 2] = 1
+#     return added
 
 
 app_ui = experimental.ui.page_navbar(
@@ -228,7 +227,11 @@ app_ui = experimental.ui.page_navbar(
                 ui.download_button(
                     "download_interactive",
                     "Download Rendered Map",
-                    class_=f"btn-primary{' disabled' if rasterio is None else ''}",
+                    class_=(
+                        "btn-primary"
+                        # f"{' disabled' if rasterio is None else ''}"
+                        ""
+                    ),
                 ),
                 title="Interactive NbS Planning",
             ),
@@ -678,35 +681,45 @@ def server(input: Inputs, output: Outputs, session: Session):
 
         return img
 
-    @session.download(filename="map.tif")
-    async def download_interactive():
-        if (
-            all(
-                item is not None
-                for item in (tif_height, tif_width, tif_crs, tif_transform)
-            )
-            and rasterio is not None
-        ):
-            new_map = calculate_new_interactive(
-                input.transport_emissions() / 100,
-                input.population_density() / 100,
-            )
-            with io.BytesIO() as buf:
-                opened_map = rasterio.open(
-                    buf,
-                    "w",
-                    driver="GTiff",
-                    height=tif_height,
-                    width=tif_width,
-                    count=1,
-                    dtype=new_map.dtype,
-                    crs=tif_crs,
-                    transform=tif_transform,
-                    nodata=0,
-                )
-                opened_map.write(new_map, 1)
-                opened_map.close()
-                yield buf.getvalue()
+    # @session.download(filename="map.tif")
+    # async def download_interactive():
+    #     if (
+    #         all(
+    #             item is not None
+    #             for item in (tif_height, tif_width, tif_crs, tif_transform)
+    #         )
+    #         and rasterio is not None
+    #     ):
+    #         new_map = calculate_new_interactive(
+    #             input.transport_emissions() / 100,
+    #             input.population_density() / 100,
+    #         )
+    #         with io.BytesIO() as buf:
+    #             opened_map = rasterio.open(
+    #                 buf,
+    #                 "w",
+    #                 driver="GTiff",
+    #                 height=tif_height,
+    #                 width=tif_width,
+    #                 count=1,
+    #                 dtype=new_map.dtype,
+    #                 crs=tif_crs,
+    #                 transform=tif_transform,
+    #                 nodata=0,
+    #             )
+    #             opened_map.write(new_map, 1)
+    #             opened_map.close()
+    #             yield buf.getvalue()
+
+    @session.download()
+    def download_interactive():
+        path = str(
+            assets_dir
+            / "interactive"
+            / "plots"
+            / f"{input.transport_emissions()}_{input.population_density()}.png"
+        )
+        return path
 
 
 app = App(app_ui, server, static_assets=assets_dir)
