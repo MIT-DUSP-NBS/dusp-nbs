@@ -87,8 +87,9 @@ assets_dir = Path(__file__).parent / "assets"
 app_ui = experimental.ui.page_navbar(
     ui.nav(
         "Overview",
-        (
+        ui.div(
             ui.h1("Overview"),
+            ui.h2("Urban Challenges", class_="fs-5"),
             ui.p(
                 "Urban areas contribute more than 60% of global greenhouse gas (GHG)"
                 " emissions, through residential, commercial, and transportation"
@@ -97,6 +98,7 @@ app_ui = experimental.ui.page_navbar(
                 " emissions, and promotes sustainable land management practices, thus"
                 " contributing to global climate change mitigation efforts."
             ),
+            ui.h2("Nature-based Solutions", class_="fs-5"),
             ui.p(
                 "Realistic NbS implementation plans toward carbon neutrality, such as"
                 " restoring natural ecosystems and increasing urban green resources,"
@@ -108,6 +110,18 @@ app_ui = experimental.ui.page_navbar(
                 " prioritizing different types of NbS implementations in multiple major"
                 " EU cities."
             ),
+            ui.tags.figure(
+                {"class": "figure text-center mx-auto d-block"},
+                ui.img(
+                    {"class": "figure-img w-75 h-auto "},
+                    src="figures/overview_nbs.png",
+                ),
+                ui.tags.figcaption(
+                    {"class": "figure-caption"},
+                    "Types of Nature-based Solutions",
+                ),
+            ),
+            ui.h2("Motivation", class_="fs-5"),
             ui.p(
                 "The motivation for developing this tool is to offer the necessary"
                 " flexibility for NbS planning, by enabling users to interact and"
@@ -119,9 +133,9 @@ app_ui = experimental.ui.page_navbar(
                 " enhancing the awareness of NbS opportunities in urban settings."
             ),
             ui.tags.figure(
-                {"class": "figure"},
+                {"class": "figure text-center mx-auto d-block"},
                 ui.img(
-                    {"class": "figure-img img-fluid"},
+                    {"class": "figure-img w-75 h-auto "},
                     src="figures/overview.png",
                 ),
                 ui.tags.figcaption(
@@ -129,12 +143,13 @@ app_ui = experimental.ui.page_navbar(
                     "Potential pathways of NbS to reduce emissions",
                 ),
             ),
+            class_="container mt-3",
         ),
         value="overview",
     ),
     ui.nav(
         "NbS Spatial Allocation",
-        (
+        ui.div(
             ui.h1("NbS Spatial Allocation"),
             ui.p(
                 "We selected five types of NbS (green infrastructure (GI), street trees"
@@ -146,9 +161,9 @@ app_ui = experimental.ui.page_navbar(
                 " describe the impact of NbS on sectoral carbon emissions."
             ),
             ui.tags.figure(
-                {"class": "figure"},
+                {"class": "figure text-center mx-auto d-block"},
                 ui.img(
-                    {"class": "figure-img img-fluid"},
+                    {"class": "figure-img w-75 h-auto"},
                     src="figures/nbs_1.png",
                 ),
                 ui.tags.figcaption(
@@ -168,12 +183,13 @@ app_ui = experimental.ui.page_navbar(
                 " allocations of each type of NbS."
             ),
             ui.tags.figure(
-                {"class": "figure"},
+                {"class": "figure text-center mx-auto d-block"},
                 ui.img(
-                    {"class": "figure-img img-fluid"},
+                    {"class": "figure-img w-75 h-auto"},
                     src="figures/nbs_2.png",
                 ),
             ),
+            class_="container mt-3",
         ),
         value="nbs_spacial_allocation",
     ),
