@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 import ipyleaflet as ipyl
+import shinyswatch
 from faicons import icon_svg
 from ipywidgets import Layout
 from shiny import App, Inputs, Outputs, Session, experimental, reactive, render, ui
@@ -85,6 +86,7 @@ assets_dir = Path(__file__).parent / "assets"
 
 
 app_ui = experimental.ui.page_navbar(
+    shinyswatch.theme.zephyr(),
     ui.nav(
         "Overview",
         ui.div(
@@ -465,6 +467,7 @@ app_ui = experimental.ui.page_navbar(
     ),
     title="Nature-Based Solutions Dashboard",
     fillable_mobile=True,
+    bg="#2c4cc4",
     lang="en",
     window_title="Nature-Based Solutions Dashboard",
     selected="overview",
