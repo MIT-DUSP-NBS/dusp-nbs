@@ -29,6 +29,7 @@ jobs:
               with:
                 path: ./_site
     deploy:
+        if: github.ref_name == 'main'
         environment:
             name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}
