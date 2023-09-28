@@ -113,7 +113,7 @@ function About() {
           href={element.available}
           target="_blank"
         >
-          Click here to view data!
+          Click here!
         </Button>
       </Table.Td>
     </Table.Tr>
