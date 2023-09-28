@@ -6,6 +6,7 @@ import {
   Burger,
   Drawer,
   ScrollArea,
+  Text,
   rem,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -13,15 +14,19 @@ import classes from './Header.module.css';
 
 function LinksRender() {
   const links = [
-    { link: '', label: 'Overview' },
-    { link: 'spatial-allocation', label: 'NbS Spatial Allocation' },
-    { link: 'implementation', label: 'Implementation Visualization' },
-    { link: 'interactive', label: 'Interactive NbS Planning' },
-    { link: 'about', label: 'About the Tool' },
+    { id: 0, link: '', label: 'Overview' },
+    { id: 1, link: 'spatial-allocation', label: 'Spatial Allocation' },
+    { id: 2, link: 'implementation', label: 'Visualization' },
+    { id: 3, link: 'interactive', label: 'Interactive Planning' },
+    { id: 4, link: 'about', label: 'About' },
   ];
 
   return links.map((link) => (
-    <a href={import.meta.env.BASE_URL + link.link} className={classes.link}>
+    <a
+      href={import.meta.env.BASE_URL + link.link}
+      className={classes.link}
+      key={link.id}
+    >
       {link.label}
     </a>
   ));
@@ -32,10 +37,10 @@ export function Header() {
     useDisclosure(false);
 
   return (
-    <Box pb={120}>
+    <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          <p>Nature Based Solutions Dashboard</p>
+          <Text>Nature Based Solutions Dashboard</Text>
 
           <Group h="100%" gap={0} visibleFrom="sm">
             <LinksRender />
