@@ -51,12 +51,14 @@ export function Header() {
               component="a"
               variant="default"
               href="https://github.com/dtemkin1/dusp-nbs"
+              target="_blank"
             >
               View Github
             </Button>
             <Button
               component="a"
               href="https://doi.org/10.1038/s41558-023-01737-x"
+              target="_blank"
             >
               Read Research Paper
             </Button>

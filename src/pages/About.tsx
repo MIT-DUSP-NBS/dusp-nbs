@@ -1,4 +1,4 @@
-import { Container, Table, Button } from '@mantine/core';
+import { Container, Table, Button, ScrollArea } from '@mantine/core';
 
 const infrastructure = [
   {
@@ -119,43 +119,48 @@ function About() {
     </Table.Tr>
   ));
   return (
-    <Container>
-      <Table captionSide="bottom">
-        <Table.Caption>
-          <Button
-            component="a"
-            variant="subtle"
-            href="https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/population-distribution-demography/geostat"
-            target="_blank"
-          >
-            Click here to view typology!
-          </Button>
-        </Table.Caption>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Infrastructure</Table.Th>
-            <Table.Th>Criteria</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{infrastructure_rows}</Table.Tbody>
-      </Table>
+    <ScrollArea.Autosize
+      mah={'calc(100vh - 3.75rem * var(--mantine-scale))'}
+      maw={'100%'}
+    >
+      <Container>
+        <Table captionSide="bottom">
+          <Table.Caption>
+            <Button
+              component="a"
+              variant="subtle"
+              href="https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/population-distribution-demography/geostat"
+              target="_blank"
+            >
+              Click here to view typology!
+            </Button>
+          </Table.Caption>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Infrastructure</Table.Th>
+              <Table.Th>Criteria</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>{infrastructure_rows}</Table.Tbody>
+        </Table>
 
-      <Table>
-        <Table.Caption>
-          Key variables and data sources used in the analysis
-        </Table.Caption>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Type</Table.Th>
-            <Table.Th>Description</Table.Th>
-            <Table.Th>Data Source</Table.Th>
-            <Table.Th>Year</Table.Th>
-            <Table.Th>Available</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{keyvars_rows}</Table.Tbody>
-      </Table>
-    </Container>
+        <Table captionSide="bottom">
+          <Table.Caption>
+            Key variables and data sources used in the analysis
+          </Table.Caption>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Type</Table.Th>
+              <Table.Th>Description</Table.Th>
+              <Table.Th>Data Source</Table.Th>
+              <Table.Th>Year</Table.Th>
+              <Table.Th>Available</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>{keyvars_rows}</Table.Tbody>
+        </Table>
+      </Container>
+    </ScrollArea.Autosize>
   );
 }
 
