@@ -9,6 +9,7 @@ import {
   Text,
   rem,
 } from '@mantine/core';
+import { Link } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './Header.module.css';
 
@@ -22,13 +23,13 @@ function LinksRender() {
   ];
 
   return links.map((link) => (
-    <a
-      href={import.meta.env.BASE_URL + link.link}
+    <Link
+      to={import.meta.env.BASE_URL + link.link}
       className={classes.link}
       key={link.id}
     >
       {link.label}
-    </a>
+    </Link>
   ));
 }
 
