@@ -17,9 +17,8 @@ function LinksRender() {
   const links = [
     { id: 0, link: '', label: 'Overview' },
     { id: 1, link: 'spatial-allocation', label: 'Spatial Allocation' },
-    { id: 2, link: 'implementation', label: 'Visualization' },
-    { id: 3, link: 'interactive', label: 'Interactive Planning' },
-    { id: 4, link: 'about', label: 'About' },
+    { id: 2, link: 'visualization', label: 'Visualization' },
+    { id: 3, link: 'about', label: 'About' },
   ];
 
   return links.map((link) => (
