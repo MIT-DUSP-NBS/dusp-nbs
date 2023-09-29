@@ -23,7 +23,7 @@ function LinksRender({ onClick }: { onClick?: () => void }) {
 
   return links.map((link) => (
     <Link
-      to={import.meta.env.BASE_URL + link.link}
+      to={link.link}
       className={classes.link}
       key={link.id}
       onClick={onClick}

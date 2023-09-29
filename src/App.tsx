@@ -9,20 +9,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <Header />
       <Routes>
-        <Route path={import.meta.env.BASE_URL + '/'} element={<Overview />} />
-        <Route
-          path={import.meta.env.BASE_URL + 'spatial-allocation'}
-          element={<SpatialAllocation />}
-        />
-        <Route path={import.meta.env.BASE_URL + 'about'} element={<About />} />
-        <Route
-          path={import.meta.env.BASE_URL + 'visualization'}
-          element={<Visualization />}
-        />
-        <Route path={'*'} element={<Error />} />
+        <Route path="/" element={<Overview />} />
+        <Route path="spatial-allocation" element={<SpatialAllocation />} />
+        <Route path="about" element={<About />} />
+        <Route path="visualization" element={<Visualization />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </Router>
   );
