@@ -188,7 +188,7 @@ function About() {
           <Table.Thead>
             <Table.Tr>
               <Table.Th>Infrastructure</Table.Th>
-              <Table.Th>Criteria</Table.Th>
+              <Table.Th>Criteria (Hover for more info)</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{infrastructure_rows}</Table.Tbody>
