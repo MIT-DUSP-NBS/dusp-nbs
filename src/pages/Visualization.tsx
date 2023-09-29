@@ -16,23 +16,33 @@ function Visualization() {
         <Card withBorder padding="lg" shadow="sm">
           <Checkbox.Group
             label="Green Infrastructure Visualization"
-            description="Select the desired green infrastructure implementations"
+            // description="Select the desired green infrastructure implementations"
+            description="Currently a work in progress."
             value={value}
             onChange={setValue}
           >
             <Space h="xs" />
-            <Checkbox label="Green Infrastructure (GBI)" value={'gbi'} />
+            <Checkbox
+              disabled
+              label="Green Infrastructure (GBI)"
+              value={'gbi'}
+            />
             <Space h="xs" />
-            <Checkbox label="Greenbelt" value={'greenbelt'} />
+            <Checkbox disabled label="Greenbelt" value={'greenbelt'} />
             <Space h="xs" />
             <Checkbox
+              disabled
               label="Green Buildings"
               value={'greenbuildings'}
             ></Checkbox>
             <Space h="xs" />
-            <Checkbox label="Street Trees" value={'streettrees'} />
+            <Checkbox disabled label="Street Trees" value={'streettrees'} />
             <Space h="xs" />
-            <Checkbox label="Urban Green Areas" value={'urbangreenareas'} />
+            <Checkbox
+              disabled
+              label="Urban Green Areas"
+              value={'urbangreenareas'}
+            />
             <Space h="xs" />
           </Checkbox.Group>
           <Space h="xs" />
