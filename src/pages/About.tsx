@@ -1,4 +1,13 @@
-import { Container, Table, Button, ScrollArea } from '@mantine/core';
+import {
+  Container,
+  Table,
+  Button,
+  ScrollArea,
+  HoverCard,
+  Text,
+  Title,
+  List,
+} from '@mantine/core';
 
 const infrastructure = [
   {
@@ -11,6 +20,19 @@ const infrastructure = [
     name: 'Green buildings',
     criteria:
       '(High residential emission OR High industry emission) AND Building rooftops',
+    moreInfo: {
+      title: 'Available land cover for GI',
+      description:
+        'Fairly broad category that includes parks, forests, wetlands, bioswales, permeable pavements, green corridors, and other natural or nature-based elements',
+      listElems: [
+        '13400 Land without current use',
+        '14100 Green urban areas',
+        '23000 Pastures',
+        '31000 Forests',
+        '32000 Herbaceous vegetation associations (natural grassland, moors...)',
+        '40000 Wetland',
+      ],
+    },
   },
   {
     id: 2,
@@ -23,6 +45,15 @@ const infrastructure = [
     name: 'Urban green areas',
     criteria:
       '(High population density OR High built-up areas) AND Available land cover',
+    moreInfo: {
+      title: 'Available land cover for Urban green areas',
+      description: '',
+      listElems: [
+        '11230 Discontinuous Low-Density Urban Fabric (S.L.: 10% – 30%)',
+        '11240 Discontinuous Very Low-Density Urban Fabric (S.L.: < 10%)',
+        '14100 Green urban areas',
+      ],
+    },
   },
   {
     id: 4,
@@ -96,7 +127,26 @@ function About() {
   const infrastructure_rows = infrastructure.map((element) => (
     <Table.Tr key={element.id}>
       <Table.Td>{element.name}</Table.Td>
-      <Table.Td>{element.criteria}</Table.Td>
+      <Table.Td>
+        {element.moreInfo ? (
+          <HoverCard width={320} shadow="md">
+            <HoverCard.Target>
+              <Text size="sm">{element.criteria}</Text>
+            </HoverCard.Target>
+            <HoverCard.Dropdown>
+              <Title size={20}>{element.moreInfo.title}</Title>
+              <Text size="sm">{element.moreInfo.description}</Text>
+              <List size="sm">
+                {element.moreInfo.listElems.map((item) => (
+                  <List.Item key={item}>{item}</List.Item>
+                ))}
+              </List>
+            </HoverCard.Dropdown>
+          </HoverCard>
+        ) : (
+          element.criteria
+        )}
+      </Table.Td>
     </Table.Tr>
   ));
 
