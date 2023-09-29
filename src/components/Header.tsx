@@ -32,6 +32,35 @@ function LinksRender() {
   ));
 }
 
+function HeaderButtons() {
+  const buttons_list = [
+    {
+      id: 0,
+      link: 'https://github.com/dtemkin1/dusp-nbs',
+      label: 'Github',
+      type: 'default',
+    },
+    {
+      id: 1,
+      link: 'https://doi.org/10.1038/s41558-023-01737-x',
+      label: 'Research Paper',
+      type: 'filled',
+    },
+  ];
+
+  return buttons_list.map((link) => (
+    <Button
+      component="a"
+      variant={link.type}
+      href={link.link}
+      target="_blank"
+      key={link.id}
+    >
+      {link.label}
+    </Button>
+  ));
+}
+
 export function Header() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -47,21 +76,7 @@ export function Header() {
           </Group>
 
           <Group visibleFrom="sm">
-            <Button
-              component="a"
-              variant="default"
-              href="https://github.com/dtemkin1/dusp-nbs"
-              target="_blank"
-            >
-              View Github
-            </Button>
-            <Button
-              component="a"
-              href="https://doi.org/10.1038/s41558-023-01737-x"
-              target="_blank"
-            >
-              Read Research Paper
-            </Button>
+            <HeaderButtons />
           </Group>
 
           <Burger
@@ -87,19 +102,7 @@ export function Header() {
           <Divider my="sm" />
 
           <Group justify="center" grow pb="xl" px="md">
-            <Button
-              component="a"
-              variant="default"
-              href="https://github.com/dtemkin1/dusp-nbs"
-            >
-              View Github
-            </Button>
-            <Button
-              component="a"
-              href="https://doi.org/10.1038/s41558-023-01737-x"
-            >
-              Read Research Paper
-            </Button>
+            <HeaderButtons />
           </Group>
         </ScrollArea>
       </Drawer>

@@ -14,6 +14,7 @@ function Visualization() {
       <RLayerTile
         zIndex={5}
         url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+        attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
         projection={'EPSG:3857'}
       ></RLayerTile>
       <RLayerVector
