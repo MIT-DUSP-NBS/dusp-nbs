@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './Header.module.css';
 
-function LinksRender() {
+function LinksRender({ onClick }: { onClick?: () => void }) {
   const links = [
     { id: 0, link: '', label: 'Overview' },
     { id: 1, link: 'spatial-allocation', label: 'Spatial Allocation' },
@@ -26,6 +26,7 @@ function LinksRender() {
       to={import.meta.env.BASE_URL + link.link}
       className={classes.link}
       key={link.id}
+      onClick={onClick}
     >
       {link.label}
     </Link>
@@ -98,7 +99,7 @@ export function Header() {
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
-          <LinksRender />
+          <LinksRender onClick={closeDrawer} />
           <Divider my="sm" />
 
           <Group justify="center" grow pb="xl" px="md">
