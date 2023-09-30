@@ -3,7 +3,6 @@ import { Affix, Card, Checkbox, Switch, Space } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { fromLonLat } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
-import classes from './Visualization.module.css';
 import features from '../assets/county.json';
 import 'ol/ol.css';
 
@@ -57,8 +56,10 @@ function Visualization() {
       </Affix>
 
       <RMap
-        className={classes.map}
+        // className={classes.map}
         initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }}
+        width={'100%'}
+        height={'calc(100vh - 3.75rem * var(--mantine-scale))'}
       >
         <RLayerTile
           zIndex={5}
