@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Affix, Card, Checkbox, Switch, Space } from '@mantine/core';
+import { Affix, Paper, Checkbox, Switch, Space } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { fromLonLat } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -12,7 +12,7 @@ function Visualization() {
   return (
     <>
       <Affix position={{ bottom: 20, left: 20 }}>
-        <Card withBorder padding="lg" shadow="sm">
+        <Paper shadow="xs" withBorder p="xl">
           <Checkbox.Group
             label="Green Infrastructure Visualization"
             // description="Select the desired green infrastructure implementations"
@@ -52,7 +52,7 @@ function Visualization() {
             }
             label="Show Stockholm county boundary"
           />
-        </Card>
+        </Paper>
       </Affix>
 
       <RMap
