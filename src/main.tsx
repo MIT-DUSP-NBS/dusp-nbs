@@ -10,21 +10,22 @@ import {
 import '@mantine/core/styles.css';
 
 const myColor: MantineColorsTuple = [
-  '#e5f4ff',
-  '#cde2ff',
-  '#9bc2ff',
-  '#64a0ff',
-  '#3984fe',
-  '#1d72fe',
-  '#0969ff',
-  '#0058e4',
-  '#004ecc',
-  '#0043b5',
+  '#e1f9ff',
+  '#ccedff',
+  '#9ad7ff',
+  '#64c1ff',
+  '#3baefe',
+  '#20a2fe',
+  '#099cff',
+  '#0088e4',
+  '#0078cd',
+  '#0069b6',
 ];
 
 const theme = createTheme({
+  primaryColor: 'sky-blue',
   colors: {
-    myColor,
+    'sky-blue': myColor,
   },
 });
 
