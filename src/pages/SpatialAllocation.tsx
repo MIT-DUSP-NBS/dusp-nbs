@@ -12,7 +12,7 @@ function Overview() {
         <h1>NbS Spatial Allocation</h1>
         <p>
           We selected five types of NbS (green infrastructure (GI), street trees
-          " & green pavements, urban green spaces & agriculture, habitat
+          & green pavements, urban green spaces & agriculture, habitat
           preservation & remediation, and green buildings) as our study
           objectives. From established definitions of NbS in the literature, we
           identified the level of benefit of different types of NbS at different
@@ -22,8 +22,8 @@ function Overview() {
         <Image src={nbs_1} />
         <p>
           The NbS implementations were spatially allocated based on three major
-          " factors: the sectoral carbon emission, potential NbS benefits, and
-          the local context of each location. For example, street trees & green
+          factors: the sectoral carbon emission, potential NbS benefits, and the
+          local context of each location. For example, street trees & green
           pavements as an NbS to promote walking and cycling should ideally be
           located along city roads in high-density urban areas, while preserved
           habitats should be located at the urban fringe where new urban
