@@ -71,13 +71,11 @@ export function Header() {
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           {/* <Text>Nature Based Solutions Dashboard</Text> */}
-          <Button
-            component="a"
-            variant="transparent"
-            href={import.meta.env.BASE_URL}
-          >
-            Nature-Based Solutions Dashboard
-          </Button>
+          <Link to={''}>
+            <Button variant="transparent">
+              Nature-Based Solutions Dashboard
+            </Button>
+          </Link>
 
           <Group h="100%" gap={0} visibleFrom="sm">
             <LinksRender />
