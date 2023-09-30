@@ -6,9 +6,9 @@ import {
   Burger,
   Drawer,
   ScrollArea,
-  Text,
   rem,
 } from '@mantine/core';
+import ThemeToggle from './ThemeToggle';
 import { Link } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './Header.module.css';
@@ -70,7 +70,14 @@ export function Header() {
     <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          <Text>Nature Based Solutions Dashboard</Text>
+          {/* <Text>Nature Based Solutions Dashboard</Text> */}
+          <Button
+            component="a"
+            variant="transparent"
+            href={import.meta.env.BASE_URL}
+          >
+            Nature-Based Solutions Dashboard
+          </Button>
 
           <Group h="100%" gap={0} visibleFrom="sm">
             <LinksRender />
@@ -78,6 +85,7 @@ export function Header() {
 
           <Group visibleFrom="sm">
             <HeaderButtons />
+            <ThemeToggle />
           </Group>
 
           <Burger
@@ -104,6 +112,7 @@ export function Header() {
 
           <Group justify="center" grow pb="xl" px="md">
             <HeaderButtons />
+            <ThemeToggle />
           </Group>
         </ScrollArea>
       </Drawer>
