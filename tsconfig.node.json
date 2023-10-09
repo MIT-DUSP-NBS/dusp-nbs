@@ -5,7 +5,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
-    "strictNullChecks": true, // added so eslint doesnt yell at me
+    "strictNullChecks": true // added so eslint doesnt yell at me
   },
   "include": ["vite.config.ts"]
 }

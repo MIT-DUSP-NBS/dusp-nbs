@@ -34,5 +34,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <MantineProvider theme={theme} defaultColorScheme="auto">
       <App />
     </MantineProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
