@@ -12,8 +12,6 @@ import greenbelt from '../assets/map_layers/greenbelt.json';
 import street_trees from '../assets/map_layers/street_trees.json';
 import urban_green from '../assets/map_layers/urban_green.json';
 
-// import RLayerGeoTIFF from '../components/RLayerGeoTIFF';
-
 function Visualization() {
   const [layers, setLayers] = useState<string[]>([]);
   const [boundaryShowing, setBoundaryShowing] = useState(true);
@@ -28,15 +26,31 @@ function Visualization() {
             onChange={setLayers}
           >
             <Space h="xs" />
-            <Checkbox label="Green Infrastructure (GBI)" value={'GBI'} />
+            <Checkbox
+              label="Green Infrastructure (GBI)"
+              color="lime"
+              value={'GBI'}
+            />
             <Space h="xs" />
-            <Checkbox label="Green Buildings" value={'green_buildings'} />
+            <Checkbox
+              label="Green Buildings"
+              color="cyan"
+              value={'green_buildings'}
+            />
             <Space h="xs" />
-            <Checkbox label="Greenbelt" value={'greenbelt'} />
+            <Checkbox label="Greenbelt" color="pink" value={'greenbelt'} />
             <Space h="xs" />
-            <Checkbox label="Street Trees" value={'street_trees'} />
+            <Checkbox
+              label="Street Trees"
+              color="violet"
+              value={'street_trees'}
+            />
             <Space h="xs" />
-            <Checkbox label="Urban Green Areas" value={'urban_green'} />
+            <Checkbox
+              label="Urban Green Areas"
+              color="orange"
+              value={'urban_green'}
+            />
             <Space h="xs" />
           </Checkbox.Group>
           <Space h="xs" />
@@ -84,7 +98,7 @@ function Visualization() {
             }).readFeatures(GBI)}
           >
             <RStyle.RStyle>
-              <RStyle.RFill color="white" />
+              <RStyle.RFill color="lime" />
             </RStyle.RStyle>
           </RLayerVector>
         )}
@@ -97,7 +111,7 @@ function Visualization() {
             }).readFeatures(green_buildings)}
           >
             <RStyle.RStyle>
-              <RStyle.RFill color="white" />
+              <RStyle.RFill color="cyan" />
             </RStyle.RStyle>
           </RLayerVector>
         )}
@@ -110,7 +124,7 @@ function Visualization() {
             }).readFeatures(greenbelt)}
           >
             <RStyle.RStyle>
-              <RStyle.RFill color="white" />
+              <RStyle.RFill color="pink" />
             </RStyle.RStyle>
           </RLayerVector>
         )}
@@ -123,7 +137,7 @@ function Visualization() {
             }).readFeatures(street_trees)}
           >
             <RStyle.RStyle>
-              <RStyle.RFill color="white" />
+              <RStyle.RFill color="violet" />
             </RStyle.RStyle>
           </RLayerVector>
         )}
@@ -136,7 +150,7 @@ function Visualization() {
             }).readFeatures(urban_green)}
           >
             <RStyle.RStyle>
-              <RStyle.RFill color="white" />
+              <RStyle.RFill color="orange" />
             </RStyle.RStyle>
           </RLayerVector>
         )}
