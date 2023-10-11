@@ -23,8 +23,7 @@ function Visualization() {
         <Paper shadow="xs" withBorder p="xl">
           <Checkbox.Group
             label="Green Infrastructure Visualization"
-            // description="Select the desired green infrastructure implementations"
-            description="Currently a work in progress."
+            description="Select the desired green infrastructure implementations"
             value={layers}
             onChange={setLayers}
           >
