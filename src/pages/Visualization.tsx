@@ -6,8 +6,16 @@ import GeoJSON from 'ol/format/GeoJSON';
 import features from '../assets/county.json';
 import 'ol/ol.css';
 
+import GBI from '../assets/map_layers/GBI.json';
+import green_buildings from '../assets/map_layers/green_buildings.json';
+import greenbelt from '../assets/map_layers/greenbelt.json';
+import street_trees from '../assets/map_layers/street_trees.json';
+import urban_green from '../assets/map_layers/urban_green.json';
+
+// import RLayerGeoTIFF from '../components/RLayerGeoTIFF';
+
 function Visualization() {
-  const [value, setValue] = useState<string[]>([]);
+  const [layers, setLayers] = useState<string[]>([]);
   const [boundaryShowing, setBoundaryShowing] = useState(true);
   return (
     <>
@@ -17,31 +25,19 @@ function Visualization() {
             label="Green Infrastructure Visualization"
             // description="Select the desired green infrastructure implementations"
             description="Currently a work in progress."
-            value={value}
-            onChange={setValue}
+            value={layers}
+            onChange={setLayers}
           >
             <Space h="xs" />
-            <Checkbox
-              disabled
-              label="Green Infrastructure (GBI)"
-              value={'gbi'}
-            />
+            <Checkbox label="Green Infrastructure (GBI)" value={'GBI'} />
             <Space h="xs" />
-            <Checkbox disabled label="Greenbelt" value={'greenbelt'} />
+            <Checkbox label="Green Buildings" value={'green_buildings'} />
             <Space h="xs" />
-            <Checkbox
-              disabled
-              label="Green Buildings"
-              value={'greenbuildings'}
-            ></Checkbox>
+            <Checkbox label="Greenbelt" value={'greenbelt'} />
             <Space h="xs" />
-            <Checkbox disabled label="Street Trees" value={'streettrees'} />
+            <Checkbox label="Street Trees" value={'street_trees'} />
             <Space h="xs" />
-            <Checkbox
-              disabled
-              label="Urban Green Areas"
-              value={'urbangreenareas'}
-            />
+            <Checkbox label="Urban Green Areas" value={'urban_green'} />
             <Space h="xs" />
           </Checkbox.Group>
           <Space h="xs" />
@@ -56,7 +52,6 @@ function Visualization() {
       </Affix>
 
       <RMap
-        // className={classes.map}
         initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }}
         width={'100%'}
         height={'calc(100vh - 3.75rem * var(--mantine-scale))'}
@@ -66,7 +61,7 @@ function Visualization() {
           url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
           projection={'EPSG:3857'}
-        ></RLayerTile>
+        />
         {boundaryShowing && (
           <RLayerVector
             zIndex={10}
@@ -78,6 +73,71 @@ function Visualization() {
             <RStyle.RStyle>
               <RStyle.RStroke color="white" width={3} />
               <RStyle.RFill color="transparent" />
+            </RStyle.RStyle>
+          </RLayerVector>
+        )}
+        {layers.includes('GBI') && (
+          <RLayerVector
+            zIndex={15}
+            features={new GeoJSON({
+              dataProjection: 'EPSG:3857',
+              featureProjection: 'EPSG:3857',
+            }).readFeatures(GBI)}
+          >
+            <RStyle.RStyle>
+              <RStyle.RFill color="white" />
+            </RStyle.RStyle>
+          </RLayerVector>
+        )}
+        {layers.includes('green_buildings') && (
+          <RLayerVector
+            zIndex={15}
+            features={new GeoJSON({
+              dataProjection: 'EPSG:3857',
+              featureProjection: 'EPSG:3857',
+            }).readFeatures(green_buildings)}
+          >
+            <RStyle.RStyle>
+              <RStyle.RFill color="white" />
+            </RStyle.RStyle>
+          </RLayerVector>
+        )}
+        {layers.includes('greenbelt') && (
+          <RLayerVector
+            zIndex={15}
+            features={new GeoJSON({
+              dataProjection: 'EPSG:3857',
+              featureProjection: 'EPSG:3857',
+            }).readFeatures(greenbelt)}
+          >
+            <RStyle.RStyle>
+              <RStyle.RFill color="white" />
+            </RStyle.RStyle>
+          </RLayerVector>
+        )}
+        {layers.includes('street_trees') && (
+          <RLayerVector
+            zIndex={10}
+            features={new GeoJSON({
+              dataProjection: 'EPSG:3857',
+              featureProjection: 'EPSG:3857',
+            }).readFeatures(street_trees)}
+          >
+            <RStyle.RStyle>
+              <RStyle.RFill color="white" />
+            </RStyle.RStyle>
+          </RLayerVector>
+        )}
+        {layers.includes('urban_green') && (
+          <RLayerVector
+            zIndex={10}
+            features={new GeoJSON({
+              dataProjection: 'EPSG:3857',
+              featureProjection: 'EPSG:3857',
+            }).readFeatures(urban_green)}
+          >
+            <RStyle.RStyle>
+              <RStyle.RFill color="white" />
             </RStyle.RStyle>
           </RLayerVector>
         )}
