@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Affix, Paper, Checkbox, Switch, Space } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { fromLonLat } from 'ol/proj';
@@ -6,15 +6,84 @@ import GeoJSON from 'ol/format/GeoJSON';
 import features from '../assets/county.json';
 import 'ol/ol.css';
 
-import GBI from '../assets/map_layers/GBI.json';
-import green_buildings from '../assets/map_layers/green_buildings.json';
-import greenbelt from '../assets/map_layers/greenbelt.json';
-import street_trees from '../assets/map_layers/street_trees.json';
-import urban_green from '../assets/map_layers/urban_green.json';
+const map_layers = import.meta.glob('../assets/map_layers/*.json');
+
+const data = [
+  {
+    color: 'lime',
+    value: 'GBI',
+    title: 'Green Infrastructure (GBI)',
+    id: 0,
+  },
+  {
+    color: 'cyan',
+    value: 'green_buildings',
+    title: 'Green Buildings',
+    id: 1,
+  },
+  {
+    color: 'pink',
+    value: 'greenbelt',
+    title: 'Greenbelt',
+    id: 2,
+  },
+  {
+    color: 'violet',
+    value: 'street_trees',
+    title: 'Street Trees',
+    id: 3,
+  },
+  {
+    color: 'orange',
+    value: 'urban_green',
+    title: 'Urban Green Areas',
+    id: 4,
+  },
+];
+
+const colors = {
+  GBI: 'lime',
+  green_buildings: 'cyan',
+  greenbelt: 'pink',
+  street_trees: 'violet',
+  urban_green: 'orange',
+};
 
 function Visualization() {
   const [layers, setLayers] = useState<string[]>([]);
   const [boundaryShowing, setBoundaryShowing] = useState(true);
+  const [rendered_layers, setRenderedLayers] = useState<JSX.Element[]>([]); // [] as JSX.Element[];
+
+  useEffect(() => {
+    async function get_rendered_layers() {
+      const imports = await Promise.all(
+        layers.map((value) =>
+          map_layers[`../assets/map_layers/${value}.json`](),
+        ),
+      );
+      setRenderedLayers(
+        imports.map((value, index) => (
+          <RLayerVector
+            zIndex={15}
+            key={`layer_${layers[index]}`}
+            features={new GeoJSON({
+              dataProjection: 'EPSG:3857',
+              featureProjection: 'EPSG:3857',
+            }).readFeatures(value)}
+          >
+            <RStyle.RStyle key={`style_${layers[index]}`}>
+              <RStyle.RFill
+                color={colors[layers[index] as keyof typeof colors]}
+                key={`fill_${layers[index]}`}
+              />
+            </RStyle.RStyle>
+          </RLayerVector>
+        )),
+      );
+    }
+
+    get_rendered_layers().catch(console.error);
+  }, [layers]);
   return (
     <>
       <Affix position={{ bottom: 20, left: 20 }}>
@@ -25,34 +94,19 @@ function Visualization() {
             value={layers}
             onChange={setLayers}
           >
-            <Space h="xs" />
-            <Checkbox
-              label="Green Infrastructure (GBI)"
-              color="lime"
-              value={'GBI'}
-            />
-            <Space h="xs" />
-            <Checkbox
-              label="Green Buildings"
-              color="cyan"
-              value={'green_buildings'}
-            />
-            <Space h="xs" />
-            <Checkbox label="Greenbelt" color="pink" value={'greenbelt'} />
-            <Space h="xs" />
-            <Checkbox
-              label="Street Trees"
-              color="violet"
-              value={'street_trees'}
-            />
-            <Space h="xs" />
-            <Checkbox
-              label="Urban Green Areas"
-              color="orange"
-              value={'urban_green'}
-            />
-            <Space h="xs" />
+            {data.map((value) => (
+              <>
+                <Space h="xs" key={`space_${value.value}`} />
+                <Checkbox
+                  label={value.title}
+                  color={value.color}
+                  value={value.value}
+                  key={`checkbox_${value.value}`}
+                />
+              </>
+            ))}
           </Checkbox.Group>
+          <Space h="xs" />
           <Space h="xs" />
           <Switch
             checked={boundaryShowing}
@@ -89,71 +143,7 @@ function Visualization() {
             </RStyle.RStyle>
           </RLayerVector>
         )}
-        {layers.includes('GBI') && (
-          <RLayerVector
-            zIndex={15}
-            features={new GeoJSON({
-              dataProjection: 'EPSG:3857',
-              featureProjection: 'EPSG:3857',
-            }).readFeatures(GBI)}
-          >
-            <RStyle.RStyle>
-              <RStyle.RFill color="lime" />
-            </RStyle.RStyle>
-          </RLayerVector>
-        )}
-        {layers.includes('green_buildings') && (
-          <RLayerVector
-            zIndex={15}
-            features={new GeoJSON({
-              dataProjection: 'EPSG:3857',
-              featureProjection: 'EPSG:3857',
-            }).readFeatures(green_buildings)}
-          >
-            <RStyle.RStyle>
-              <RStyle.RFill color="cyan" />
-            </RStyle.RStyle>
-          </RLayerVector>
-        )}
-        {layers.includes('greenbelt') && (
-          <RLayerVector
-            zIndex={15}
-            features={new GeoJSON({
-              dataProjection: 'EPSG:3857',
-              featureProjection: 'EPSG:3857',
-            }).readFeatures(greenbelt)}
-          >
-            <RStyle.RStyle>
-              <RStyle.RFill color="pink" />
-            </RStyle.RStyle>
-          </RLayerVector>
-        )}
-        {layers.includes('street_trees') && (
-          <RLayerVector
-            zIndex={10}
-            features={new GeoJSON({
-              dataProjection: 'EPSG:3857',
-              featureProjection: 'EPSG:3857',
-            }).readFeatures(street_trees)}
-          >
-            <RStyle.RStyle>
-              <RStyle.RFill color="violet" />
-            </RStyle.RStyle>
-          </RLayerVector>
-        )}
-        {layers.includes('urban_green') && (
-          <RLayerVector
-            zIndex={10}
-            features={new GeoJSON({
-              dataProjection: 'EPSG:3857',
-              featureProjection: 'EPSG:3857',
-            }).readFeatures(urban_green)}
-          >
-            <RStyle.RStyle>
-              <RStyle.RFill color="orange" />
-            </RStyle.RStyle>
-          </RLayerVector>
-        )}
+        {rendered_layers}
       </RMap>
     </>
   );
