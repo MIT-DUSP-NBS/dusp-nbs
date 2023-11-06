@@ -1,24 +1,13 @@
-import Header from './components/Header';
-import Overview from './pages/Overview';
-import SpatialAllocation from './pages/SpatialAllocation';
-import Visualization from './pages/Visualization';
-import About from './pages/About';
-import Error from './components/Error';
-
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import '@mantine/core/styles.css';
+import { MantineProvider } from '@mantine/core';
+import { Router } from './Router';
+import { theme } from './theme';
 
 function App() {
   return (
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Overview />} />
-        <Route path="spatial-allocation" element={<SpatialAllocation />} />
-        <Route path="about" element={<About />} />
-        <Route path="visualization" element={<Visualization />} />
-        <Route path="*" element={<Error />} />
-      </Routes>
-    </Router>
+    <MantineProvider theme={theme}>
+      <Router />
+    </MantineProvider>
   );
 }
 
