@@ -1,16 +1,8 @@
-import {
-  Group,
-  Button,
-  Divider,
-  Box,
-  Burger,
-  Drawer,
-  ScrollArea,
-  rem,
-} from '@mantine/core';
-import ThemeToggle from './ThemeToggle';
+import { Group, Button, Divider, Box, Burger, Drawer, ScrollArea, rem } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
+
+import ThemeToggle from './ThemeToggle';
 import classes from './Header.module.css';
 
 function LinksRender({ onClick }: { onClick?: () => void }) {
@@ -22,12 +14,7 @@ function LinksRender({ onClick }: { onClick?: () => void }) {
   ];
 
   return links.map((link) => (
-    <Link
-      to={link.link}
-      className={classes.link}
-      key={link.id}
-      onClick={onClick}
-    >
+    <Link to={link.link} className={classes.link} key={link.id} onClick={onClick}>
       {link.label}
     </Link>
   ));
@@ -50,31 +37,22 @@ function HeaderButtons() {
   ];
 
   return buttons_list.map((link) => (
-    <Button
-      component="a"
-      variant={link.type}
-      href={link.link}
-      target="_blank"
-      key={link.id}
-    >
+    <Button component="a" variant={link.type} href={link.link} target="_blank" key={link.id}>
       {link.label}
     </Button>
   ));
 }
 
-export function Header() {
-  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
-    useDisclosure(false);
+function Header() {
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
   return (
     <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           {/* <Text>Nature Based Solutions Dashboard</Text> */}
-          <Link to={''}>
-            <Button variant="transparent">
-              Nature-Based Solutions Dashboard
-            </Button>
+          <Link to="">
+            <Button variant="transparent">Nature-Based Solutions Dashboard</Button>
           </Link>
 
           <Group h="100%" gap={0} visibleFrom="sm">
@@ -86,11 +64,7 @@ export function Header() {
             <ThemeToggle />
           </Group>
 
-          <Burger
-            opened={drawerOpened}
-            onClick={toggleDrawer}
-            hiddenFrom="sm"
-          />
+          <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
         </Group>
       </header>
 

@@ -2,6 +2,7 @@ module.exports = {
   root: true,
   env: { browser: true, es2020: true },
   extends: [
+    'mantine',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended-type-checked',
     'plugin:react-hooks/recommended',
@@ -9,7 +10,6 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'prettier',
-    'mantine',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',

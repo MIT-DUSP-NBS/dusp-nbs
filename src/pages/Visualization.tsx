@@ -57,9 +57,7 @@ function Visualization() {
   useEffect(() => {
     async function get_rendered_layers() {
       const imports = await Promise.all(
-        layers.map((value) =>
-          map_layers[`../assets/map_layers/${value}.json`](),
-        ),
+        layers.map((value) => map_layers[`../assets/map_layers/${value}.json`]())
       );
       setRenderedLayers(
         imports.map((value, index) => (
@@ -78,11 +76,11 @@ function Visualization() {
               />
             </RStyle.RStyle>
           </RLayerVector>
-        )),
+        ))
       );
     }
 
-    get_rendered_layers().catch(console.error);
+    get_rendered_layers().catch(() => {});
   }, [layers]);
   return (
     <>
@@ -110,9 +108,7 @@ function Visualization() {
           <Space h="xs" />
           <Switch
             checked={boundaryShowing}
-            onChange={(event) =>
-              setBoundaryShowing(event.currentTarget.checked)
-            }
+            onChange={(event) => setBoundaryShowing(event.currentTarget.checked)}
             label="Show Stockholm county boundary"
           />
         </Paper>
@@ -120,14 +116,14 @@ function Visualization() {
 
       <RMap
         initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }}
-        width={'100%'}
-        height={'calc(100vh - 3.75rem * var(--mantine-scale))'}
+        width="100%"
+        height="calc(100vh - 3.75rem * var(--mantine-scale))"
       >
         <RLayerTile
           zIndex={5}
           url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
-          projection={'EPSG:3857'}
+          projection="EPSG:3857"
         />
         {boundaryShowing && (
           <RLayerVector

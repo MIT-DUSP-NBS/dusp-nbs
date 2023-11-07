@@ -1,13 +1,4 @@
-import {
-  Container,
-  Table,
-  Button,
-  ScrollArea,
-  HoverCard,
-  Text,
-  Title,
-  List,
-} from '@mantine/core';
+import { Container, Table, Button, ScrollArea, HoverCard, Text, Title, List } from '@mantine/core';
 
 const infrastructure = [
   {
@@ -18,8 +9,7 @@ const infrastructure = [
   {
     id: 1,
     name: 'Green buildings',
-    criteria:
-      '(High residential emission OR High industry emission) AND Building rooftops',
+    criteria: '(High residential emission OR High industry emission) AND Building rooftops',
     moreInfo: {
       title: 'Available land cover for GI',
       description:
@@ -37,14 +27,12 @@ const infrastructure = [
   {
     id: 2,
     name: 'Green infrastructure',
-    criteria:
-      '(High residential emissions OR High industrial emissions) AND Available land cover',
+    criteria: '(High residential emissions OR High industrial emissions) AND Available land cover',
   },
   {
     id: 3,
     name: 'Urban green areas',
-    criteria:
-      '(High population density OR High built-up areas) AND Available land cover',
+    criteria: '(High population density OR High built-up areas) AND Available land cover',
     moreInfo: {
       title: 'Available land cover for Urban green areas',
       description: '',
@@ -118,8 +106,7 @@ const keyvars = [
     description: 'Functional urban area boundaries',
     data_source: 'European Commission',
     year: 2015,
-    available:
-      'https://data.jrc.ec.europa.eu/dataset/jrc-luisa-ui-boundaries-fua',
+    available: 'https://data.jrc.ec.europa.eu/dataset/jrc-luisa-ui-boundaries-fua',
   },
 ];
 
@@ -157,22 +144,14 @@ function About() {
       <Table.Td>{element.data_source}</Table.Td>
       <Table.Td>{element.year}</Table.Td>
       <Table.Td>
-        <Button
-          component="a"
-          variant="subtle"
-          href={element.available}
-          target="_blank"
-        >
+        <Button component="a" variant="subtle" href={element.available} target="_blank">
           Click here!
         </Button>
       </Table.Td>
     </Table.Tr>
   ));
   return (
-    <ScrollArea.Autosize
-      mah={'calc(100vh - 3.75rem * var(--mantine-scale))'}
-      maw={'100%'}
-    >
+    <ScrollArea.Autosize mah="calc(100vh - 3.75rem * var(--mantine-scale))" maw="100%">
       <Container>
         <Table captionSide="bottom">
           <Table.Caption>
@@ -195,9 +174,7 @@ function About() {
         </Table>
 
         <Table captionSide="bottom">
-          <Table.Caption>
-            Key variables and data sources used in the analysis
-          </Table.Caption>
+          <Table.Caption>Key variables and data sources used in the analysis</Table.Caption>
           <Table.Thead>
             <Table.Tr>
               <Table.Th>Type</Table.Th>

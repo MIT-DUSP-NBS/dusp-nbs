@@ -1,12 +1,11 @@
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+
 import Overview from './pages/Overview';
 import SpatialAllocation from './pages/SpatialAllocation';
 import Visualization from './pages/Visualization';
 import About from './pages/About';
-import Error from './components/Error';
-
+import Error from './pages/Error';
 import Header from './components/Header';
-
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 
 function Layout() {
   return (
