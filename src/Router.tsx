@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { createHashRouter, RouterProvider, Outlet } from 'react-router-dom';
 
 import Overview from './pages/Overview';
 import SpatialAllocation from './pages/SpatialAllocation';
@@ -16,7 +16,7 @@ function Layout() {
   );
 }
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   [
     {
       element: <Layout />,
@@ -40,12 +40,12 @@ const router = createBrowserRouter(
         },
       ],
     },
-  ],
-  { basename: '/dusp-nbs' }
+  ]
+  // { basename: '/dusp-nbs' }
 );
 
-export function Router() {
+function Router() {
   return <RouterProvider router={router} />;
 }
 
-// export default Router;
+export default Router;
