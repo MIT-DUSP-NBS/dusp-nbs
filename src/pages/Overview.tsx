@@ -1,44 +1,52 @@
-import { Container, Image, ScrollArea } from '@mantine/core';
-
-import overview from '../assets/overview.png';
-import overview_nbs from '../assets/overview_nbs.png';
+import { Container, Text, Button, Group } from '@mantine/core';
+import { IconArticle, IconMapSearch } from '@tabler/icons-react';
+import { Link } from 'react-router-dom';
+import classes from './Overview.module.css';
 
 function Overview() {
   return (
-    <ScrollArea.Autosize mah="calc(100vh - 3.75rem * var(--mantine-scale))" maw="100%">
-      <Container>
-        <h1>Overview</h1>
-        <h2>Urban Challenges</h2>
-        <p>
-          Urban areas contribute more than 60% of global greenhouse gas (GHG) emissions, through
-          residential, commercial, and transportation activities. Nature-based solutions (NbS) are
-          increasingly being adopted by cities worldwide to enhance carbon sequestration, offsets
-          emissions, and promotes sustainable land management practices, thus contributing to global
-          climate change mitigation efforts.
-        </p>
-        <h2>Nature-based Solutions</h2>
-        <p>
-          Realistic NbS implementation plans toward carbon neutrality, such as restoring natural
-          ecosystems and increasing urban green resources, need to be both effective in mitigating
-          carbon emissions at the global level and suitable for the socio-economic and physical
-          conditions at the local level. Prioritizing suitable sites and solutions can enhance the
-          long-term viability of NbS. In our research,we have explored a systematic approach to
-          spatially prioritizing different types of NbS implementations in multiple major EU cities.
-        </p>
-        <Image src={overview} />
-        <h2>Motivation</h2>
-        <p>
-          The motivation for developing this tool is to offer the necessary flexibility for NbS
-          planning, by enabling users to interact and iterate through our spatial allocation
-          processes. Successful adoption of NbS and realization of their functionality requires a
-          holistic and collaborative planning approach that incorporates stakeholders across scales
-          and disciplines. This platform aims to serve as a point of departure to facilitate the
-          identifying suitable interventions and enhancing the awareness of NbS opportunities in
-          urban settings.
-        </p>
-        <Image src={overview_nbs} />
+    <div className={classes.wrapper}>
+      <Container size={800} className={classes.inner}>
+        <h1 className={classes.title}>
+          Urban areas contribute more than{' '}
+          <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
+            60%
+          </Text>{' '}
+          of global greenhouse emissions
+        </h1>
+
+        <Text className={classes.description} color="dimmed">
+          Nature-based solutions are increasingly being adopted by cities worldwide to enhance
+          carbon sequestration, offsets emissions, and promotes sustainable land management
+          practices, thus contributing to global climate change mitigation efforts.
+        </Text>
+
+        <Group className={classes.controls}>
+          <Link to="visualization">
+            <Button
+              size="xl"
+              className={classes.control}
+              variant="gradient"
+              gradient={{ from: 'blue', to: 'cyan' }}
+              leftSection={<IconMapSearch size={20} />}
+            >
+              View solutions
+            </Button>
+          </Link>
+
+          <Button
+            component="a"
+            href="https://doi.org/10.1038/s41558-023-01737-x"
+            size="xl"
+            variant="default"
+            className={classes.control}
+            leftSection={<IconArticle size={20} />}
+          >
+            Read research
+          </Button>
+        </Group>
       </Container>
-    </ScrollArea.Autosize>
+    </div>
   );
 }
 
