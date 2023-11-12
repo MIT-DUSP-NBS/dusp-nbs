@@ -38,7 +38,7 @@ const data = [
     image:
       'https://urbangreenbluegrids.com/uploads/London-Wetland-Centre-Berkeley-Homes-1300x650.jpg',
     title: 'Urban Wetlands',
-    category: 'nature',
+    category: 'urban',
   },
   {
     image:
