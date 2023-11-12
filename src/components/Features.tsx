@@ -2,7 +2,7 @@ import { Title, Text, Grid, Button } from '@mantine/core';
 import classes from './Features.module.css';
 import FeatureCarousel from './FeatureCarousel';
 
-export function Features() {
+function Features() {
   return (
     <div className={classes.wrapper}>
       <Grid gutter={80}>
