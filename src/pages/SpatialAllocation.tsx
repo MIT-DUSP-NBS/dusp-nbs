@@ -1,35 +1,67 @@
-import { Container, Image, ScrollArea } from '@mantine/core';
+import { Text, SimpleGrid, Container, rem } from '@mantine/core';
+import {
+  IconBuildingEstate,
+  IconAdjustmentsSearch,
+  IconGlobe,
+  TablerIconsProps,
+} from '@tabler/icons-react';
+import classes from './SpatialAllocation.module.css';
 
-import nbs_1 from '../assets/nbs_1.png';
-import nbs_2 from '../assets/nbs_2.png';
+interface FeatureProps extends React.ComponentPropsWithoutRef<'div'> {
+  icon: React.FC<TablerIconsProps>;
+  title: string;
+  description: string;
+}
 
-function Overview() {
+function Feature({ icon: Icon, title, description, className, ...others }: FeatureProps) {
   return (
-    <ScrollArea.Autosize mah="calc(100vh - 3.75rem * var(--mantine-scale))" maw="100%">
-      <Container>
-        <h1>NbS Spatial Allocation</h1>
-        <p>
-          We selected five types of NbS (green infrastructure (GI), street trees & green pavements,
-          urban green spaces & agriculture, habitat preservation & remediation, and green buildings)
-          as our study objectives. From established definitions of NbS in the literature, we
-          identified the level of benefit of different types of NbS at different urban settings and
-          synthesized quantitative indicators to describe the impact of NbS on sectoral carbon
-          emissions.
-        </p>
-        <Image src={nbs_1} />
-        <p>
-          The NbS implementations were spatially allocated based on three major factors: the
-          sectoral carbon emission, potential NbS benefits, and the local context of each location.
-          For example, street trees & green pavements as an NbS to promote walking and cycling
-          should ideally be located along city roads in high-density urban areas, while preserved
-          habitats should be located at the urban fringe where new urban developments are likely to
-          occur. We have developed practical principles and criteria that systematically guide the
-          spatial allocations of each type of NbS.
-        </p>
-        <Image src={nbs_2} />
-      </Container>
-    </ScrollArea.Autosize>
+    <div className={classes.feature} {...others}>
+      <div className={classes.overlay} />
+
+      <div className={classes.content}>
+        <Icon style={{ width: rem(38), height: rem(38) }} className={classes.icon} stroke={1.5} />
+        <Text fw={700} fz="lg" mb="xs" mt={5} className={classes.title}>
+          {title}
+        </Text>
+        <Text c="dimmed" fz="sm">
+          {description}
+        </Text>
+      </div>
+    </div>
   );
 }
 
-export default Overview;
+const data = [
+  {
+    icon: IconBuildingEstate,
+    title: '5 types of NbS selected',
+    description:
+      'Green infrastructure (GI), street trees & green pavements, urban green spaces & agriculture, habitat preservation & remediation, and green buildings',
+  },
+  {
+    icon: IconAdjustmentsSearch,
+    title: 'Spatially allocated based on 3 factors',
+    description:
+      'Sectoral carbon emission, potential NbS benefits, and the local context of each location',
+  },
+  {
+    icon: IconGlobe,
+    title: 'Practical principles and criteria chosen',
+    description:
+      'Selected NbS and their implementation area were developed using optimal benefits by type and location.',
+  },
+];
+
+function SpatialAllocation() {
+  const items = data.map((item) => <Feature {...item} key={item.title} />);
+
+  return (
+    <Container mt={30} mb={30} size="lg">
+      <SimpleGrid cols={{ base: 1, sm: 3 }} spacing={50}>
+        {items}
+      </SimpleGrid>
+    </Container>
+  );
+}
+
+export default SpatialAllocation;
