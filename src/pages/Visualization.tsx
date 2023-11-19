@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Affix, Paper, Checkbox, Switch, Space } from '@mantine/core';
+import { useIntersection } from '@mantine/hooks';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { fromLonLat } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -53,6 +54,10 @@ function Visualization() {
   const [layers, setLayers] = useState<string[]>([]);
   const [boundaryShowing, setBoundaryShowing] = useState(true);
   const [rendered_layers, setRenderedLayers] = useState<JSX.Element[]>([]); // [] as JSX.Element[];
+  const { ref, entry } = useIntersection({
+    root: null,
+    threshold: 0,
+  });
 
   useEffect(() => {
     async function get_rendered_layers() {
@@ -84,63 +89,67 @@ function Visualization() {
   }, [layers]);
   return (
     <>
-      <Affix position={{ bottom: 20, left: 20 }}>
-        <Paper shadow="xs" withBorder p="xl">
-          <Checkbox.Group
-            label="Green Infrastructure Visualization"
-            description="Select the desired green infrastructure implementations"
-            value={layers}
-            onChange={setLayers}
-          >
-            {data.map((value) => (
-              <>
-                <Space h="xs" key={`space_${value.value}`} />
-                <Checkbox
-                  label={value.title}
-                  color={value.color}
-                  value={value.value}
-                  key={`checkbox_${value.value}`}
-                />
-              </>
-            ))}
-          </Checkbox.Group>
-          <Space h="xs" />
-          <Space h="xs" />
-          <Switch
-            checked={boundaryShowing}
-            onChange={(event) => setBoundaryShowing(event.currentTarget.checked)}
-            label="Show Stockholm county boundary"
-          />
-        </Paper>
-      </Affix>
+      {entry?.isIntersecting && (
+        <Affix position={{ bottom: 20, left: 20 }}>
+          <Paper shadow="xs" withBorder p="xl">
+            <Checkbox.Group
+              label="Green Infrastructure Visualization"
+              description="Select the desired green infrastructure implementations"
+              value={layers}
+              onChange={setLayers}
+            >
+              {data.map((value) => (
+                <>
+                  <Space h="xs" key={`space_${value.value}`} />
+                  <Checkbox
+                    label={value.title}
+                    color={value.color}
+                    value={value.value}
+                    key={`checkbox_${value.value}`}
+                  />
+                </>
+              ))}
+            </Checkbox.Group>
+            <Space h="xs" />
+            <Space h="xs" />
+            <Switch
+              checked={boundaryShowing}
+              onChange={(event) => setBoundaryShowing(event.currentTarget.checked)}
+              label="Show Stockholm county boundary"
+            />
+          </Paper>
+        </Affix>
+      )}
 
-      <RMap
-        initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }}
-        width="100%"
-        height="calc(100vh - 3.75rem * var(--mantine-scale))"
-      >
-        <RLayerTile
-          zIndex={5}
-          url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-          attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
-          projection="EPSG:3857"
-        />
-        {boundaryShowing && (
-          <RLayerVector
-            zIndex={10}
-            features={new GeoJSON({
-              dataProjection: 'EPSG:3857',
-              featureProjection: 'EPSG:3857',
-            }).readFeatures(features)}
-          >
-            <RStyle.RStyle>
-              <RStyle.RStroke color="white" width={3} />
-              <RStyle.RFill color="transparent" />
-            </RStyle.RStyle>
-          </RLayerVector>
-        )}
-        {rendered_layers}
-      </RMap>
+      <div ref={ref}>
+        <RMap
+          initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }}
+          width="100%"
+          height="calc(100vh - 3.75rem * var(--mantine-scale))"
+        >
+          <RLayerTile
+            zIndex={5}
+            url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+            attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
+            projection="EPSG:3857"
+          />
+          {boundaryShowing && (
+            <RLayerVector
+              zIndex={10}
+              features={new GeoJSON({
+                dataProjection: 'EPSG:3857',
+                featureProjection: 'EPSG:3857',
+              }).readFeatures(features)}
+            >
+              <RStyle.RStyle>
+                <RStyle.RStroke color="white" width={3} />
+                <RStyle.RFill color="transparent" />
+              </RStyle.RStyle>
+            </RLayerVector>
+          )}
+          {rendered_layers}
+        </RMap>
+      </div>
     </>
   );
 }

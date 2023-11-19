@@ -47,7 +47,15 @@ function Header() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
   return (
-    <Box>
+    <Box
+      style={{
+        position: 'fixed',
+        top: 0,
+        width: '100%',
+        zIndex: 100,
+        background: 'var(--mantine-color-body)',
+      }}
+    >
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           {/* <Text>Nature Based Solutions Dashboard</Text> */}

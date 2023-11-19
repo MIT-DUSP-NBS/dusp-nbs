@@ -1,4 +1,5 @@
 import { createHashRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { Space } from '@mantine/core';
 
 import Overview from './pages/Overview';
 import SpatialAllocation from './pages/SpatialAllocation';
@@ -11,6 +12,7 @@ function Layout() {
   return (
     <>
       <Header />
+      <Space h="calc(3.75rem * var(--mantine-scale))" />
       <Outlet />
     </>
   );
