@@ -159,12 +159,13 @@ function About() {
       <Container>
         <Table captionSide="bottom">
           <Table.Caption>
+            Typology:{' '}
             <Anchor
               style={{ fontSize: 'var(--mantine-font-size-sm)' }}
               href="https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/population-distribution-demography/geostat"
               target="_blank"
             >
-              Click here to view typology!
+              Click here!
             </Anchor>
           </Table.Caption>
           <Table.Thead>

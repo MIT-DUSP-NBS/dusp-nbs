@@ -69,9 +69,9 @@ function Header() {
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           {/* <Text>Nature Based Solutions Dashboard</Text> */}
-          <Anchor underline="never" component={Link} to="">
+          <Button variant="transparent" component={Link} to="">
             Nature-Based Solutions Dashboard
-          </Anchor>
+          </Button>
 
           <Group h="100%" gap={0} visibleFrom="sm">
             <LinksRender />
