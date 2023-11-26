@@ -10,27 +10,27 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/carousel": "^7.2.1",
+    "@mantine/carousel": "^7.2.2",
     "@mantine/core": "^7.2.1",
     "@mantine/hooks": "^7.2.1",
-    "@tabler/icons-react": "^2.40.0",
+    "@tabler/icons-react": "^2.42.0",
     "clsx": "^2.0.0",
     "cross-env": "^7.0.3",
     "embla-carousel-react": "^7.1.0",
-    "ol": "^8.1.0",
+    "ol": "^8.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.18.0",
-    "rlayers": "^2.1.0"
+    "react-router-dom": "^6.20.0",
+    "rlayers": "^2.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
-    "@typescript-eslint/eslint-plugin": "^6.10.0",
-    "@typescript-eslint/parser": "^6.10.0",
-    "@vitejs/plugin-react-swc": "^3.4.1",
-    "eslint": "^8.53.0",
-    "eslint-config-mantine": "^3.0.0",
+    "@types/react": "^18.2.38",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^8.54.0",
+    "eslint-config-mantine": "^3.1.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.33.2",
@@ -39,8 +39,8 @@
     "postcss": "^8.4.31",
     "postcss-preset-mantine": "^1.11.0",
     "postcss-simple-vars": "^7.0.1",
-    "prettier": "3.0.3",
-    "typescript": "^5.2.2",
-    "vite": "^4.5.0"
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.2"
   }
 }
