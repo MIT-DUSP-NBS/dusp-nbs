@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Affix, Paper, Checkbox, Switch, Space } from '@mantine/core';
 import { useIntersection } from '@mantine/hooks';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
+import { Feature } from 'ol';
+import { Geometry } from 'ol/geom';
 import { fromLonLat } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
 import features from '../assets/county.json';
@@ -66,13 +68,16 @@ function Visualization() {
       );
       setRenderedLayers(
         imports.map((value, index) => (
-          <RLayerVector
+          <RLayerVector<Feature<Geometry>>
             zIndex={15}
             key={`layer_${layers[index]}`}
-            features={new GeoJSON({
-              dataProjection: 'EPSG:3857',
-              featureProjection: 'EPSG:3857',
-            }).readFeatures(value)}
+            features={
+              // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+              new GeoJSON({
+                dataProjection: 'EPSG:3857',
+                featureProjection: 'EPSG:3857',
+              }).readFeatures(value) as Feature<Geometry>[]
+            }
           >
             <RStyle.RStyle key={`style_${layers[index]}`}>
               <RStyle.RFill
@@ -134,12 +139,15 @@ function Visualization() {
             projection="EPSG:3857"
           />
           {boundaryShowing && (
-            <RLayerVector
+            <RLayerVector<Feature<Geometry>>
               zIndex={10}
-              features={new GeoJSON({
-                dataProjection: 'EPSG:3857',
-                featureProjection: 'EPSG:3857',
-              }).readFeatures(features)}
+              features={
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+                new GeoJSON({
+                  dataProjection: 'EPSG:3857',
+                  featureProjection: 'EPSG:3857',
+                }).readFeatures(features) as Feature<Geometry>[]
+              }
             >
               <RStyle.RStyle>
                 <RStyle.RStroke color="white" width={3} />
