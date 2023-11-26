@@ -1,14 +1,4 @@
-import {
-  Group,
-  Button,
-  Divider,
-  Box,
-  Burger,
-  Drawer,
-  ScrollArea,
-  Anchor,
-  rem,
-} from '@mantine/core';
+import { Group, Button, Divider, Box, Burger, Drawer, ScrollArea, rem } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 

@@ -1,4 +1,5 @@
-import { Container, Table, Anchor, ScrollArea, HoverCard, Text, Title, List } from '@mantine/core';
+import { Container, Table, Anchor, HoverCard, Text, Title, List, Accordion } from '@mantine/core';
+import classes from './About.module.css';
 
 const infrastructure = [
   {
@@ -155,43 +156,59 @@ function About() {
     </Table.Tr>
   ));
   return (
-    <ScrollArea.Autosize mah="calc(100vh - 3.75rem * var(--mantine-scale))" maw="100%">
-      <Container>
-        <Table captionSide="bottom">
-          <Table.Caption>
-            Typology:{' '}
-            <Anchor
-              style={{ fontSize: 'var(--mantine-font-size-sm)' }}
-              href="https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/population-distribution-demography/geostat"
-              target="_blank"
-            >
-              Click here!
-            </Anchor>
-          </Table.Caption>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Infrastructure</Table.Th>
-              <Table.Th>Criteria (Hover for more info)</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{infrastructure_rows}</Table.Tbody>
-        </Table>
+    <Container size="md" className={classes.wrapper}>
+      <Title ta="center" className={classes.title}>
+        Frequently Asked Questions
+      </Title>
+      <Accordion variant="separated">
+        <Accordion.Item className={classes.item} value="infrastructure">
+          <Accordion.Control>
+            What was the criteria for the different infrasture used?
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Table captionSide="bottom">
+              <Table.Caption>
+                Typology:{' '}
+                <Anchor
+                  style={{ fontSize: 'var(--mantine-font-size-sm)' }}
+                  href="https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/population-distribution-demography/geostat"
+                  target="_blank"
+                >
+                  Click here!
+                </Anchor>
+              </Table.Caption>
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th>Infrastructure</Table.Th>
+                  <Table.Th>Criteria (Hover for more info)</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>{infrastructure_rows}</Table.Tbody>
+            </Table>
+          </Accordion.Panel>
+        </Accordion.Item>
 
-        <Table captionSide="bottom">
-          <Table.Caption>Key variables and data sources used in the analysis</Table.Caption>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Type</Table.Th>
-              <Table.Th>Description</Table.Th>
-              <Table.Th>Data Source</Table.Th>
-              <Table.Th>Year</Table.Th>
-              <Table.Th>Available</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{keyvars_rows}</Table.Tbody>
-        </Table>
-      </Container>
-    </ScrollArea.Autosize>
+        <Accordion.Item className={classes.item} value="another-account">
+          <Accordion.Control>
+            What are the key variables and data sources used in the analysis?
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Table>
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th>Type</Table.Th>
+                  <Table.Th>Description</Table.Th>
+                  <Table.Th>Data Source</Table.Th>
+                  <Table.Th>Year</Table.Th>
+                  <Table.Th>Available</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>{keyvars_rows}</Table.Tbody>
+            </Table>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
+    </Container>
   );
 }
 
