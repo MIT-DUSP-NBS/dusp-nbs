@@ -1,4 +1,14 @@
-import { Group, Button, Divider, Box, Burger, Drawer, ScrollArea, rem } from '@mantine/core';
+import {
+  Group,
+  Button,
+  Divider,
+  Box,
+  Burger,
+  Drawer,
+  ScrollArea,
+  Anchor,
+  rem,
+} from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 
@@ -59,9 +69,9 @@ function Header() {
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           {/* <Text>Nature Based Solutions Dashboard</Text> */}
-          <Link to="">
-            <Button variant="transparent">Nature-Based Solutions Dashboard</Button>
-          </Link>
+          <Anchor underline="never" component={Link} to="">
+            Nature-Based Solutions Dashboard
+          </Anchor>
 
           <Group h="100%" gap={0} visibleFrom="sm">
             <LinksRender />

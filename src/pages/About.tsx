@@ -1,4 +1,4 @@
-import { Container, Table, Button, ScrollArea, HoverCard, Text, Title, List } from '@mantine/core';
+import { Container, Table, Anchor, ScrollArea, HoverCard, Text, Title, List } from '@mantine/core';
 
 const infrastructure = [
   {
@@ -144,9 +144,13 @@ function About() {
       <Table.Td>{element.data_source}</Table.Td>
       <Table.Td>{element.year}</Table.Td>
       <Table.Td>
-        <Button component="a" variant="subtle" href={element.available} target="_blank">
+        <Anchor
+          style={{ fontSize: 'var(--mantine-font-size-sm)' }}
+          href={element.available}
+          target="_blank"
+        >
           Click here!
-        </Button>
+        </Anchor>
       </Table.Td>
     </Table.Tr>
   ));
@@ -155,14 +159,13 @@ function About() {
       <Container>
         <Table captionSide="bottom">
           <Table.Caption>
-            <Button
-              component="a"
-              variant="subtle"
+            <Anchor
+              style={{ fontSize: 'var(--mantine-font-size-sm)' }}
               href="https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/population-distribution-demography/geostat"
               target="_blank"
             >
               Click here to view typology!
-            </Button>
+            </Anchor>
           </Table.Caption>
           <Table.Thead>
             <Table.Tr>
