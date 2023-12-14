@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Affix, Paper, Checkbox, Switch, Space } from '@mantine/core';
-import { useIntersection } from '@mantine/hooks';
+import { Paper, Checkbox, Switch, Space } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
 import { Geometry } from 'ol/geom';
@@ -56,10 +55,6 @@ function Visualization() {
   const [layers, setLayers] = useState<string[]>([]);
   const [boundaryShowing, setBoundaryShowing] = useState(true);
   const [rendered_layers, setRenderedLayers] = useState<JSX.Element[]>([]); // [] as JSX.Element[];
-  const { ref, entry } = useIntersection({
-    root: null,
-    threshold: 0,
-  });
 
   useEffect(() => {
     async function get_rendered_layers() {
@@ -93,40 +88,8 @@ function Visualization() {
     get_rendered_layers().catch(() => {});
   }, [layers]);
   return (
-    <div id="visualization">
-      {entry?.isIntersecting && (
-        <Affix position={{ bottom: 20, left: 20 }}>
-          <Paper shadow="xs" withBorder p="xl">
-            <Checkbox.Group
-              label="Green Infrastructure Visualization"
-              description="Select the desired green infrastructure implementations"
-              value={layers}
-              onChange={setLayers}
-            >
-              {data.map((value) => (
-                <>
-                  <Space h="xs" key={`space_${value.value}`} />
-                  <Checkbox
-                    label={value.title}
-                    color={value.color}
-                    value={value.value}
-                    key={`checkbox_${value.value}`}
-                  />
-                </>
-              ))}
-            </Checkbox.Group>
-            <Space h="xs" />
-            <Space h="xs" />
-            <Switch
-              checked={boundaryShowing}
-              onChange={(event) => setBoundaryShowing(event.currentTarget.checked)}
-              label="Show Stockholm county boundary"
-            />
-          </Paper>
-        </Affix>
-      )}
-
-      <div ref={ref}>
+    <div id="visualization" style={{ height: '100%', position: 'relative' }}>
+      <div>
         <RMap
           initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }}
           width="100%"
@@ -157,6 +120,35 @@ function Visualization() {
           )}
           {rendered_layers}
         </RMap>
+      </div>
+      <div style={{ bottom: 20, left: 20, position: 'absolute' }}>
+        <Paper shadow="xs" withBorder p="xl">
+          <Checkbox.Group
+            label="Green Infrastructure Visualization"
+            description="Select the desired green infrastructure implementations"
+            value={layers}
+            onChange={setLayers}
+          >
+            {data.map((value) => (
+              <>
+                <Space h="xs" key={`space_${value.value}`} />
+                <Checkbox
+                  label={value.title}
+                  color={value.color}
+                  value={value.value}
+                  key={`checkbox_${value.value}`}
+                />
+              </>
+            ))}
+          </Checkbox.Group>
+          <Space h="xs" />
+          <Space h="xs" />
+          <Switch
+            checked={boundaryShowing}
+            onChange={(event) => setBoundaryShowing(event.currentTarget.checked)}
+            label="Show Stockholm county boundary"
+          />
+        </Paper>
       </div>
     </div>
   );
