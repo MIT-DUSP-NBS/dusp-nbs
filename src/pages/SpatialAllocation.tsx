@@ -56,7 +56,7 @@ function SpatialAllocation() {
   const items = data.map((item) => <Feature {...item} key={item.title} />);
 
   return (
-    <Container mt={30} mb={30} size="lg">
+    <Container mt={30} mb={30} size="lg" id="spatial-allocation">
       <SimpleGrid cols={{ base: 1, sm: 3 }} spacing={50}>
         {items}
       </SimpleGrid>

@@ -1,6 +1,6 @@
-import { Container, Text, Button, Group } from '@mantine/core';
+import { Container, Text, Button, Group, Anchor } from '@mantine/core';
 import { IconArticle, IconMapSearch } from '@tabler/icons-react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import classes from './Hero.module.css';
 
 function Hero() {
@@ -22,7 +22,7 @@ function Hero() {
         </Text>
 
         <Group className={classes.controls}>
-          <Link to="visualization">
+          <Anchor href="#visualization">
             <Button
               size="xl"
               className={classes.control}
@@ -32,7 +32,7 @@ function Hero() {
             >
               View solutions
             </Button>
-          </Link>
+          </Anchor>
 
           <Button
             component="a"

@@ -156,7 +156,7 @@ function About() {
     </Table.Tr>
   ));
   return (
-    <Container size="md" className={classes.wrapper}>
+    <Container size="md" className={classes.wrapper} id="about">
       <Title ta="center" className={classes.title}>
         Frequently Asked Questions
       </Title>

@@ -1,5 +1,14 @@
-import { Group, Button, Divider, Box, Burger, Drawer, ScrollArea, rem } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import {
+  Group,
+  Button,
+  Divider,
+  Box,
+  Burger,
+  Drawer,
+  ScrollArea,
+  rem,
+  Anchor,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import ThemeToggle from './ThemeToggle';
@@ -7,16 +16,16 @@ import classes from './Header.module.css';
 
 function LinksRender({ onClick }: { onClick?: () => void }) {
   const links = [
-    { id: 0, link: '', label: 'Overview' },
-    { id: 1, link: 'spatial-allocation', label: 'Spatial Allocation' },
-    { id: 2, link: 'visualization', label: 'Visualization' },
-    { id: 3, link: 'about', label: 'About' },
+    { id: 0, link: '#overview', label: 'Overview' },
+    { id: 1, link: '#spatial-allocation', label: 'Spatial Allocation' },
+    { id: 2, link: '#visualization', label: 'Visualization' },
+    { id: 3, link: '#about', label: 'About' },
   ];
 
   return links.map((link) => (
-    <Link to={link.link} className={classes.link} key={link.id} onClick={onClick}>
+    <Anchor href={link.link} className={classes.link} key={link.id} onClick={onClick}>
       {link.label}
-    </Link>
+    </Anchor>
   ));
 }
 
@@ -49,7 +58,7 @@ function Header() {
   return (
     <Box
       style={{
-        position: 'fixed',
+        position: 'sticky',
         top: 0,
         width: '100%',
         zIndex: 100,
@@ -59,7 +68,7 @@ function Header() {
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           {/* <Text>Nature Based Solutions Dashboard</Text> */}
-          <Button variant="transparent" component={Link} to="">
+          <Button variant="transparent" component="a" href="#">
             Nature-Based Solutions Dashboard
           </Button>
 

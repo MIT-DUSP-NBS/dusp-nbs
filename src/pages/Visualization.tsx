@@ -93,7 +93,7 @@ function Visualization() {
     get_rendered_layers().catch(() => {});
   }, [layers]);
   return (
-    <>
+    <div id="visualization">
       {entry?.isIntersecting && (
         <Affix position={{ bottom: 20, left: 20 }}>
           <Paper shadow="xs" withBorder p="xl">
@@ -130,7 +130,7 @@ function Visualization() {
         <RMap
           initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }}
           width="100%"
-          height="calc(100vh - 3.75rem * var(--mantine-scale))"
+          height="calc(100vh)"
         >
           <RLayerTile
             zIndex={5}
@@ -158,7 +158,7 @@ function Visualization() {
           {rendered_layers}
         </RMap>
       </div>
-    </>
+    </div>
   );
 }
 
