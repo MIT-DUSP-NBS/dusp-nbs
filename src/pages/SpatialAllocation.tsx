@@ -1,10 +1,11 @@
-import { Text, SimpleGrid, Container, rem } from '@mantine/core';
+import { Text, SimpleGrid, Container, rem, Image, Box } from '@mantine/core';
 import {
   IconBuildingEstate,
   IconAdjustmentsSearch,
   IconGlobe,
   TablerIconsProps,
 } from '@tabler/icons-react';
+import urbanGreenAreasImg from '../assets/urbangreenareas.jpg';
 import classes from './SpatialAllocation.module.css';
 
 interface FeatureProps extends React.ComponentPropsWithoutRef<'div'> {
@@ -56,11 +57,17 @@ function SpatialAllocation() {
   const items = data.map((item) => <Feature {...item} key={item.title} />);
 
   return (
-    <Container mt={30} mb={30} size="lg" id="spatial-allocation">
-      <SimpleGrid cols={{ base: 1, sm: 3 }} spacing={50}>
-        {items}
-      </SimpleGrid>
-    </Container>
+    <div id="spatial-allocation">
+      <Box w="full" mx="auto" style={{ position: 'relative' }}>
+        <Image src={urbanGreenAreasImg} />
+        <Text style={{ position: 'absolute', top: '8px', left: '8px' }}>test</Text>
+      </Box>
+      <Container mt={30} mb={30} size="lg">
+        <SimpleGrid cols={{ base: 1, sm: 3 }} spacing={50}>
+          {items}
+        </SimpleGrid>
+      </Container>
+    </div>
   );
 }
 
