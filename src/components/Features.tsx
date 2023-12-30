@@ -5,7 +5,7 @@ import FeatureCarousel from './FeatureCarousel';
 function Features() {
   return (
     <div className={classes.wrapper}>
-      <Grid gutter={80} maw="98%">
+      <Grid gutter={80} maw="98%" justify="center">
         <Grid.Col span={{ base: 12, md: 5 }}>
           <Title className={classes.title} order={2}>
             So what can we do?

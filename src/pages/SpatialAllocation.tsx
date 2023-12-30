@@ -1,8 +1,20 @@
-import { Text, SimpleGrid, Container, rem, Image, Box } from '@mantine/core';
+import {
+  Text,
+  SimpleGrid,
+  Container,
+  rem,
+  Image,
+  Box,
+  HoverCard,
+  Group,
+  ThemeIcon,
+} from '@mantine/core';
 import {
   IconBuildingEstate,
   IconAdjustmentsSearch,
   IconGlobe,
+  IconBuilding,
+  IconTrees,
   TablerIconsProps,
 } from '@tabler/icons-react';
 import urbanGreenAreasImg from '../assets/urbangreenareas.jpg';
@@ -60,7 +72,30 @@ function SpatialAllocation() {
     <div id="spatial-allocation">
       <Box w="full" mx="auto" style={{ position: 'relative' }}>
         <Image src={urbanGreenAreasImg} />
-        <Text style={{ position: 'absolute', top: '8px', left: '8px' }}>test</Text>
+        <Group style={{ position: 'absolute', top: '40%', left: '40%' }}>
+          <HoverCard withArrow shadow="md">
+            <HoverCard.Target>
+              <ThemeIcon radius="xl" size="xl">
+                <IconBuilding style={{ width: '70%', height: '70%' }} />
+              </ThemeIcon>
+            </HoverCard.Target>
+            <HoverCard.Dropdown>
+              <Text size="sm">Urban Green Area</Text>
+            </HoverCard.Dropdown>
+          </HoverCard>
+        </Group>
+        <Group style={{ position: 'absolute', top: '70%', left: '50%' }}>
+          <HoverCard withArrow shadow="md">
+            <HoverCard.Target>
+              <ThemeIcon radius="xl" size="xl">
+                <IconTrees style={{ width: '70%', height: '70%' }} />
+              </ThemeIcon>
+            </HoverCard.Target>
+            <HoverCard.Dropdown>
+              <Text size="sm">Green Roofs</Text>
+            </HoverCard.Dropdown>
+          </HoverCard>
+        </Group>
       </Box>
       <Container mt={30} mb={30} size="lg">
         <SimpleGrid cols={{ base: 1, sm: 3 }} spacing={50}>
