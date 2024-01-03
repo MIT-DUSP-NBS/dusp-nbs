@@ -17,7 +17,7 @@ import {
   IconTrees,
   TablerIconsProps,
 } from '@tabler/icons-react';
-import urbanGreenAreasImg from '../assets/urbangreenareas.jpg';
+import basemapImg from '../assets/basemap.jpg';
 import classes from './SpatialAllocation.module.css';
 
 interface FeatureProps extends React.ComponentPropsWithoutRef<'div'> {
@@ -71,8 +71,8 @@ function SpatialAllocation() {
   return (
     <div id="spatial-allocation">
       <Box w="full" mx="auto" style={{ position: 'relative' }}>
-        <Image src={urbanGreenAreasImg} />
-        <Group style={{ position: 'absolute', top: '40%', left: '40%' }}>
+        <Image src={basemapImg} />
+        <Group style={{ position: 'absolute', top: '45%', left: '23%' }}>
           <HoverCard withArrow shadow="md">
             <HoverCard.Target>
               <ThemeIcon radius="xl" size="xl">
@@ -81,10 +81,11 @@ function SpatialAllocation() {
             </HoverCard.Target>
             <HoverCard.Dropdown>
               <Text size="sm">Urban Green Area</Text>
+              {/* TODO: ADD DESCRIPTION */}
             </HoverCard.Dropdown>
           </HoverCard>
         </Group>
-        <Group style={{ position: 'absolute', top: '70%', left: '50%' }}>
+        <Group style={{ position: 'absolute', top: '60%', left: '35%' }}>
           <HoverCard withArrow shadow="md">
             <HoverCard.Target>
               <ThemeIcon radius="xl" size="xl">
@@ -93,6 +94,7 @@ function SpatialAllocation() {
             </HoverCard.Target>
             <HoverCard.Dropdown>
               <Text size="sm">Green Roofs</Text>
+              {/* TODO: ADD DESCRIPTION */}
             </HoverCard.Dropdown>
           </HoverCard>
         </Group>
