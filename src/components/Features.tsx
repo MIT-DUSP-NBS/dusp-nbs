@@ -29,7 +29,7 @@ function Features() {
             radius="md"
             mt="xl"
             component="a"
-            href="https://www.worldbank.org/en/topic/disasterriskmanagement/brief/nature-based-solutions-cost-effective-approach-for-disaster-risk-and-water-resource-management"
+            href="https://naturebasedsolutions.org/"
           >
             Learn more
           </Button>

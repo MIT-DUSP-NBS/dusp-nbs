@@ -94,6 +94,7 @@ function Visualization() {
           initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }}
           width="100%"
           height="calc(100vh)"
+          noDefaultInteractions
         >
           <RLayerTile
             zIndex={5}

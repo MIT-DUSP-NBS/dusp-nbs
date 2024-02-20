@@ -1,4 +1,4 @@
-import { Container, Text, Button, Group, Anchor } from '@mantine/core';
+import { Container, Text, Button, Group } from '@mantine/core';
 import { IconArticle, IconMapSearch } from '@tabler/icons-react';
 // import { Link } from 'react-router-dom';
 import classes from './Hero.module.css';
@@ -22,21 +22,22 @@ function Hero() {
         </Text>
 
         <Group className={classes.controls}>
-          <Anchor href="#visualization">
-            <Button
-              size="xl"
-              className={classes.control}
-              variant="gradient"
-              gradient={{ from: 'blue', to: 'cyan' }}
-              leftSection={<IconMapSearch size={20} />}
-            >
-              View solutions
-            </Button>
-          </Anchor>
+          <Button
+            component="a"
+            href="#visualization"
+            size="xl"
+            className={classes.control}
+            variant="gradient"
+            gradient={{ from: 'blue', to: 'cyan' }}
+            leftSection={<IconMapSearch size={20} />}
+          >
+            View solutions
+          </Button>
 
           <Button
             component="a"
             href="https://doi.org/10.1038/s41558-023-01737-x"
+            target="_blank"
             size="xl"
             variant="default"
             className={classes.control}
