@@ -171,7 +171,7 @@ function About() {
               <Table.Caption>
                 Typology:{' '}
                 <Anchor
-                  style={{ fontSize: 'var(--mantine-font-size-sm)' }}
+                  size="sm"
                   href="https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/population-distribution-demography/geostat"
                   target="_blank"
                 >
