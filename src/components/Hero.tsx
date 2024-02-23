@@ -15,10 +15,10 @@ function Hero() {
           of global greenhouse emissions
         </h1>
 
-        <Text className={classes.description} color="dimmed">
-          Nature-based solutions (NbS) are increasingly being adopted by cities worldwide to enhance
-          carbon sequestration, offsets emissions, and promotes sustainable land management
-          practices, thus contributing to global climate change mitigation efforts.
+        <Text className={classes.description} c="dimmed">
+          Nature-based solutions offer a sustainable and cost-effective way to mitigate urban
+          greenhouse gas emissions while also providing other benefits like improving air quality,
+          enhancing biodiversity, and creating more livable cities for people.
         </Text>
 
         <Group className={classes.controls}>

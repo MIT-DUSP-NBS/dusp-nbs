@@ -158,8 +158,9 @@ function About() {
   return (
     <Container size="md" className={classes.wrapper} id="about">
       <Title ta="center" className={classes.title}>
-        Frequently Asked Questions
+        Read our Research
       </Title>
+      {/* TODO: ADD LINKS TO RESEARCH PAPERS */}
       <Accordion variant="separated">
         <Accordion.Item className={classes.item} value="infrastructure">
           <Accordion.Control>

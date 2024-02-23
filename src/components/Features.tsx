@@ -8,18 +8,13 @@ function Features() {
       <Grid gutter={80} maw="98%" justify="center">
         <Grid.Col span={{ base: 12, md: 5 }}>
           <Title className={classes.title} order={2}>
-            So what can we do?
+            What are Nature-based Solutions?
           </Title>
           <Text c="dimmed">
-            Realistic NbS implementation plans toward carbon neutrality (such as restoring natural
-            ecosystems and increasing urban green resources) need to be both effective in mitigating
-            carbon emissions at the global level and suitable for the socio-economic and physical
-            conditions at the local level. Prioritizing suitable sites and solutions can enhance the
-            long-term viability of NbS. Successful adoption of NbS and realization of their
-            functionality requires a holistic and collaborative planning approach that incorporates
-            stakeholders across scales and disciplines. This platform aims to serve as a point of
-            departure to facilitate the identifying suitable interventions and enhancing the
-            awareness of NbS opportunities in urban settings.
+            Instead of relying only on technology, we can work with nature to find solutions. For
+            example, planting trees in cities, creating green spaces, restoring wetlands, and using
+            natural materials in construction are all ways of using nature to help tackle
+            environmental problems.
           </Text>
 
           <Button

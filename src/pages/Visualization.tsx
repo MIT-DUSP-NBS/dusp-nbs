@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Paper, Checkbox, Switch, Space } from '@mantine/core';
+import { Paper, Checkbox, Switch, Space, Title, Text } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
 import { Geometry } from 'ol/geom';
@@ -89,6 +89,11 @@ function Visualization() {
   }, [layers]);
   return (
     <div id="visualization" style={{ height: '100%', position: 'relative' }}>
+      <Title>Locate NbS in Stockholm</Title>
+      <Text>
+        Taking Stockholm as our study site, we identify the demands, locations, and types of NbS
+        interventions that could maximize carbon reduction benefits.
+      </Text>
       <div>
         <RMap
           initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }}
