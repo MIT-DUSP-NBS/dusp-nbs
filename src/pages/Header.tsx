@@ -11,7 +11,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
-import ThemeToggle from './ThemeToggle';
+import ThemeToggle from '../components/ThemeToggle';
 import classes from './Header.module.css';
 
 function LinksRender({ onClick }: { onClick?: () => void }) {

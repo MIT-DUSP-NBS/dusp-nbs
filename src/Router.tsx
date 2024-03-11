@@ -1,18 +1,22 @@
-import Overview from './pages/Overview';
-import SpatialAllocation from './pages/SpatialAllocation';
-import Visualization from './pages/Visualization';
-import About from './pages/About';
-import Header from './components/Header';
+import SpatialAllocation from './sections/SpatialAllocation/SpatialAllocation';
+import Visualization from './sections/Visualization/Visualization';
+import ReadResearch from './sections/ReadResearch/ReadResearch';
+import Header from './pages/Header';
 import Footer from './pages/Footer';
+import Hero from './sections/Hero/Hero';
+import Features from './sections/Features/Features';
+import EmissionsImage from './sections/EmissionsImage/EmissionsImage';
 
 function Router() {
   return (
     <>
       <Header />
-      <Overview />
+      <Hero />
+      <Features />
+      <EmissionsImage />
       <SpatialAllocation />
       <Visualization />
-      <About />
+      <ReadResearch />
       <Footer />
     </>
   );

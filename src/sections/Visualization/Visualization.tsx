@@ -5,7 +5,7 @@ import { Feature } from 'ol';
 import { Geometry } from 'ol/geom';
 import { fromLonLat } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
-import features from '../assets/county.json';
+import features from '../../assets/county.json';
 import 'ol/ol.css';
 
 const map_layers = import.meta.glob('../assets/map_layers/*.json');

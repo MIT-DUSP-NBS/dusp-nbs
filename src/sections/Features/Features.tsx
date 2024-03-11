@@ -1,6 +1,6 @@
 import { Title, Text, Grid, Button } from '@mantine/core';
 import classes from './Features.module.css';
-import FeatureCarousel from './FeatureCarousel';
+import FeatureCarousel from '../../components/FeatureCarousel';
 
 function Features() {
   return (

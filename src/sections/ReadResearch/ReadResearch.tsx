@@ -1,5 +1,5 @@
 import { Container, Table, Anchor, HoverCard, Text, Title, List, Accordion } from '@mantine/core';
-import classes from './About.module.css';
+import classes from './ReadResearch.module.css';
 
 const infrastructure = [
   {

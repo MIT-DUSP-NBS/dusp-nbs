@@ -5,7 +5,7 @@ import classes from './Hero.module.css';
 
 function Hero() {
   return (
-    <div className={classes.wrapper}>
+    <div className={classes.wrapper} id="overview">
       <Container size={800} className={classes.inner}>
         <h1 className={classes.title}>
           Urban areas contribute more than{' '}
