@@ -7,7 +7,6 @@ import Header from './pages/Header';
 import Footer from './pages/Footer';
 import Hero from './sections/Hero/Hero';
 import Features from './sections/Features/Features';
-import EmissionsImage from './sections/EmissionsImage/EmissionsImage';
 
 function Router() {
   const scrollOverview = useScrollIntoView<HTMLDivElement>({
@@ -35,7 +34,6 @@ function Router() {
       <Header links={links} />
       <Hero ref={scrollOverview.targetRef} />
       <Features />
-      <EmissionsImage />
       <SpatialAllocation ref={scrollSpatialAllocation.targetRef} />
       <Visualization ref={scrollVisualization.targetRef} />
       <ReadResearch ref={scrollFooter.targetRef} />

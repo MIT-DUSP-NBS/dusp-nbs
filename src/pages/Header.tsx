@@ -33,7 +33,7 @@ function LinksRender({ onClick, links }: { onClick?: () => void; links: linksTyp
         onClick={() => {
           if (link.link && typeof link.link !== 'string') {
             link.link({
-              alignment: 'center',
+              // alignment: 'center',
             });
           }
           if (onClick) {

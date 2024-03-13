@@ -1,5 +1,5 @@
 import { useState, useEffect, forwardRef, ForwardedRef } from 'react';
-import { Paper, Checkbox, Switch, Space, Title, Text } from '@mantine/core';
+import { Paper, Checkbox, Switch, Space } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
 import { Geometry } from 'ol/geom';
@@ -67,7 +67,6 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
             zIndex={15}
             key={`layer_${layers[index]}`}
             features={
-              // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
               new GeoJSON({
                 dataProjection: 'EPSG:3857',
                 featureProjection: 'EPSG:3857',
@@ -88,19 +87,14 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
     get_rendered_layers().catch(() => {});
   }, [layers]);
   return (
-    <div ref={ref} style={{ height: '100%', position: 'relative' }}>
-      <Title>Locate NbS in Stockholm</Title>
+    <div ref={ref} style={{ position: 'relative' }}>
+      {/* <Title>Locate NbS in Stockholm</Title>
       <Text>
         Taking Stockholm as our study site, we identify the demands, locations, and types of NbS
         interventions that could maximize carbon reduction benefits.
-      </Text>
-      <div>
-        <RMap
-          initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }}
-          width="100%"
-          height="calc(100vh)"
-          noDefaultInteractions
-        >
+      </Text> */}
+      <div style={{ width: '100%', height: 'calc(100vh - 60px)', marginTop: 60 }}>
+        <RMap initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }} height="100%">
           <RLayerTile
             zIndex={5}
             url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
@@ -111,7 +105,6 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
             <RLayerVector<Feature<Geometry>>
               zIndex={10}
               features={
-                // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 new GeoJSON({
                   dataProjection: 'EPSG:3857',
                   featureProjection: 'EPSG:3857',

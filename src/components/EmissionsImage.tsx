@@ -1,7 +1,7 @@
 import { ElementType } from 'react';
-import { Text, Image, Box, HoverCard, Group, ThemeIcon, Title } from '@mantine/core';
+import { Text, Image, Box, HoverCard, Group, ThemeIcon } from '@mantine/core';
 import { IconBuilding, IconTree, IconTrees, IconPlant, IconLeaf } from '@tabler/icons-react';
-import basemapImg from '../../assets/basemap.png';
+import basemapImg from '../assets/basemap.png';
 
 const nbsDescriptions: {
   Icon: ElementType;
@@ -31,7 +31,7 @@ const nbsDescriptions: {
     title: 'Green Belt',
     description:
       'Planting cover crops and restoring degraded land helps store carbon underground instead of releasing it into the atmosphere',
-    posTop: '25%',
+    posTop: '22%',
     posLeft: '80%',
   },
   {
@@ -48,7 +48,7 @@ const nbsDescriptions: {
     title: 'GBI',
     description:
       'Forests and water are valuable natural resources in cities. They store carbon in plants and aquatic environments, counteracting climate change caused by human activities like burning fossil fuels and deforestation.',
-    posTop: '20%',
+    posTop: '18%',
     posLeft: '20%',
   },
 ];
@@ -56,12 +56,8 @@ const nbsDescriptions: {
 function EmissionsImage() {
   return (
     <>
-      <Title style={{ paddingBottom: '10px' }}>
-        {/* TODO: MAKE STYLE BETTER */}
-        How Nature-based Solutions reduce carbon emissions
-      </Title>
-      <Box w="full" mx="auto" style={{ position: 'relative' }}>
-        <Image src={basemapImg} />
+      <Box w="90%" mx="auto" style={{ position: 'relative' }}>
+        <Image src={basemapImg} radius="lg" />
         {/* TODO: SHRINK IMAGE */}
         {/* TODO: REORGANIZE INTO ARRAY MAP */}
         {nbsDescriptions.map((NBS) => (
