@@ -1,3 +1,5 @@
+import { ForwardedRef, forwardRef } from 'react';
+
 import { Container, Table, Anchor, HoverCard, Text, Title, List, Accordion } from '@mantine/core';
 import classes from './ReadResearch.module.css';
 
@@ -111,7 +113,7 @@ const keyvars = [
   },
 ];
 
-function About() {
+const About = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
   const infrastructure_rows = infrastructure.map((element) => (
     <Table.Tr key={element.id}>
       <Table.Td>{element.name}</Table.Td>
@@ -156,7 +158,7 @@ function About() {
     </Table.Tr>
   ));
   return (
-    <Container size="md" className={classes.wrapper} id="about">
+    <Container size="md" className={classes.wrapper} ref={ref}>
       <Title ta="center" className={classes.title}>
         Read our Research
       </Title>
@@ -211,6 +213,7 @@ function About() {
       </Accordion>
     </Container>
   );
-}
+});
+About.displayName = 'About';
 
 export default About;

@@ -1,3 +1,5 @@
+import { useScrollIntoView } from '@mantine/hooks';
+
 import SpatialAllocation from './sections/SpatialAllocation/SpatialAllocation';
 import Visualization from './sections/Visualization/Visualization';
 import ReadResearch from './sections/ReadResearch/ReadResearch';
@@ -8,15 +10,35 @@ import Features from './sections/Features/Features';
 import EmissionsImage from './sections/EmissionsImage/EmissionsImage';
 
 function Router() {
+  const scrollOverview = useScrollIntoView<HTMLDivElement>({
+    offset: 60,
+  });
+  const scrollSpatialAllocation = useScrollIntoView<HTMLDivElement>({
+    offset: 60,
+  });
+  const scrollVisualization = useScrollIntoView<HTMLDivElement>({
+    offset: 60,
+  });
+  const scrollFooter = useScrollIntoView<HTMLDivElement>({
+    offset: 60,
+  });
+
+  const links = [
+    { id: 0, link: scrollOverview.scrollIntoView, label: 'Overview' },
+    { id: 1, link: scrollSpatialAllocation.scrollIntoView, label: 'Spatial Allocation' },
+    { id: 2, link: scrollVisualization.scrollIntoView, label: 'Visualization' },
+    { id: 3, link: scrollFooter.scrollIntoView, label: 'About' },
+  ];
+
   return (
     <>
-      <Header />
-      <Hero />
+      <Header links={links} />
+      <Hero ref={scrollOverview.targetRef} />
       <Features />
       <EmissionsImage />
-      <SpatialAllocation />
-      <Visualization />
-      <ReadResearch />
+      <SpatialAllocation ref={scrollSpatialAllocation.targetRef} />
+      <Visualization ref={scrollVisualization.targetRef} />
+      <ReadResearch ref={scrollFooter.targetRef} />
       <Footer />
     </>
   );

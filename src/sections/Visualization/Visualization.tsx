@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef, ForwardedRef } from 'react';
 import { Paper, Checkbox, Switch, Space, Title, Text } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
@@ -51,7 +51,7 @@ const colors = {
   urban_green: 'orange',
 };
 
-function Visualization() {
+const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
   const [layers, setLayers] = useState<string[]>([]);
   const [boundaryShowing, setBoundaryShowing] = useState(true);
   const [rendered_layers, setRenderedLayers] = useState<JSX.Element[]>([]); // [] as JSX.Element[];
@@ -88,7 +88,7 @@ function Visualization() {
     get_rendered_layers().catch(() => {});
   }, [layers]);
   return (
-    <div id="visualization" style={{ height: '100%', position: 'relative' }}>
+    <div ref={ref} style={{ height: '100%', position: 'relative' }}>
       <Title>Locate NbS in Stockholm</Title>
       <Text>
         Taking Stockholm as our study site, we identify the demands, locations, and types of NbS
@@ -158,6 +158,7 @@ function Visualization() {
       </div>
     </div>
   );
-}
+});
+Visualization.displayName = 'Visualization';
 
 export default Visualization;

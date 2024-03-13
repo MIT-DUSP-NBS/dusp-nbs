@@ -14,19 +14,37 @@ import { useDisclosure } from '@mantine/hooks';
 import ThemeToggle from '../components/ThemeToggle';
 import classes from './Header.module.css';
 
-function LinksRender({ onClick }: { onClick?: () => void }) {
-  const links = [
-    { id: 0, link: '#overview', label: 'Overview' },
-    { id: 1, link: '#spatial-allocation', label: 'Spatial Allocation' },
-    { id: 2, link: '#visualization', label: 'Visualization' },
-    { id: 3, link: '#about', label: 'About' },
-  ];
+interface linksType {
+  id: number;
+  link: string | ((params?: { alignment?: 'start' | 'end' | 'center' }) => void);
+  label: string;
+}
 
-  return links.map((link) => (
-    <Anchor href={link.link} className={classes.link} key={link.id} onClick={onClick}>
-      {link.label}
-    </Anchor>
-  ));
+function LinksRender({ onClick, links }: { onClick?: () => void; links: linksType[] }) {
+  return links.map((link) =>
+    typeof link.link === 'string' ? (
+      <Anchor href={link.link} className={classes.link} key={link.id} onClick={onClick}>
+        {link.label}
+      </Anchor>
+    ) : (
+      <Anchor
+        className={classes.link}
+        key={link.id}
+        onClick={() => {
+          if (link.link && typeof link.link !== 'string') {
+            link.link({
+              alignment: 'center',
+            });
+          }
+          if (onClick) {
+            onClick();
+          }
+        }}
+      >
+        {link.label}
+      </Anchor>
+    )
+  );
 }
 
 function HeaderButtons() {
@@ -52,7 +70,7 @@ function HeaderButtons() {
   ));
 }
 
-function Header() {
+function Header({ links }: { links: linksType[] }) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
   return (
@@ -73,7 +91,7 @@ function Header() {
           </Button>
 
           <Group h="100%" gap={0} visibleFrom="sm">
-            <LinksRender />
+            <LinksRender links={links} />
           </Group>
 
           <Group visibleFrom="sm">
@@ -96,7 +114,7 @@ function Header() {
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
-          <LinksRender onClick={closeDrawer} />
+          <LinksRender onClick={closeDrawer} links={links} />
           <Divider my="sm" />
 
           <Group justify="center" grow pb="xl" px="md">

@@ -1,3 +1,5 @@
+import { ForwardedRef, forwardRef } from 'react';
+
 import { Text, SimpleGrid, Container, rem, Title } from '@mantine/core';
 import {
   IconBuildingEstate,
@@ -52,11 +54,11 @@ const data = [
   },
 ];
 
-function SpatialAllocation() {
+const SpatialAllocation = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
   const items = data.map((item) => <Feature {...item} key={item.title} />);
 
   return (
-    <Container mt={30} mb={30} size="lg" id="spatial-allocation">
+    <Container mt={30} mb={30} size="lg" ref={ref}>
       <Title style={{ paddingBottom: '10px' }}>
         {/* TODO: MAKE STYLE BETTER */}
         How to locate NbS to maximize their carbon-reduction potential
@@ -66,6 +68,7 @@ function SpatialAllocation() {
       </SimpleGrid>
     </Container>
   );
-}
+});
+SpatialAllocation.displayName = 'SpatialAllocation';
 
 export default SpatialAllocation;
