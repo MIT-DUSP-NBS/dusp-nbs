@@ -88,11 +88,6 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
   }, [layers]);
   return (
     <div ref={ref} style={{ position: 'relative' }}>
-      {/* <Title>Locate NbS in Stockholm</Title>
-      <Text>
-        Taking Stockholm as our study site, we identify the demands, locations, and types of NbS
-        interventions that could maximize carbon reduction benefits.
-      </Text> */}
       <div style={{ width: '100%', height: 'calc(100vh - 60px)', marginTop: 60 }}>
         <RMap initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }} height="100%">
           <RLayerTile
@@ -121,10 +116,10 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
         </RMap>
       </div>
       <div style={{ bottom: 20, left: 20, position: 'absolute' }}>
-        <Paper shadow="xs" withBorder p="xl">
+        <Paper shadow="xs" withBorder p="xl" style={{ maxWidth: '25em' }}>
           <Checkbox.Group
-            label="Green Infrastructure Visualization"
-            description="Select the desired green infrastructure implementations"
+            label="Locate NbS in Stockholm"
+            description="Taking Stockholm as our study site, we identify the demands, locations, and types of NbS interventions that could maximize carbon reduction benefits."
             value={layers}
             onChange={setLayers}
           >
