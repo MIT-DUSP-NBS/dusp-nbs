@@ -52,36 +52,53 @@ const colors = {
 };
 
 const VisualizationLayers = ({ layers }: { layers: string[] }) => {
-  const [imports, setImports] = useState<unknown[]>([]);
+  const [imports, setImports] = useState<Record<string, unknown>>({});
 
   useEffect(() => {
     const fetchImports = () =>
-      Promise.all(layers.map((value) => map_layers[`../../assets/map_layers/${value}.json`]()));
+      Promise.all(
+        layers
+          .filter((layer) => !Object.keys(imports).includes(layer))
+          .map((value) =>
+            map_layers[`../../assets/map_layers/${value}.json`]().then((importVal) => {
+              const returnObj: Record<string, unknown> = {};
+              returnObj[value] = importVal;
+              return returnObj;
+            })
+          )
+      );
 
     fetchImports()
-      .then((result) => setImports(result))
+      .then((result) => {
+        result.forEach((result_obj) => {
+          setImports({ ...imports, ...result_obj });
+        });
+      })
       .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [layers]);
 
-  return imports.map((value, index) => (
-    <RLayerVector<Feature<Geometry>>
-      zIndex={15}
-      key={`layer_${layers[index]}`}
-      features={
-        new GeoJSON({
-          dataProjection: 'EPSG:3857',
-          featureProjection: 'EPSG:3857',
-        }).readFeatures(value) as Feature<Geometry>[]
-      }
-    >
-      <RStyle.RStyle key={`style_${layers[index]}`}>
-        <RStyle.RFill
-          color={colors[layers[index] as keyof typeof colors]}
-          key={`fill_${layers[index]}`}
-        />
-      </RStyle.RStyle>
-    </RLayerVector>
-  ));
+  return Object.keys(imports)
+    .filter((layer) => layers.includes(layer))
+    .map((value, index) => (
+      <RLayerVector<Feature<Geometry>>
+        zIndex={15}
+        key={`layer_${layers[index]}`}
+        features={
+          new GeoJSON({
+            dataProjection: 'EPSG:3857',
+            featureProjection: 'EPSG:3857',
+          }).readFeatures(imports[value]) as Feature<Geometry>[]
+        }
+      >
+        <RStyle.RStyle key={`style_${layers[index]}`}>
+          <RStyle.RFill
+            color={colors[layers[index] as keyof typeof colors]}
+            key={`fill_${layers[index]}`}
+          />
+        </RStyle.RStyle>
+      </RLayerVector>
+    ));
 };
 
 const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
