@@ -8,7 +8,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import features from '../../assets/county.json';
 import 'ol/ol.css';
 
-const map_layers = import.meta.glob('../assets/map_layers/*.json');
+const map_layers = import.meta.glob('../../assets/map_layers/*.json');
 
 const data = [
   {
@@ -59,7 +59,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
   useEffect(() => {
     async function get_rendered_layers() {
       const imports = await Promise.all(
-        layers.map((value) => map_layers[`../assets/map_layers/${value}.json`]())
+        layers.map((value) => map_layers[`../../assets/map_layers/${value}.json`]())
       );
       setRenderedLayers(
         imports.map((value, index) => (
