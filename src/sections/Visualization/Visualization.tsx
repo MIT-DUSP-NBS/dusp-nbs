@@ -1,4 +1,4 @@
-import { useState, useEffect, forwardRef, ForwardedRef } from 'react';
+import { useState, forwardRef, ForwardedRef, useEffect } from 'react';
 import { Paper, Checkbox, Switch, Space } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
@@ -51,41 +51,43 @@ const colors = {
   urban_green: 'orange',
 };
 
+const VisualizationLayers = ({ layers }: { layers: string[] }) => {
+  const [imports, setImports] = useState<unknown[]>([]);
+
+  useEffect(() => {
+    const fetchImports = () =>
+      Promise.all(layers.map((value) => map_layers[`../../assets/map_layers/${value}.json`]()));
+
+    fetchImports()
+      .then((result) => setImports(result))
+      .catch(() => {});
+  }, [layers]);
+
+  return imports.map((value, index) => (
+    <RLayerVector<Feature<Geometry>>
+      zIndex={15}
+      key={`layer_${layers[index]}`}
+      features={
+        new GeoJSON({
+          dataProjection: 'EPSG:3857',
+          featureProjection: 'EPSG:3857',
+        }).readFeatures(value) as Feature<Geometry>[]
+      }
+    >
+      <RStyle.RStyle key={`style_${layers[index]}`}>
+        <RStyle.RFill
+          color={colors[layers[index] as keyof typeof colors]}
+          key={`fill_${layers[index]}`}
+        />
+      </RStyle.RStyle>
+    </RLayerVector>
+  ));
+};
+
 const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
   const [layers, setLayers] = useState<string[]>([]);
   const [boundaryShowing, setBoundaryShowing] = useState(true);
-  const [rendered_layers, setRenderedLayers] = useState<JSX.Element[]>([]); // [] as JSX.Element[];
 
-  useEffect(() => {
-    async function get_rendered_layers() {
-      const imports = await Promise.all(
-        layers.map((value) => map_layers[`../../assets/map_layers/${value}.json`]())
-      );
-      setRenderedLayers(
-        imports.map((value, index) => (
-          <RLayerVector<Feature<Geometry>>
-            zIndex={15}
-            key={`layer_${layers[index]}`}
-            features={
-              new GeoJSON({
-                dataProjection: 'EPSG:3857',
-                featureProjection: 'EPSG:3857',
-              }).readFeatures(value) as Feature<Geometry>[]
-            }
-          >
-            <RStyle.RStyle key={`style_${layers[index]}`}>
-              <RStyle.RFill
-                color={colors[layers[index] as keyof typeof colors]}
-                key={`fill_${layers[index]}`}
-              />
-            </RStyle.RStyle>
-          </RLayerVector>
-        ))
-      );
-    }
-
-    get_rendered_layers().catch(() => {});
-  }, [layers]);
   return (
     <div ref={ref} style={{ position: 'relative' }}>
       <div style={{ width: '100%', height: 'calc(100vh - 60px)', marginTop: 60 }}>
@@ -112,11 +114,16 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
               </RStyle.RStyle>
             </RLayerVector>
           )}
-          {rendered_layers}
+          <VisualizationLayers layers={layers} />
         </RMap>
       </div>
       <div style={{ bottom: 20, left: 20, position: 'absolute' }}>
-        <Paper shadow="xs" withBorder p="xl" style={{ width: '22em', maxWidth: 'calc(100vw - 40px)' }}>
+        <Paper
+          shadow="xs"
+          withBorder
+          p="xl"
+          style={{ width: '22em', maxWidth: 'calc(100vw - 40px)' }}
+        >
           <Checkbox.Group
             label="Locate NbS in Stockholm"
             description="Taking Stockholm as our study site, we identify the demands, locations, and types of NbS interventions that could maximize carbon reduction benefits."
