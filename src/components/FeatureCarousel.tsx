@@ -1,6 +1,18 @@
+import { useState } from 'react';
 import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
-import { Paper, Title, useMantineTheme, rem, Text } from '@mantine/core';
+import {
+  Paper,
+  Box,
+  Title,
+  useMantineTheme,
+  rem,
+  Text,
+  Button,
+  Transition,
+  ActionIcon,
+} from '@mantine/core';
+import { IconArrowBack } from '@tabler/icons-react';
 import classes from './FeatureCarousel.module.css';
 
 interface CardProps {
@@ -11,30 +23,63 @@ interface CardProps {
 }
 
 function Card({ image, title, category, description }: CardProps) {
+  const [opened, setOpened] = useState(false);
+
   return (
-    <Paper
-      shadow="md"
-      p="xl"
-      radius="md"
-      style={{ backgroundImage: `url(${image})` }}
-      className={classes.card}
-    >
-      <div>
-        <Text className={classes.category} size="xs">
-          {category}
-        </Text>
-        <Title order={3} className={classes.title}>
-          {title}
-        </Title>
-      </div>
-      {/* <Button variant="white" color="dark">
-        Read article
-      </Button> */}
-      <div>
-        {/* TODO: ADD DESCRIPTION CSS */}
-        <Text>{description}</Text>
-      </div>
-    </Paper>
+    <Box pos="relative">
+      <Paper
+        shadow="xl"
+        p="xl"
+        radius="md"
+        style={{ backgroundImage: `url(${image})` }}
+        className={classes.card}
+      >
+        <div>
+          <Text className={classes.category} size="xs">
+            {category}
+          </Text>
+          <Title order={3} className={classes.title}>
+            {title}
+          </Title>
+        </div>
+        <Button variant="white" color="dark" onClick={() => setOpened(!opened)}>
+          View Information
+        </Button>
+      </Paper>
+      <Transition mounted={opened} transition="fade" duration={400} timingFunction="ease">
+        {(styles) => (
+          <Paper
+            shadow="xl"
+            p="xl"
+            radius="md"
+            pos="absolute"
+            top={0}
+            left={0}
+            right={0}
+            style={{ ...styles, zIndex: 1 }}
+            className={classes.card}
+          >
+            <div>
+              <Text className={classes.category} size="xs">
+                {category}
+              </Text>
+              <Title order={3} className={classes.title}>
+                {title}
+              </Title>
+            </div>
+            <Text size="md">{description}</Text>
+            <ActionIcon
+              variant="transparent"
+              size="xl"
+              aria-label="Return"
+              onClick={() => setOpened(!opened)}
+            >
+              <IconArrowBack style={{ width: '70%', height: '70%' }} stroke={1.5} />
+            </ActionIcon>
+          </Paper>
+        )}
+      </Transition>
+    </Box>
   );
 }
 
