@@ -9,7 +9,7 @@ import {
   rem,
   Anchor,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useWindowScroll } from '@mantine/hooks';
 
 import ThemeToggle from '../components/ThemeToggle';
 import classes from './Header.module.css';
@@ -70,6 +70,16 @@ function HeaderButtons() {
   ));
 }
 
+function HeaderButton() {
+  const scrollTo = useWindowScroll()[1];
+
+  return (
+    <Button variant="transparent" onClick={() => scrollTo({ y: 0 })}>
+      Nature-Based Solutions Dashboard
+    </Button>
+  );
+}
+
 function Header({ links }: { links: linksType[] }) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
@@ -85,10 +95,7 @@ function Header({ links }: { links: linksType[] }) {
     >
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          {/* <Text>Nature Based Solutions Dashboard</Text> */}
-          <Button variant="transparent" component="a" href="#">
-            Nature-Based Solutions Dashboard
-          </Button>
+          <HeaderButton />
 
           <Group h="100%" gap={0} visibleFrom="sm">
             <LinksRender links={links} />
@@ -108,11 +115,11 @@ function Header({ links }: { links: linksType[] }) {
         onClose={closeDrawer}
         size="100%"
         padding="md"
-        title="Nature-Based Solutions Dashboard"
+        title={<HeaderButton />}
         hiddenFrom="sm"
         zIndex={1000000}
       >
-        <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
+        <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="md">
           <Divider my="sm" />
           <LinksRender onClick={closeDrawer} links={links} />
           <Divider my="sm" />
