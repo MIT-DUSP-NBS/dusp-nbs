@@ -11,6 +11,7 @@ import {
   Button,
   Transition,
   ActionIcon,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { IconArrowBack } from '@tabler/icons-react';
 import classes from './FeatureCarousel.module.css';
@@ -24,13 +25,14 @@ interface CardProps {
 
 function Card({ image, title, category, description }: CardProps) {
   const [opened, setOpened] = useState(false);
+  const computedColorScheme = useComputedColorScheme();
 
   return (
     <Box pos="relative">
       <Paper
-        shadow="xl"
         p="xl"
         radius="md"
+        withBorder
         style={{ backgroundImage: `url(${image})` }}
         className={classes.card}
       >
@@ -49,21 +51,28 @@ function Card({ image, title, category, description }: CardProps) {
       <Transition mounted={opened} transition="fade" duration={400} timingFunction="ease">
         {(styles) => (
           <Paper
-            shadow="xl"
             p="xl"
             radius="md"
             pos="absolute"
+            withBorder
             top={0}
             left={0}
             right={0}
-            style={{ ...styles, zIndex: 1 }}
+            style={{
+              ...styles,
+              zIndex: 1,
+              backgroundColor:
+                computedColorScheme === 'light'
+                  ? 'var(--mantine-color-white)'
+                  : 'var(--mantine-color-dark-8)',
+            }}
             className={classes.card}
           >
             <div>
-              <Text className={classes.category} size="xs">
+              <Text className={classes.categoryDescription} size="xs">
                 {category}
               </Text>
-              <Title order={3} className={classes.title}>
+              <Title order={3} className={classes.titleDescription}>
                 {title}
               </Title>
             </div>
