@@ -159,8 +159,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
               </>
             ))}
           </Checkbox.Group>
-          <Space h="xs" />
-          <Space h="xs" />
+          <Space h="lg" />
           <Switch
             checked={boundaryShowing}
             onChange={(event) => setBoundaryShowing(event.currentTarget.checked)}
