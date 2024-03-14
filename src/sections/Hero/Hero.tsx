@@ -1,5 +1,4 @@
 import { ForwardedRef, forwardRef } from 'react';
-
 import { Container, Text, Button, Group } from '@mantine/core';
 import { IconArticle, IconMapSearch } from '@tabler/icons-react';
 import classes from './Hero.module.css';
