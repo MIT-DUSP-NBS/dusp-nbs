@@ -1,4 +1,4 @@
-import { useState, forwardRef, ForwardedRef, useEffect } from 'react';
+import { useState, forwardRef, ForwardedRef, useEffect, useMemo } from 'react';
 import { Paper, Checkbox, Switch, Space } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
@@ -77,24 +77,28 @@ const VisualizationLayers = ({ layers }: { layers: string[] }) => {
       .catch(() => {});
   }, [imports, layers]);
 
-  return Object.keys(imports)
-    .filter((layer) => layers.includes(layer))
-    .map((value) => (
-      <RLayerVector<Feature<Geometry>>
-        zIndex={15}
-        key={`layer_${value}`}
-        features={
-          new GeoJSON({
-            dataProjection: 'EPSG:3857',
-            featureProjection: 'EPSG:3857',
-          }).readFeatures(imports[value]) as Feature<Geometry>[]
-        }
-      >
-        <RStyle.RStyle key={`style_${value}`}>
-          <RStyle.RFill color={colors[value as keyof typeof colors]} key={`fill_${value}`} />
-        </RStyle.RStyle>
-      </RLayerVector>
-    ));
+  return useMemo(
+    () =>
+      Object.keys(imports)
+        .filter((layer) => layers.includes(layer))
+        .map((value) => (
+          <RLayerVector<Feature<Geometry>>
+            zIndex={15}
+            key={`layer_${value}`}
+            features={
+              new GeoJSON({
+                dataProjection: 'EPSG:3857',
+                featureProjection: 'EPSG:3857',
+              }).readFeatures(imports[value]) as Feature<Geometry>[]
+            }
+          >
+            <RStyle.RStyle key={`style_${value}`}>
+              <RStyle.RFill color={colors[value as keyof typeof colors]} key={`fill_${value}`} />
+            </RStyle.RStyle>
+          </RLayerVector>
+        )),
+    [layers, imports]
+  );
 };
 
 const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
