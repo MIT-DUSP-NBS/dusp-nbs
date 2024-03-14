@@ -57,7 +57,7 @@ function EmissionsImage() {
   return (
     <>
       <Box w="90%" mx="auto" style={{ position: 'relative' }}>
-        <Image src={basemapImg} radius="lg" />
+        <Image src={basemapImg} radius="md" />
         {/* TODO: SHRINK IMAGE */}
         {/* TODO: REORGANIZE INTO ARRAY MAP */}
         {nbsDescriptions.map((NBS) => (
