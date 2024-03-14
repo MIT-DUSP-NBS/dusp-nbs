@@ -75,15 +75,14 @@ const VisualizationLayers = ({ layers }: { layers: string[] }) => {
         });
       })
       .catch(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [layers]);
+  }, [imports, layers]);
 
   return Object.keys(imports)
     .filter((layer) => layers.includes(layer))
-    .map((value, index) => (
+    .map((value) => (
       <RLayerVector<Feature<Geometry>>
         zIndex={15}
-        key={`layer_${layers[index]}`}
+        key={`layer_${value}`}
         features={
           new GeoJSON({
             dataProjection: 'EPSG:3857',
@@ -91,11 +90,8 @@ const VisualizationLayers = ({ layers }: { layers: string[] }) => {
           }).readFeatures(imports[value]) as Feature<Geometry>[]
         }
       >
-        <RStyle.RStyle key={`style_${layers[index]}`}>
-          <RStyle.RFill
-            color={colors[layers[index] as keyof typeof colors]}
-            key={`fill_${layers[index]}`}
-          />
+        <RStyle.RStyle key={`style_${value}`}>
+          <RStyle.RFill color={colors[value as keyof typeof colors]} key={`fill_${value}`} />
         </RStyle.RStyle>
       </RLayerVector>
     ));
