@@ -12,25 +12,25 @@ const nbsDescriptions: {
 }[] = [
   {
     Icon: IconTree,
-    title: 'Tree',
+    title: 'Trees',
     description:
-      'Trees absorb carbon dioxide from the air, so planting more on streets offsets vehicle emissions. They also provide shade, encouraging walking and cycling.',
+      'Increase tree cover in cities. Plan and implement urban tree conservation, maintenance, and planting activities.',
     posTop: '80%',
     posLeft: '20%',
   },
   {
     Icon: IconBuilding,
-    title: 'Urban Green Area',
+    title: 'Green Spaces',
     description:
-      'Green spaces like parks and gardens reduce the amount of sunlight absorbed by paved surfaces, lowering overall heat levels in urban areas (mitigate the urban heat island effect)',
+      'Mandate green space allocation in city planning, create permeable surfaces, convert vacant lots to community gardens, parks and green areas.',
     posTop: '60%',
     posLeft: '65%',
   },
   {
     Icon: IconLeaf,
-    title: 'Green Belt',
+    title: 'Greenbelt',
     description:
-      'Planting cover crops and restoring degraded land helps store carbon underground instead of releasing it into the atmosphere',
+      'Implement reforestation and afforestation programs to enhance green belt vegetation',
     posTop: '22%',
     posLeft: '80%',
   },
@@ -38,16 +38,15 @@ const nbsDescriptions: {
     Icon: IconPlant,
     title: 'Green Roofs',
     description:
-      'Green roofs help reduce the need for energy-intensive air conditioning. This means fewer greenhouse gases are emitted from homes and offices',
-
+      'Promote building energy efficiency, incorporate green roofs and vertical gardens into building facades design',
     posTop: '40%',
     posLeft: '78%',
   },
   {
     Icon: IconTrees,
-    title: 'GBI',
+    title: 'Green and Blue Infrastructure (GBI)',
     description:
-      'Forests and water are valuable natural resources in cities. They store carbon in plants and aquatic environments, counteracting climate change caused by human activities like burning fossil fuels and deforestation.',
+      'Restore and protect natural water bodies, wetlands, and riparian zones, establish green corridors, develop recreational trails and amenities to promote public access.',
     posTop: '18%',
     posLeft: '20%',
   },
