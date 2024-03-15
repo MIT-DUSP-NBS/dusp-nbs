@@ -5,7 +5,7 @@ import { Feature } from 'ol';
 import { Geometry } from 'ol/geom';
 import { fromLonLat } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
-import features from '../../assets/county.json';
+import stockholmBoundary from '../../assets/county.json';
 import 'ol/ol.css';
 
 const map_layers = import.meta.glob('../../assets/map_layers/*.json');
@@ -101,6 +101,8 @@ const VisualizationLayers = ({ layers }: { layers: string[] }) => {
   );
 };
 
+const stockholmCenter = fromLonLat([18.0686, 59.3293]);
+
 const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
   const [layers, setLayers] = useState<string[]>([]);
   const [boundaryShowing, setBoundaryShowing] = useState(true);
@@ -108,7 +110,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
   return (
     <div ref={ref} style={{ position: 'relative' }}>
       <div style={{ width: '100%', height: 'calc(100vh - 60px)', marginTop: 60 }}>
-        <RMap initial={{ center: fromLonLat([18.0686, 59.3293]), zoom: 9 }} height="100%">
+        <RMap initial={{ center: stockholmCenter, zoom: 9 }} height="100%">
           <RLayerTile
             zIndex={5}
             url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
@@ -122,7 +124,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
                 new GeoJSON({
                   dataProjection: 'EPSG:3857',
                   featureProjection: 'EPSG:3857',
-                }).readFeatures(features) as Feature<Geometry>[]
+                }).readFeatures(stockholmBoundary) as Feature<Geometry>[]
               }
             >
               <RStyle.RStyle>
