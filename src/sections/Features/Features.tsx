@@ -8,13 +8,14 @@ const Features = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => (
     <Grid gutter={80} maw="98%" justify="center">
       <Grid.Col span={{ base: 12, md: 5 }}>
         <Title className={classes.title} order={2}>
-          What are Nature-based Solutions?
+          Work with nature to find solutions?
         </Title>
         <Text c="dimmed">
-          Instead of relying only on technology, we can work with nature to find solutions. For
-          example, planting trees in cities, creating green spaces, restoring wetlands, and using
-          natural materials in construction are all ways of using nature to help tackle
-          environmental problems.
+          In addition to exploring bold technical visions, we can work with nature to tackle
+          environmental problems. Nature-based solutions incorporate natural features and processes
+          to protect the environment and support human wellbeing. For example, planting trees in
+          cities, creating green spaces, restoring wetlands, and using natural materials in
+          construction.
         </Text>
 
         <Button
