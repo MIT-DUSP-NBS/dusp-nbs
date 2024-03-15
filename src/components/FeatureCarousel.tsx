@@ -76,7 +76,9 @@ function Card({ image, title, category, description }: CardProps) {
                 {title}
               </Title>
             </div>
-            <Text size="md">{description}</Text>
+            <Text size="md" p="10px">
+              {description}
+            </Text>
             <ActionIcon
               variant="transparent"
               size="xl"
@@ -95,66 +97,65 @@ function Card({ image, title, category, description }: CardProps) {
 const data: CardProps[] = [
   {
     image:
+      'https://images.nationalgeographic.org/image/upload/t_edhub_resource_key_image/v1638892272/EducationHub/photos/hoh-river-valley.jpg',
+    title: 'Forests and Vegetation',
+    category: 'nature',
+    description:
+      'Diverse ecosystems of trees, shrubs, and plants found across terrestrial landscapes.',
+  },
+  {
+    image:
+      'https://www.acbconsultingservices.com/uploads/optimized/green-space-planning-urban-greening-plan-urban-green-space-planning-45-a.jpg',
+    title: 'Urban Green Space',
+    category: 'urban',
+    description:
+      'Areas within cities characterized by vegetation such as parks, gardens, and green roofs.',
+  },
+  {
+    image:
       'https://urbangreenbluegrids.com/uploads/London-Wetland-Centre-Berkeley-Homes-1300x650.jpg',
     title: 'Urban Wetlands',
     category: 'urban',
-    description: '',
+    description: 'Natural or constructed wetland habitats within urban areas.',
   },
   {
     image:
       'https://environment-review.yale.edu/sites/default/files/styles/flexslider_full/public/8070749192_72b1af084c_o.jpg?itok=qyqFEbdT',
     title: 'Coastal Wetlands',
     category: 'beach',
-    description: '',
-  },
-  {
-    image:
-      'https://images.nationalgeographic.org/image/upload/t_edhub_resource_key_image/v1638892272/EducationHub/photos/hoh-river-valley.jpg',
-    title: 'Forests and Vegitation',
-    category: 'nature',
-    description: '',
-  },
-  {
-    image:
-      'https://www.noaa.gov/sites/default/files/styles/landscape_width_1275/public/legacy/image/2019/Jun/coral%20ecosystems%20reeffish.jpg?itok=zNvXr7Yz',
-    title: 'Coral Reefs',
-    category: 'ocean',
-    description: '',
+    description:
+      'Natural wetlands include mangroves, salt marshes, and estuaries situated at the interface of land and sea.',
   },
   {
     image:
       'https://www.parker-kaufman.com/wp-content/uploads/2020/06/great-dunes-beach-park-jekyll-island.jpg',
     title: 'Dunes and Beaches',
     category: 'beach',
-    description: '',
+    description: 'Dynamic coastal landforms formed by wind-blown sand.',
   },
   {
     image:
-      'https://www.europenowjournal.org/wp-content/uploads/2021/04/Figure_2e_copyright_SLA_Photographer_Mikkel_Eye-2048x1463.jpg',
-    title: 'Urban Green Space',
-    category: 'urban',
-    description: '',
+      'https://www.noaa.gov/sites/default/files/styles/landscape_width_1275/public/legacy/image/2019/Jun/coral%20ecosystems%20reeffish.jpg?itok=zNvXr7Yz',
+    title: 'Coral Reefs',
+    category: 'ocean',
+    description:
+      'Marine ecosystems formed by colonies of coral polyps, found in warm, shallow waters.',
   },
+
   {
     image:
       'https://earimediaprodweb.azurewebsites.net/Api/v1/Multimedia/612db1fc-1371-428b-9378-142334407b09/Rendition/low-res/Content/Public',
-    title: 'Inland Wetlands',
+    title: 'Sustainable Agriculture',
     category: 'nature',
-    description: '',
+    description:
+      'Sustainable agriculture integrates ecological principles into farming practices to enhance soil health, conserve water resources, and protect biodiversity.',
   },
   {
     image:
       'https://images.nationalgeographic.org/image/upload/t_edhub_resource_key_image/v1638882850/EducationHub/photos/yellow-river.jpg',
     title: 'Rivers and Floodplains',
     category: 'nature',
-    description: '',
-  },
-  {
-    image:
-      'https://res.cloudinary.com/sagacity/image/upload/c_crop,h_700,w_1050,x_0,y_0/c_limit,dpr_auto,f_auto,fl_lossy,q_80,w_1080/shutterstock_1719030049_t0q0ps.jpg',
-    title: 'Mangroves',
-    category: 'nature',
-    description: '',
+    description: 'Freshwater ecosystems characterized by flowing water and periodic flooding.',
   },
 ];
 
