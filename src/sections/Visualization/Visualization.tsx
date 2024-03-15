@@ -5,6 +5,14 @@ import { Feature } from 'ol';
 import { Geometry } from 'ol/geom';
 import { fromLonLat } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
+import {
+  RDoubleClickZoom,
+  RDragPan,
+  RMouseWheelZoom,
+  RPinchRotate,
+  RPinchZoom,
+} from 'rlayers/interaction';
+
 import stockholmBoundary from '../../assets/county.json';
 import 'ol/ol.css';
 
@@ -106,11 +114,38 @@ const stockholmCenter = fromLonLat([18.0686, 59.3293]);
 const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
   const [layers, setLayers] = useState<string[]>([]);
   const [boundaryShowing, setBoundaryShowing] = useState(true);
+  const [ctrlHeld, setCTRLHeld] = useState(false);
+
+  function downHandler({ key }: KeyboardEvent) {
+    if (key === 'Control') {
+      setCTRLHeld(true);
+    }
+  }
+
+  function upHandler({ key }: KeyboardEvent) {
+    if (key === 'Control') {
+      setCTRLHeld(false);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', downHandler);
+    window.addEventListener('keyup', upHandler);
+    return () => {
+      window.removeEventListener('keydown', downHandler);
+      window.removeEventListener('keyup', upHandler);
+    };
+  }, []);
 
   return (
     <div ref={ref} style={{ position: 'relative' }}>
       <div style={{ width: '100%', height: 'calc(100vh - 60px)', marginTop: 60 }}>
-        <RMap initial={{ center: stockholmCenter, zoom: 9 }} height="100%">
+        <RMap initial={{ center: stockholmCenter, zoom: 9 }} height="100%" noDefaultInteractions>
+          <RDoubleClickZoom />
+          <RDragPan />
+          <RPinchRotate />
+          <RPinchZoom />
+          {ctrlHeld ? <RMouseWheelZoom /> : null}
           <RLayerTile
             zIndex={5}
             url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
