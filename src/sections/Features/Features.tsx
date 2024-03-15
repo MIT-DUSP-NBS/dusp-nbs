@@ -8,7 +8,7 @@ const Features = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => (
     <Grid gutter={80} maw="98%" justify="center">
       <Grid.Col span={{ base: 12, md: 5 }}>
         <Title className={classes.title} order={2}>
-          Work with nature to find solutions?
+          Work with nature to find solutions
         </Title>
         <Text c="dimmed">
           In addition to exploring bold technical visions, we can work with nature to tackle
