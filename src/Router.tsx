@@ -32,7 +32,7 @@ function Router() {
   return (
     <>
       <Header links={links} />
-      <Hero />
+      <Hero scrollLink={scrollVisualization.scrollIntoView} />
       <Features ref={scrollOverview.targetRef} />
       <SpatialAllocation ref={scrollSpatialAllocation.targetRef} />
       <Visualization ref={scrollVisualization.targetRef} />
