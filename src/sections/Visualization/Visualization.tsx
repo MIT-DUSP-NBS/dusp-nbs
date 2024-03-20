@@ -28,8 +28,8 @@ const data = [
   },
   {
     color: 'cyan',
-    value: 'green_buildings',
-    title: 'Green Buildings',
+    value: 'green_roof',
+    title: 'Green Roof',
     id: 1,
   },
   {
