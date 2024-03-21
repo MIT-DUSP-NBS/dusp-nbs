@@ -19,6 +19,14 @@ import { Coordinate } from 'ol/coordinate';
 const map_layers = import.meta.glob('../../assets/map_layers/*/*.json');
 const boundaries = import.meta.glob('../../assets/boundaries/*.json', { eager: true });
 
+const boundaryFeatures: Record<string, Feature<Geometry>[]> = {};
+Object.keys(boundaries).forEach((key) => {
+  boundaryFeatures[key] = new GeoJSON({
+    dataProjection: 'EPSG:3857',
+    featureProjection: 'EPSG:3857',
+  }).readFeatures(boundaries[key]) as Feature<Geometry>[];
+});
+
 const data = [
   {
     color: 'lime',
@@ -145,33 +153,24 @@ const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string 
   );
 };
 
-const BounadryLayer = ({ city }: { city: ComboboxItem }) => {
-  const boundary = boundaries[`../../assets/boundaries/${city.value}.json`];
-
-  return boundary ? (
-    <RLayerVector<Feature<Geometry>>
-      zIndex={10}
-      features={
-        new GeoJSON({
-          dataProjection: 'EPSG:3857',
-          featureProjection: 'EPSG:3857',
-        }).readFeatures(boundary) as Feature<Geometry>[]
-      }
-    >
-      <RStyle.RStyle>
-        <RStyle.RStroke color="white" width={3} />
-        <RStyle.RFill color="transparent" />
-      </RStyle.RStyle>
-    </RLayerVector>
-  ) : null;
-};
-
 const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
   const [layers, setLayers] = useState<string[]>([]);
   const [boundaryShowing, setBoundaryShowing] = useState(true);
   const [ctrlHeld, setCTRLHeld] = useState(false);
   const [city, setCity] = useState<ComboboxItem | null>(null);
   const [view, setView] = useState(initial);
+
+  const BounadryLayer = () => (
+    <RLayerVector<Feature<Geometry>>
+      zIndex={10}
+      features={boundaryFeatures[`../../assets/boundaries/${city?.value}.json`]}
+    >
+      <RStyle.RStyle>
+        <RStyle.RStroke color="white" width={3} />
+        <RStyle.RFill color="transparent" />
+      </RStyle.RStyle>
+    </RLayerVector>
+  );
 
   function downHandler({ key }: KeyboardEvent) {
     if (key === 'Control') {
@@ -215,7 +214,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
             attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
             projection="EPSG:3857"
           />
-          {boundaryShowing && city && <BounadryLayer city={city} />}
+          {boundaryShowing && city && <BounadryLayer />}
           {city && <VisualizationLayers layers={layers} city={city.value} />}
         </RMap>
       </div>
