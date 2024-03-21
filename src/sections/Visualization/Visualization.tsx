@@ -1,5 +1,5 @@
 import { useState, forwardRef, ForwardedRef, useEffect, useMemo } from 'react';
-import { Paper, Checkbox, Switch, Space, Select, ComboboxItem } from '@mantine/core';
+import { Paper, Checkbox, Switch, Space, Select, ComboboxItem, Text } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
 import { Geometry } from 'ol/geom';
@@ -62,6 +62,12 @@ const data = [
 
 interface CitiesType extends ComboboxItem {
   newView?: { center: Coordinate; zoom: number };
+  nbsData?: {
+    average: `${number}%` | number;
+    residential: `${number}%` | number;
+    industrial: `${number}%` | number;
+    transporation: `${number}%` | number;
+  };
 }
 
 const cities: CitiesType[] = [
@@ -69,6 +75,7 @@ const cities: CitiesType[] = [
     label: 'Stockholm',
     value: 'stockholm',
     newView: { center: fromLonLat([18.0686, 59.3293]), zoom: 9 },
+    nbsData: { average: '17.4%', residential: '8.1%', industrial: '14.0%', transporation: '9.6%' },
   },
   {
     label: 'Vienna',
@@ -277,6 +284,18 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
             }}
             allowDeselect={false}
           />
+          {city && (city as CitiesType).nbsData && (
+            <>
+              <Space h="lg" />
+              <Text size="sm">
+                Implementing NBS in {city.label} can reduce total carbon emissions by, on average,{' '}
+                {(city as CitiesType)?.nbsData?.average}, with{' '}
+                {(city as CitiesType)?.nbsData?.residential} in the residential sector,{' '}
+                {(city as CitiesType)?.nbsData?.industrial} in the industrial sector, and{' '}
+                {(city as CitiesType)?.nbsData?.transporation} in the transportation sector.
+              </Text>
+            </>
+          )}
         </Paper>
       </div>
     </div>
