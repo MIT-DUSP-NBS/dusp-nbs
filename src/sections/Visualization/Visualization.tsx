@@ -87,21 +87,20 @@ const colors = {
 const initial = { center: fromLonLat([7, 50]), zoom: 5 };
 
 const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string }) => {
-  const [imports, setImports] = useState<Record<string, Record<string, unknown>>>({
-    vienna: {},
-    stockholm: {},
-    madrid: {},
-  });
+  const [imports, setImports] = useState<Record<string, [unknown, string]>>({});
 
   useEffect(() => {
     const fetchImports = () =>
       Promise.all(
         layers
-          .filter((layer) => !(layer in imports[city]))
+          .filter((layer) => !(`../../assets/map_layers/${city}/${layer}.json` in imports))
           .map((value) =>
             map_layers[`../../assets/map_layers/${city}/${value}.json`]().then((importVal) => {
-              const returnObj: Record<string, unknown> = {};
-              returnObj[value] = importVal;
+              const returnObj: Record<string, [unknown, string]> = {};
+              returnObj[`../../assets/map_layers/${city}/${value}.json`] = [
+                importVal,
+                colors[value as keyof typeof colors],
+              ];
               return returnObj;
             })
           )
@@ -110,10 +109,7 @@ const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string 
     fetchImports()
       .then((result) => {
         result.forEach((result_obj) => {
-          setImports((prev) => {
-            prev[city] = { ...prev[city], ...result_obj };
-            return prev;
-          });
+          setImports({ ...imports, ...result_obj });
         });
       })
       .catch(() => {
@@ -123,8 +119,12 @@ const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string 
 
   return useMemo(
     () =>
-      Object.keys(imports[city])
-        .filter((layer) => layers.includes(layer))
+      Object.keys(imports)
+        .filter((layer) =>
+          layers
+            .map((stringLayer) => `../../assets/map_layers/${city}/${stringLayer}.json`)
+            .includes(layer)
+        )
         .map((value) => (
           <RLayerVector<Feature<Geometry>>
             zIndex={15}
@@ -133,15 +133,15 @@ const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string 
               new GeoJSON({
                 dataProjection: 'EPSG:3857',
                 featureProjection: 'EPSG:3857',
-              }).readFeatures(imports[city][value]) as Feature<Geometry>[]
+              }).readFeatures(imports[value][0]) as Feature<Geometry>[]
             }
           >
             <RStyle.RStyle key={`style_${value}`}>
-              <RStyle.RFill color={colors[value as keyof typeof colors]} key={`fill_${value}`} />
+              <RStyle.RFill color={imports[value][1]} key={`fill_${value}`} />
             </RStyle.RStyle>
           </RLayerVector>
         )),
-    [city, layers, imports, imports.madrid, imports.stockholm, imports.vienna]
+    [city, layers, imports]
   );
 };
 
