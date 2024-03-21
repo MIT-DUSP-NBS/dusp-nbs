@@ -164,7 +164,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
   const [layers, setLayers] = useState<string[]>([]);
   const [boundaryShowing, setBoundaryShowing] = useState(true);
   const [ctrlHeld, setCTRLHeld] = useState(false);
-  const [city, setCity] = useState<ComboboxItem | null>(null);
+  const [city, setCity] = useState<CitiesType | null>(null);
   const [view, setView] = useState(initial);
 
   const BounadryLayer = () => (
@@ -284,15 +284,14 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
             }}
             allowDeselect={false}
           />
-          {city && (city as CitiesType).nbsData && (
+          {city?.nbsData && (
             <>
               <Space h="lg" />
               <Text size="sm">
                 Implementing NBS in {city.label} can reduce total carbon emissions by, on average,{' '}
-                {(city as CitiesType)?.nbsData?.average}, with{' '}
-                {(city as CitiesType)?.nbsData?.residential} in the residential sector,{' '}
-                {(city as CitiesType)?.nbsData?.industrial} in the industrial sector, and{' '}
-                {(city as CitiesType)?.nbsData?.transporation} in the transportation sector.
+                {city?.nbsData?.average}, with {city?.nbsData?.residential} in the residential
+                sector, {city?.nbsData?.industrial} in the industrial sector, and{' '}
+                {city?.nbsData?.transporation} in the transportation sector.
               </Text>
             </>
           )}
