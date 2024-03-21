@@ -46,7 +46,7 @@ const data = [
   },
   {
     color: 'orange',
-    value: 'urban_green',
+    value: 'urban_green_areas',
     title: 'Urban Green Areas',
     id: 4,
   },
@@ -62,28 +62,42 @@ const cities: CitiesType[] = [
     value: 'stockholm',
     newView: { center: fromLonLat([18.0686, 59.3293]), zoom: 9 },
   },
-  { label: 'Vienna', value: 'vienna', disabled: true },
-  { label: 'Madrid', value: 'madrid', disabled: true },
+  {
+    label: 'Vienna',
+    value: 'vienna',
+    disabled: false,
+    newView: { center: fromLonLat([16.3719, 48.2082]), zoom: 9 },
+  },
+  {
+    label: 'Madrid',
+    value: 'madrid',
+    disabled: false,
+    newView: { center: fromLonLat([-3.70379, 40.416775]), zoom: 9 },
+  },
 ];
 
 const colors = {
   GBI: 'lime',
-  green_buildings: 'cyan',
+  green_roof: 'cyan',
   greenbelt: 'pink',
   street_trees: 'violet',
-  urban_green: 'orange',
+  urban_green_areas: 'orange',
 };
 
 const initial = { center: fromLonLat([7, 50]), zoom: 5 };
 
 const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string }) => {
-  const [imports, setImports] = useState<Record<string, unknown>>({});
+  const [imports, setImports] = useState<Record<string, Record<string, unknown>>>({
+    vienna: {},
+    stockholm: {},
+    madrid: {},
+  });
 
   useEffect(() => {
     const fetchImports = () =>
       Promise.all(
         layers
-          .filter((layer) => !Object.keys(imports).includes(layer))
+          .filter((layer) => !(layer in imports[city]))
           .map((value) =>
             map_layers[`../../assets/map_layers/${city}/${value}.json`]().then((importVal) => {
               const returnObj: Record<string, unknown> = {};
@@ -96,15 +110,20 @@ const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string 
     fetchImports()
       .then((result) => {
         result.forEach((result_obj) => {
-          setImports({ ...imports, ...result_obj });
+          setImports((prev) => {
+            prev[city] = { ...prev[city], ...result_obj };
+            return prev;
+          });
         });
       })
-      .catch(() => {});
+      .catch(() => {
+        throw Error('Failed to fetch map layers');
+      });
   }, [city, imports, layers]);
 
   return useMemo(
     () =>
-      Object.keys(imports)
+      Object.keys(imports[city])
         .filter((layer) => layers.includes(layer))
         .map((value) => (
           <RLayerVector<Feature<Geometry>>
@@ -114,7 +133,7 @@ const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string 
               new GeoJSON({
                 dataProjection: 'EPSG:3857',
                 featureProjection: 'EPSG:3857',
-              }).readFeatures(imports[value]) as Feature<Geometry>[]
+              }).readFeatures(imports[city][value]) as Feature<Geometry>[]
             }
           >
             <RStyle.RStyle key={`style_${value}`}>
@@ -122,14 +141,14 @@ const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string 
             </RStyle.RStyle>
           </RLayerVector>
         )),
-    [layers, imports]
+    [city, layers, imports, imports.madrid, imports.stockholm, imports.vienna]
   );
 };
 
 const BounadryLayer = ({ city }: { city: ComboboxItem }) => {
   const boundary = boundaries[`../../assets/boundaries/${city.value}.json`];
 
-  return (
+  return boundary ? (
     <RLayerVector<Feature<Geometry>>
       zIndex={10}
       features={
@@ -144,7 +163,7 @@ const BounadryLayer = ({ city }: { city: ComboboxItem }) => {
         <RStyle.RFill color="transparent" />
       </RStyle.RStyle>
     </RLayerVector>
-  );
+  ) : null;
 };
 
 const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
@@ -226,12 +245,16 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
                 </>
               ))}
             </Checkbox.Group>
-            <Space h="lg" />
-            <Switch
-              checked={boundaryShowing}
-              onChange={(event) => setBoundaryShowing(event.currentTarget.checked)}
-              label={`Show ${city.label} county boundary`}
-            />
+            {`../../assets/boundaries/${city.value}.json` in boundaries && (
+              <>
+                <Space h="lg" />
+                <Switch
+                  checked={boundaryShowing}
+                  onChange={(event) => setBoundaryShowing(event.currentTarget.checked)}
+                  label={`Show ${city.label} county boundary`}
+                />
+              </>
+            )}
           </Paper>
         )}
       </div>
