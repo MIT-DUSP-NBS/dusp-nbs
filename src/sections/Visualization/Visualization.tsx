@@ -271,6 +271,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
             value={city ? city.value : null}
             onChange={(_value, option: CitiesType) => {
               setCity(option);
+              setLayers([]);
               if (option.newView) {
                 setView({ center: option.newView.center, zoom: option.newView.zoom });
               }
