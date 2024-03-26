@@ -58,18 +58,14 @@ const SpatialAllocation = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>)
   const items = data.map((item) => <Feature {...item} key={item.title} />);
 
   return (
-    <div ref={ref}>
+    <Container pb={40} size="lg" ref={ref}>
       <Title className={classes.title}>Vision a city designed with nature</Title>
-      <Container size="lg">
-        <EmissionsImage />
-      </Container>
+      <EmissionsImage />
       <Space h="xl" />
-      <Container size="lg">
-        <SimpleGrid cols={{ base: 1, sm: 3 }} spacing={40}>
-          {items}
-        </SimpleGrid>
-      </Container>
-    </div>
+      <SimpleGrid cols={{ base: 1, sm: 3 }} spacing={40}>
+        {items}
+      </SimpleGrid>
+    </Container>
   );
 });
 SpatialAllocation.displayName = 'SpatialAllocation';
