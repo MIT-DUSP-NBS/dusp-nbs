@@ -1,4 +1,4 @@
-import { useState, forwardRef, ForwardedRef, useEffect, useMemo } from 'react';
+import { useState, forwardRef, ForwardedRef, useEffect, useMemo, ReactElement } from 'react';
 import { Paper, Checkbox, Switch, Space, Select, ComboboxItem, Text } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
@@ -102,7 +102,7 @@ const colors = {
 const initial = { center: fromLonLat([7, 50]), zoom: 5 };
 
 const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string }) => {
-  const [imports, setImports] = useState<Record<string, [unknown, string]>>({});
+  const [imports, setImports] = useState(new Map<string, [unknown, string]>());
 
   useEffect(() => {
     const fetchImports = () =>
@@ -111,10 +111,9 @@ const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string 
           .filter((layer) => !(`../../assets/map_layers/${city}/${layer}.json` in imports))
           .map((value) =>
             map_layers[`../../assets/map_layers/${city}/${value}.json`]().then((importVal) => {
-              const returnObj: Record<string, [unknown, string]> = {};
-              returnObj[`../../assets/map_layers/${city}/${value}.json`] = [
-                importVal,
-                colors[value as keyof typeof colors],
+              const returnObj = [
+                `../../assets/map_layers/${city}/${value}.json`,
+                [importVal, colors[value as keyof typeof colors]],
               ];
               return returnObj;
             })
@@ -124,7 +123,9 @@ const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string 
     fetchImports()
       .then((result) => {
         result.forEach((result_obj) => {
-          setImports({ ...imports, ...result_obj });
+          setImports(
+            new Map(imports.set(result_obj[0] as string, result_obj[1] as [unknown, string]))
+          );
         });
       })
       .catch(() => {
@@ -132,32 +133,32 @@ const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string 
       });
   }, [city, imports, layers]);
 
-  return useMemo(
-    () =>
-      Object.keys(imports)
-        .filter((layer) =>
-          layers
-            .map((stringLayer) => `../../assets/map_layers/${city}/${stringLayer}.json`)
-            .includes(layer)
-        )
-        .map((value) => (
+  return useMemo(() => {
+    const layers_to_return: ReactElement[] = [];
+    imports.forEach(
+      ([mapLayer, color], layerPath) =>
+        layers
+          .map((stringLayer) => `../../assets/map_layers/${city}/${stringLayer}.json`)
+          .includes(layerPath) &&
+        layers_to_return.push(
           <RLayerVector<Feature<Geometry>>
             zIndex={15}
-            key={`layer_${value}`}
+            key={`layer_${layerPath}`}
             features={
               new GeoJSON({
                 dataProjection: 'EPSG:3857',
                 featureProjection: 'EPSG:3857',
-              }).readFeatures(imports[value][0]) as Feature<Geometry>[]
+              }).readFeatures(mapLayer) as Feature<Geometry>[]
             }
           >
-            <RStyle.RStyle key={`style_${value}`}>
-              <RStyle.RFill color={imports[value][1]} key={`fill_${value}`} />
+            <RStyle.RStyle key={`style_${layerPath}`}>
+              <RStyle.RFill color={color} key={`fill_${layerPath}`} />
             </RStyle.RStyle>
           </RLayerVector>
-        )),
-    [city, layers, imports]
-  );
+        )
+    );
+    return layers_to_return;
+  }, [city, imports, layers]);
 };
 
 const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
