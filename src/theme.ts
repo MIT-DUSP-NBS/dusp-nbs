@@ -1,22 +1,22 @@
-import { createTheme } from '@mantine/core';
+import { MantineColorsTuple, createTheme } from '@mantine/core';
 
-// const myColor: MantineColorsTuple = [
-//   '#e1f9ff',
-//   '#ccedff',
-//   '#9ad7ff',
-//   '#64c1ff',
-//   '#3baefe',
-//   '#20a2fe',
-//   '#099cff',
-//   '#0088e4',
-//   '#0078cd',
-//   '#0069b6',
-// ];
+const lightBlue: MantineColorsTuple = [
+  '#e0fbff',
+  '#cbf2ff',
+  '#9ae2ff',
+  '#64d2ff',
+  '#3cc5fe',
+  '#23bcfe',
+  '#09b8ff',
+  '#00a1e4',
+  '#0090cd',
+  '#007cb5',
+];
 
 export const theme = createTheme({
   /** Put your mantine theme override here */
-  // primaryColor: 'sky-blue',
-  // colors: {
-  //   'sky-blue': myColor,
-  // },
+  primaryColor: 'light-blue',
+  colors: {
+    'light-blue': lightBlue,
+  },
 });
