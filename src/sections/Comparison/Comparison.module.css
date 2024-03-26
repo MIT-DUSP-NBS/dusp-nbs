@@ -1,0 +1,27 @@
+.title {
+  text-align: center;
+  font-family:
+    Greycliff CF,
+    var(--mantine-font-family);
+  font-size: rem(36px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: var(--mantine-spacing-md);
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+}
+
+.header {
+  font-family:
+    Greycliff CF,
+    var(--mantine-font-family);
+  font-size: rem(30px);
+  font-weight: 700;
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+}
+
+.description {
+  font-family:
+    Greycliff CF,
+    var(--mantine-font-family);
+  color: var(--mantine-color-dimmed);
+}

@@ -53,6 +53,7 @@
   height: rem(54px);
   padding-left: rem(38px);
   padding-right: rem(38px);
+  min-width: rem(200px);
 
   @media (max-width: $mantine-breakpoint-sm) {
     height: rem(54px);

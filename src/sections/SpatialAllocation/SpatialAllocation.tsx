@@ -1,5 +1,5 @@
 import { ForwardedRef, forwardRef } from 'react';
-import { Text, SimpleGrid, Container, rem, Title, Space } from '@mantine/core';
+import { Text, SimpleGrid, Container, rem, Title, Center } from '@mantine/core';
 import {
   IconBuildingEstate,
   IconAdjustmentsSearch,
@@ -58,18 +58,19 @@ const SpatialAllocation = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>)
   const items = data.map((item) => <Feature {...item} key={item.title} />);
 
   return (
-    <SimpleGrid ref={ref} cols={{ base: 1, xl: 2 }}>
-      <EmissionsImage />
-      <Container mt={30} mb={30} size="lg">
-        <Title className={classes.title}>
-          How to locate NbS to maximize their carbon-reduction potential
-        </Title>
-        <Space h="xl" />
-        <SimpleGrid cols={{ base: 1, sm: 3 }} spacing={50}>
-          {items}
-        </SimpleGrid>
-      </Container>
-    </SimpleGrid>
+    <>
+      <Title className={classes.title}>Vision a city designed with nature</Title>
+      <SimpleGrid pb={32} ref={ref} cols={{ base: 1, xl: 2 }}>
+        <EmissionsImage />
+        <Center>
+          <Container my={30} ml={5} mr={30} size="lg">
+            <SimpleGrid cols={{ base: 1, sm: 3 }} spacing={50}>
+              {items}
+            </SimpleGrid>
+          </Container>
+        </Center>
+      </SimpleGrid>
+    </>
   );
 });
 SpatialAllocation.displayName = 'SpatialAllocation';

@@ -7,6 +7,7 @@ import Header from './pages/Header';
 import Footer from './pages/Footer';
 import Hero from './sections/Hero/Hero';
 import Features from './sections/Features/Features';
+import Comparison from './sections/Comparison/Comparison';
 
 function Router() {
   const scrollOverview = useScrollIntoView<HTMLDivElement>({
@@ -35,6 +36,7 @@ function Router() {
       <Hero scrollLink={scrollVisualization.scrollIntoView} />
       <Features ref={scrollOverview.targetRef} />
       <SpatialAllocation ref={scrollSpatialAllocation.targetRef} />
+      <Comparison />
       <Visualization ref={scrollVisualization.targetRef} />
       <ReadResearch ref={scrollFooter.targetRef} />
       <Footer />

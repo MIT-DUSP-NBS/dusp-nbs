@@ -14,6 +14,8 @@ import { useDisclosure, useWindowScroll } from '@mantine/hooks';
 import ThemeToggle from '../components/ThemeToggle';
 import classes from './Header.module.css';
 
+const breakpointSize = 'md';
+
 interface linksType {
   id: number;
   link: string | ((params?: { alignment?: 'start' | 'end' | 'center' }) => void);
@@ -97,16 +99,16 @@ function Header({ links }: { links: linksType[] }) {
         <Group justify="space-between" h="100%">
           <HeaderButton />
 
-          <Group h="100%" gap={0} visibleFrom="sm">
+          <Group h="100%" gap={0} visibleFrom={breakpointSize}>
             <LinksRender links={links} />
           </Group>
 
-          <Group visibleFrom="sm">
+          <Group visibleFrom={breakpointSize}>
             <HeaderButtons />
             <ThemeToggle />
           </Group>
 
-          <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
+          <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom={breakpointSize} />
         </Group>
       </header>
 
@@ -116,7 +118,7 @@ function Header({ links }: { links: linksType[] }) {
         size="100%"
         padding="md"
         title={<HeaderButton />}
-        hiddenFrom="sm"
+        hiddenFrom={breakpointSize}
         zIndex={1000000}
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="md">
