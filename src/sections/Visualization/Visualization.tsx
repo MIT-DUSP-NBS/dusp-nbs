@@ -24,7 +24,7 @@ Object.keys(boundaries).forEach((key) => {
   boundaryFeatures[key] = new GeoJSON({
     dataProjection: 'EPSG:3857',
     featureProjection: 'EPSG:3857',
-  }).readFeatures(boundaries[key]) as Feature<Geometry>[];
+  }).readFeatures(boundaries[key]);
 });
 
 const data = [
@@ -144,12 +144,10 @@ const VisualizationLayers = ({ layers, city }: { layers: string[]; city: string 
           <RLayerVector<Feature<Geometry>>
             zIndex={15}
             key={`layer_${layerPath}`}
-            features={
-              new GeoJSON({
-                dataProjection: 'EPSG:3857',
-                featureProjection: 'EPSG:3857',
-              }).readFeatures(mapLayer) as Feature<Geometry>[]
-            }
+            features={new GeoJSON({
+              dataProjection: 'EPSG:3857',
+              featureProjection: 'EPSG:3857',
+            }).readFeatures(mapLayer)}
           >
             <RStyle.RStyle key={`style_${layerPath}`}>
               <RStyle.RFill color={color} key={`fill_${layerPath}`} />
