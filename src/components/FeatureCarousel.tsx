@@ -12,6 +12,7 @@ import {
   Transition,
   ActionIcon,
   useComputedColorScheme,
+  Space,
 } from '@mantine/core';
 import { IconArrowBack } from '@tabler/icons-react';
 import classes from './FeatureCarousel.module.css';
@@ -76,17 +77,20 @@ function Card({ image, title, category, description }: CardProps) {
                 {title}
               </Title>
             </div>
-            <Text size="md" p="10px">
-              {description}
-            </Text>
-            <ActionIcon
-              variant="transparent"
-              size="xl"
-              aria-label="Return"
-              onClick={() => setOpened(!opened)}
-            >
-              <IconArrowBack style={{ width: '70%', height: '70%' }} stroke={1.5} />
-            </ActionIcon>
+            <div>
+              <Text size="md" p="10px">
+                {description}
+              </Text>
+              <Space h="md" />
+              <ActionIcon
+                variant="transparent"
+                size="xl"
+                aria-label="Return"
+                onClick={() => setOpened(!opened)}
+              >
+                <IconArrowBack style={{ width: '70%', height: '70%' }} stroke={1.5} />
+              </ActionIcon>
+            </div>
           </Paper>
         )}
       </Transition>
