@@ -1,17 +1,25 @@
-import { ForwardedRef, forwardRef } from 'react';
+import {
+  ForwardRefExoticComponent,
+  ForwardedRef,
+  FunctionComponent,
+  RefAttributes,
+  forwardRef,
+} from 'react';
 import { Text, Container, rem, Title, SimpleGrid, Space } from '@mantine/core';
 import {
   IconBuildingEstate,
   IconAdjustmentsSearch,
   IconGlobe,
-  TablerIconsProps,
+  IconProps,
 } from '@tabler/icons-react';
 import classes from './SpatialAllocation.module.css';
 
 import EmissionsImage from '../../components/EmissionsImage';
 
 interface FeatureProps extends React.ComponentPropsWithoutRef<'div'> {
-  icon: React.FC<TablerIconsProps>;
+  icon: ForwardRefExoticComponent<
+    Omit<IconProps, 'ref'> & RefAttributes<FunctionComponent<IconProps>>
+  >;
   title: string;
   description: string;
 }
