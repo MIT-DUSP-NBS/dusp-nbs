@@ -16,6 +16,9 @@ function Router() {
   const scrollSpatialAllocation = useScrollIntoView<HTMLDivElement>({
     offset: 60,
   });
+  const scrollComparison = useScrollIntoView<HTMLDivElement>({
+    offset: 60,
+  });
   const scrollVisualization = useScrollIntoView<HTMLDivElement>({
     offset: 60,
   });
@@ -25,9 +28,10 @@ function Router() {
 
   const links = [
     { id: 0, link: scrollOverview.scrollIntoView, label: 'Overview' },
-    { id: 1, link: scrollSpatialAllocation.scrollIntoView, label: 'Spatial Allocation' },
-    { id: 2, link: scrollVisualization.scrollIntoView, label: 'Visualization' },
-    { id: 3, link: scrollFooter.scrollIntoView, label: 'About' },
+    { id: 1, link: scrollSpatialAllocation.scrollIntoView, label: 'Envision' },
+    { id: 2, link: scrollComparison.scrollIntoView, label: 'Comparison' },
+    { id: 3, link: scrollVisualization.scrollIntoView, label: 'Visualization' },
+    { id: 4, link: scrollFooter.scrollIntoView, label: 'About' },
   ];
 
   return (
@@ -36,7 +40,7 @@ function Router() {
       <Hero scrollLink={scrollVisualization.scrollIntoView} />
       <Features ref={scrollOverview.targetRef} />
       <SpatialAllocation ref={scrollSpatialAllocation.targetRef} />
-      <Comparison />
+      <Comparison ref={scrollComparison.targetRef} />
       <Visualization ref={scrollVisualization.targetRef} />
       <ReadResearch ref={scrollFooter.targetRef} />
       <Footer />
