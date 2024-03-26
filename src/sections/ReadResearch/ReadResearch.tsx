@@ -158,7 +158,7 @@ const About = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
     </Table.Tr>
   ));
   return (
-    <Container size="md" className={classes.wrapper} ref={ref}>
+    <Container size="lg" className={classes.wrapper} ref={ref}>
       <Title ta="center" className={classes.title}>
         Read our Research
       </Title>

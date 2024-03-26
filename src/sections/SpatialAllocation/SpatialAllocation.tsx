@@ -1,5 +1,5 @@
 import { ForwardedRef, forwardRef } from 'react';
-import { Text, SimpleGrid, Container, rem, Title, Center } from '@mantine/core';
+import { Text, Container, rem, Title, SimpleGrid, Space } from '@mantine/core';
 import {
   IconBuildingEstate,
   IconAdjustmentsSearch,
@@ -14,23 +14,6 @@ interface FeatureProps extends React.ComponentPropsWithoutRef<'div'> {
   icon: React.FC<TablerIconsProps>;
   title: string;
   description: string;
-}
-
-function Feature({ icon: Icon, title, description, className, ...others }: FeatureProps) {
-  return (
-    <div className={classes.feature} {...others}>
-      <div className={classes.overlay} />
-      <div className={classes.content}>
-        <Icon style={{ width: rem(38), height: rem(38) }} className={classes.icon} stroke={1.5} />
-        <Text fw={700} fz="lg" mb="xs" mt={5} className={classes.title}>
-          {title}
-        </Text>
-        <Text c="dimmed" fz="sm">
-          {description}
-        </Text>
-      </div>
-    </div>
-  );
 }
 
 const data = [
@@ -54,23 +37,39 @@ const data = [
   },
 ];
 
+function Feature({ icon: Icon, title, description, className, ...others }: FeatureProps) {
+  return (
+    <div className={classes.feature} {...others}>
+      <div className={classes.overlay} />
+      <div className={classes.content}>
+        <Icon style={{ width: rem(38), height: rem(38) }} className={classes.icon} stroke={1.5} />
+        <Text fw={700} fz="lg" mb="xs" mt={5} className={classes.title}>
+          {title}
+        </Text>
+        <Text c="dimmed" fz="sm">
+          {description}
+        </Text>
+      </div>
+    </div>
+  );
+}
+
 const SpatialAllocation = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
   const items = data.map((item) => <Feature {...item} key={item.title} />);
 
   return (
-    <>
+    <div ref={ref}>
       <Title className={classes.title}>Vision a city designed with nature</Title>
-      <SimpleGrid pb={32} ref={ref} cols={{ base: 1, xl: 2 }}>
+      <Container size="lg">
         <EmissionsImage />
-        <Center>
-          <Container my={30} ml={5} mr={30} size="lg">
-            <SimpleGrid cols={{ base: 1, sm: 3 }} spacing={50}>
-              {items}
-            </SimpleGrid>
-          </Container>
-        </Center>
-      </SimpleGrid>
-    </>
+      </Container>
+      <Space h="xl" />
+      <Container size="lg">
+        <SimpleGrid cols={{ base: 1, sm: 3 }} spacing={40}>
+          {items}
+        </SimpleGrid>
+      </Container>
+    </div>
   );
 });
 SpatialAllocation.displayName = 'SpatialAllocation';
