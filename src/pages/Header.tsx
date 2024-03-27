@@ -50,8 +50,10 @@ function LinksRender({ onClick, links }: { onClick?: () => void; links: linksTyp
         {link.label}
       </Anchor>
     ) : (
-      <Anchor
+      <Button
         className={classes.link}
+        variant="transparent"
+        radius={0}
         key={link.id}
         onClick={() => {
           if (link.link && typeof link.link !== 'string') {
@@ -65,7 +67,7 @@ function LinksRender({ onClick, links }: { onClick?: () => void; links: linksTyp
         }}
       >
         {link.label}
-      </Anchor>
+      </Button>
     )
   );
 }
