@@ -77,8 +77,7 @@ function HeaderButtons({
   ];
 
   return buttons_list.map((link) =>
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    breakpointSmall || breakpointLarge ? (
+    !(!breakpointSmall && !breakpointLarge) ? (
       <Button
         component="a"
         variant={link.type}
@@ -115,10 +114,9 @@ function HeaderButton({
 
   return (
     <Button variant="transparent" onClick={() => scrollTo({ y: 0 })}>
-      {
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-        breakpointSmall || breakpointLarge ? 'Nature-Based Solutions Dashboard' : 'NBS Dashboard'
-      }
+      {!(!breakpointSmall && !breakpointLarge)
+        ? 'Nature-Based Solutions Dashboard'
+        : 'NBS Dashboard'}
     </Button>
   );
 }
