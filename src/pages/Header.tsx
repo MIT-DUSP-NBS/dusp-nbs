@@ -8,13 +8,16 @@ import {
   ScrollArea,
   rem,
   Anchor,
+  ActionIcon,
+  em,
 } from '@mantine/core';
-import { useDisclosure, useWindowScroll } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery, useWindowScroll } from '@mantine/hooks';
+import { IconBrandGithub, IconFileText } from '@tabler/icons-react';
 
 import ThemeToggle from '../components/ThemeToggle';
 import classes from './Header.module.css';
 
-const breakpointSize = 'md';
+const breakpointSize = 'sm';
 
 interface linksType {
   id: number;
@@ -49,41 +52,81 @@ function LinksRender({ onClick, links }: { onClick?: () => void; links: linksTyp
   );
 }
 
-function HeaderButtons() {
+function HeaderButtons({
+  breakpointLarge,
+  breakpointSmall,
+}: {
+  breakpointLarge?: boolean;
+  breakpointSmall?: boolean;
+}) {
   const buttons_list = [
     {
       id: 0,
       link: 'https://github.com/dtemkin1/dusp-nbs',
       label: 'Github',
       type: 'default',
+      icon: IconBrandGithub,
     },
     {
       id: 1,
       link: 'https://doi.org/10.1038/s41558-023-01737-x',
       label: 'Research Paper',
       type: 'filled',
+      icon: IconFileText,
     },
   ];
 
-  return buttons_list.map((link) => (
-    <Button component="a" variant={link.type} href={link.link} target="_blank" key={link.id}>
-      {link.label}
-    </Button>
-  ));
+  return buttons_list.map((link) =>
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    breakpointSmall || breakpointLarge ? (
+      <Button
+        component="a"
+        variant={link.type}
+        href={link.link}
+        target="_blank"
+        key={link.id}
+        leftSection={<link.icon stroke={1.5} />}
+      >
+        {link.label}
+      </Button>
+    ) : (
+      <ActionIcon
+        size="calc(2.25rem*var(--mantine-scale))"
+        component="a"
+        variant={link.type}
+        href={link.link}
+        target="_blank"
+        key={link.id}
+      >
+        <link.icon stroke={1.5} />
+      </ActionIcon>
+    )
+  );
 }
 
-function HeaderButton() {
+function HeaderButton({
+  breakpointLarge,
+  breakpointSmall,
+}: {
+  breakpointLarge?: boolean;
+  breakpointSmall?: boolean;
+}) {
   const scrollTo = useWindowScroll()[1];
 
   return (
     <Button variant="transparent" onClick={() => scrollTo({ y: 0 })}>
-      Nature-Based Solutions Dashboard
+      {
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        breakpointSmall || breakpointLarge ? 'Nature-Based Solutions Dashboard' : 'NBS Dashboard'
+      }
     </Button>
   );
 }
 
 function Header({ links }: { links: linksType[] }) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  const breakpointLarge = useMediaQuery(`(min-width: ${em(1200)})`);
+  const breakpointSmall = useMediaQuery(`(max-width: ${em(768)})`);
 
   return (
     <Box
@@ -97,14 +140,14 @@ function Header({ links }: { links: linksType[] }) {
     >
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          <HeaderButton />
+          <HeaderButton breakpointLarge={breakpointLarge} breakpointSmall={breakpointSmall} />
 
           <Group h="100%" gap={0} visibleFrom={breakpointSize}>
             <LinksRender links={links} />
           </Group>
 
           <Group visibleFrom={breakpointSize}>
-            <HeaderButtons />
+            <HeaderButtons breakpointLarge={breakpointLarge} breakpointSmall={breakpointSmall} />
             <ThemeToggle />
           </Group>
 
@@ -117,7 +160,7 @@ function Header({ links }: { links: linksType[] }) {
         onClose={closeDrawer}
         size="100%"
         padding="md"
-        title={<HeaderButton />}
+        title={<HeaderButton breakpointLarge={breakpointLarge} breakpointSmall={breakpointSmall} />}
         hiddenFrom={breakpointSize}
         zIndex={1000000}
       >
@@ -127,7 +170,7 @@ function Header({ links }: { links: linksType[] }) {
           <Divider my="sm" />
 
           <Group justify="center" grow pb="xl" px="md">
-            <HeaderButtons />
+            <HeaderButtons breakpointLarge={breakpointLarge} breakpointSmall={breakpointSmall} />
             <ThemeToggle />
           </Group>
         </ScrollArea>
