@@ -14,7 +14,7 @@ import {
   useComputedColorScheme,
   Space,
 } from '@mantine/core';
-import { IconArrowBack } from '@tabler/icons-react';
+import { IconArrowBack, IconArrowRight, IconArrowLeft } from '@tabler/icons-react';
 import classes from './FeatureCarousel.module.css';
 
 interface CardProps {
@@ -178,6 +178,8 @@ function FeatureCarousel() {
       slideGap={{ base: rem(2), sm: 'xl' }}
       align="start"
       slidesToScroll={mobile ? 1 : 2}
+      nextControlIcon={<IconArrowRight style={{ width: rem(16), height: rem(16) }} />}
+      previousControlIcon={<IconArrowLeft style={{ width: rem(16), height: rem(16) }} />}
     >
       {slides}
     </Carousel>
