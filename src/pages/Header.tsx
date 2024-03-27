@@ -78,7 +78,7 @@ function HeaderButtons({
   breakpointSmall?: boolean;
 }) {
   return buttons_list.map((link) =>
-    !(!breakpointSmall && !breakpointLarge) ? (
+    !(!breakpointSmall && breakpointLarge) ? (
       <Button
         component="a"
         variant={link.type}
@@ -115,7 +115,7 @@ function HeaderButton({
 
   return (
     <Button variant="transparent" onClick={() => scrollTo({ y: 0 })}>
-      {!(!breakpointSmall && !breakpointLarge)
+      {!(!breakpointSmall && breakpointLarge)
         ? 'Nature-Based Solutions Dashboard'
         : 'NBS Dashboard'}
     </Button>
@@ -124,7 +124,7 @@ function HeaderButton({
 
 function Header({ links }: { links: linksType[] }) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-  const breakpointLarge = useMediaQuery(`(min-width: ${em(1200)})`);
+  const breakpointLarge = useMediaQuery(`(max-width: ${em(1200)})`);
   const breakpointSmall = useMediaQuery(`(max-width: ${em(768)})`);
 
   return (
