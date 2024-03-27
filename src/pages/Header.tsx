@@ -10,6 +10,7 @@ import {
   Anchor,
   ActionIcon,
   em,
+  Grid,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useWindowScroll } from '@mantine/hooks';
 import { IconBrandGithub, IconFileText } from '@tabler/icons-react';
@@ -24,6 +25,23 @@ interface linksType {
   link: string | ((params?: { alignment?: 'start' | 'end' | 'center' }) => void);
   label: string;
 }
+
+const buttons_list = [
+  // {
+  //   id: 0,
+  //   link: 'https://github.com/dtemkin1/dusp-nbs',
+  //   label: 'Github',
+  //   type: 'default',
+  //   icon: IconBrandGithub,
+  // },
+  {
+    id: 1,
+    link: 'https://doi.org/10.1038/s41558-023-01737-x',
+    label: 'Research Paper',
+    type: 'filled',
+    icon: IconFileText,
+  },
+];
 
 function LinksRender({ onClick, links }: { onClick?: () => void; links: linksType[] }) {
   return links.map((link) =>
@@ -59,23 +77,6 @@ function HeaderButtons({
   breakpointLarge?: boolean;
   breakpointSmall?: boolean;
 }) {
-  const buttons_list = [
-    {
-      id: 0,
-      link: 'https://github.com/dtemkin1/dusp-nbs',
-      label: 'Github',
-      type: 'default',
-      icon: IconBrandGithub,
-    },
-    {
-      id: 1,
-      link: 'https://doi.org/10.1038/s41558-023-01737-x',
-      label: 'Research Paper',
-      type: 'filled',
-      icon: IconFileText,
-    },
-  ];
-
   return buttons_list.map((link) =>
     !(!breakpointSmall && !breakpointLarge) ? (
       <Button
@@ -167,10 +168,19 @@ function Header({ links }: { links: linksType[] }) {
           <LinksRender onClick={closeDrawer} links={links} />
           <Divider my="sm" />
 
-          <Group justify="center" grow pb="xl" px="md">
-            <HeaderButtons breakpointLarge={breakpointLarge} breakpointSmall={breakpointSmall} />
-            <ThemeToggle />
-          </Group>
+          <Grid justify="center" pb="xl" px="md">
+            <Grid.Col span="auto">
+              <Group grow>
+                <HeaderButtons
+                  breakpointLarge={breakpointLarge}
+                  breakpointSmall={breakpointSmall}
+                />
+              </Group>
+            </Grid.Col>
+            <Grid.Col span="content">
+              <ThemeToggle />
+            </Grid.Col>
+          </Grid>
         </ScrollArea>
       </Drawer>
     </Box>
