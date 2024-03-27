@@ -56,7 +56,11 @@ function EmissionsImage() {
   return (
     <>
       <Box w="90%" mx="auto" style={{ position: 'relative' }}>
-        <Image src={basemapImg} radius="md" />
+        <Image
+          src={basemapImg}
+          radius="md"
+          alt="A generated view of the nature-based solutions implementations"
+        />
         {nbsDescriptions.map((NBS) => (
           <Group
             style={{ position: 'absolute', top: NBS.posTop, left: NBS.posLeft }}

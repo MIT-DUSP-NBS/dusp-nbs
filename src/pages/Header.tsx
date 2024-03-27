@@ -97,6 +97,7 @@ function HeaderButtons({
         href={link.link}
         target="_blank"
         key={link.id}
+        aria-label={link.label}
       >
         <link.icon stroke={1.5} />
       </ActionIcon>
