@@ -13,7 +13,7 @@ import {
   Grid,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery, useWindowScroll } from '@mantine/hooks';
-import { IconBrandGithub, IconFileText } from '@tabler/icons-react';
+import { IconFileText } from '@tabler/icons-react';
 
 import ThemeToggle from '../components/ThemeToggle';
 import classes from './Header.module.css';
