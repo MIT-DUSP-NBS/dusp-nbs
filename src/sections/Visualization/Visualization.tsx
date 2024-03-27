@@ -1,5 +1,16 @@
 import { useState, forwardRef, ForwardedRef, useEffect, useMemo, ReactElement } from 'react';
-import { Paper, Checkbox, Switch, Space, Select, ComboboxItem, Text } from '@mantine/core';
+import {
+  Paper,
+  Checkbox,
+  Switch,
+  Space,
+  Select,
+  ComboboxItem,
+  Text,
+  Overlay,
+  Flex,
+  Kbd,
+} from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
 import { Geometry } from 'ol/geom';
@@ -12,9 +23,11 @@ import {
   RPinchRotate,
   RPinchZoom,
 } from 'rlayers/interaction';
+import { platformModifierKeyOnly } from 'ol/events/condition';
+import { Coordinate } from 'ol/coordinate';
+import { useHover, useInterval, useOs } from '@mantine/hooks';
 
 import 'ol/ol.css';
-import { Coordinate } from 'ol/coordinate';
 
 const map_layers = import.meta.glob('../../assets/map_layers/*/*.json');
 const boundaries = import.meta.glob('../../assets/boundaries/*.json', { eager: true });
@@ -163,20 +176,14 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
   const [layers, setLayers] = useState<string[]>([]);
   const [boundaryShowing, setBoundaryShowing] = useState(true);
   const [ctrlHeld, setCTRLHeld] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [lastScroll, setLastScroll] = useState(Date.now());
   const [city, setCity] = useState<CitiesType | null>(null);
   const [view, setView] = useState(initial);
+  const { hovered: mapHovered, ref: mapHoveredRef } = useHover();
 
-  const BounadryLayer = () => (
-    <RLayerVector<Feature<Geometry>>
-      zIndex={10}
-      features={boundaryFeatures[`../../assets/boundaries/${city?.value}.json`]}
-    >
-      <RStyle.RStyle>
-        <RStyle.RStroke color="white" width={3} />
-        <RStyle.RFill color="transparent" />
-      </RStyle.RStyle>
-    </RLayerVector>
-  );
+  const os = useOs();
+  const isMobile = os === 'android' || os === 'ios';
 
   function downHandler({ key }: KeyboardEvent) {
     if (key === 'Control') {
@@ -190,41 +197,86 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
     }
   }
 
+  function scrollHandler() {
+    setIsScrolling(true);
+    setLastScroll(Date.now());
+  }
+
   useEffect(() => {
-    window.addEventListener('keydown', downHandler);
-    window.addEventListener('keyup', upHandler);
+    window.addEventListener('keydown', downHandler, true);
+    window.addEventListener('keyup', upHandler, true);
+    window.addEventListener('scroll', scrollHandler, true);
+
     return () => {
-      window.removeEventListener('keydown', downHandler);
-      window.removeEventListener('keyup', upHandler);
+      window.removeEventListener('keydown', downHandler, true);
+      window.removeEventListener('keyup', upHandler, true);
+      window.removeEventListener('scroll', scrollHandler, true);
     };
   }, []);
+
+  const interval = useInterval(() => {
+    if (isScrolling && Date.now() - lastScroll > 500) {
+      setIsScrolling(false);
+    }
+  }, 500);
+  useEffect(() => {
+    if (isScrolling) {
+      interval.start();
+      return interval.stop();
+    }
+    return undefined;
+  }, [interval, isScrolling]);
+
+  const BounadryLayer = () => (
+    <RLayerVector<Feature<Geometry>>
+      zIndex={10}
+      features={boundaryFeatures[`../../assets/boundaries/${city?.value}.json`]}
+    >
+      <RStyle.RStyle>
+        <RStyle.RStroke color="white" width={3} />
+        <RStyle.RFill color="transparent" />
+      </RStyle.RStyle>
+    </RLayerVector>
+  );
 
   return (
     <div ref={ref} style={{ position: 'relative' }}>
       <div style={{ width: '100%', height: 'calc(100vh - 60px)', marginTop: 60 }}>
-        <RMap
-          initial={initial}
-          height="100%"
-          noDefaultInteractions
-          noDefaultControls
-          view={[view, setView]}
-        >
-          <RDoubleClickZoom />
-          <RDragPan />
-          <RPinchRotate />
-          <RPinchZoom />
-          {ctrlHeld ? <RMouseWheelZoom /> : null}
-          <RLayerTile
-            zIndex={5}
-            url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-            attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
-            projection="EPSG:3857"
-          />
-          {boundaryShowing && city && <BounadryLayer />}
-          {city && <VisualizationLayers layers={layers} city={city.value} />}
-        </RMap>
+        <div ref={mapHoveredRef} style={{ width: '100%', height: '100%' }}>
+          {mapHovered && !isMobile && !ctrlHeld && isScrolling && (
+            <Overlay color="#000" backgroundOpacity={0.35} blur={5} zIndex={100}>
+              <Flex justify="center" align="center" h="100%">
+                <Text size="xl">
+                  Use <Kbd>{os === 'windows' ? 'Ctrl' : os === 'macos' ? '⌘' : 'Super'}</Kbd> +
+                  scroll to zoom the map
+                </Text>
+              </Flex>
+            </Overlay>
+          )}
+          <RMap
+            initial={initial}
+            height="100%"
+            noDefaultInteractions
+            noDefaultControls
+            view={[view, setView]}
+          >
+            <RDoubleClickZoom />
+            <RDragPan />
+            <RPinchRotate />
+            <RPinchZoom />
+            <RMouseWheelZoom condition={platformModifierKeyOnly} />
+            <RLayerTile
+              zIndex={5}
+              url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+              attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
+              projection="EPSG:3857"
+            />
+            {boundaryShowing && city && <BounadryLayer />}
+            {city && <VisualizationLayers layers={layers} city={city.value} />}
+          </RMap>
+        </div>
       </div>
-      <div style={{ bottom: 20, left: 20, position: 'absolute' }}>
+      <div style={{ bottom: 20, left: 20, position: 'absolute', zIndex: 200 }}>
         {city && (
           <Paper
             shadow="xs"
@@ -239,15 +291,10 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
               onChange={setLayers}
             >
               {data.map((value) => (
-                <>
+                <div key={`checkbox_${value.value}`}>
                   <Space h="xs" key={`space_${value.value}`} />
-                  <Checkbox
-                    label={value.title}
-                    color={value.color}
-                    value={value.value}
-                    key={`checkbox_${value.value}`}
-                  />
-                </>
+                  <Checkbox label={value.title} color={value.color} value={value.value} />
+                </div>
               ))}
             </Checkbox.Group>
             {`../../assets/boundaries/${city.value}.json` in boundaries && (
@@ -263,7 +310,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
           </Paper>
         )}
       </div>
-      <div style={{ top: 20, left: 20, position: 'absolute' }}>
+      <div style={{ top: 20, left: 20, position: 'absolute', zIndex: 200 }}>
         <Paper
           shadow="xs"
           withBorder

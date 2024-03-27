@@ -37,8 +37,8 @@ const Comparison = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => (
     <Space h="md" />
 
     {data.map((row) => (
-      <>
-        <Grid key={row.header} gutter="sm" grow>
+      <div key={row.header}>
+        <Grid gutter="sm" grow>
           <Grid.Col span={{ base: 12, sm: 6, lg: 3.5 }}>
             <Image src={row.badPic} style={{ aspectRatio: '16 / 9' }} radius="md" />
           </Grid.Col>
@@ -54,7 +54,7 @@ const Comparison = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => (
         </Grid>
         <Space h="xl" />
         <Space h="xl" />
-      </>
+      </div>
     ))}
   </Container>
 ));

@@ -133,7 +133,7 @@ function Header({ links }: { links: linksType[] }) {
         position: 'sticky',
         top: 0,
         width: '100%',
-        zIndex: 100,
+        zIndex: 1000,
         background: 'var(--mantine-color-body)',
       }}
     >
