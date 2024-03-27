@@ -27,7 +27,7 @@ const Features = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => (
           component="a"
           href="https://naturebasedsolutions.org/"
         >
-          Learn more
+          Learn about NBS
         </Button>
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 7 }}>
