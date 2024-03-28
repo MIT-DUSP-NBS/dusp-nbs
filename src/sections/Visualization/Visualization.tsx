@@ -218,7 +218,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
     if (isScrolling && Date.now() - lastScroll > 500) {
       setIsScrolling(false);
     }
-  }, 500);
+  }, 100);
   useEffect(() => {
     if (isScrolling) {
       interval.start();
@@ -241,40 +241,41 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
 
   return (
     <div ref={ref} style={{ position: 'relative' }}>
-      <div style={{ width: '100%', height: 'calc(100vh - 60px)', marginTop: 60 }}>
-        <div ref={mapHoveredRef} style={{ width: '100%', height: '100%' }}>
-          {mapHovered && !isMobile && !ctrlHeld && isScrolling && (
-            <Overlay color="#000" backgroundOpacity={0.35} blur={5} zIndex={100}>
-              <Flex justify="center" align="center" h="100%">
-                <Text size="xl">
-                  Use <Kbd>{os === 'windows' ? 'Ctrl' : os === 'macos' ? '⌘' : 'Super'}</Kbd> +
-                  scroll to zoom the map
-                </Text>
-              </Flex>
-            </Overlay>
-          )}
-          <RMap
-            initial={initial}
-            height="100%"
-            noDefaultInteractions
-            noDefaultControls
-            view={[view, setView]}
-          >
-            <RDoubleClickZoom />
-            <RDragPan />
-            <RPinchRotate />
-            <RPinchZoom />
-            <RMouseWheelZoom condition={platformModifierKeyOnly} />
-            <RLayerTile
-              zIndex={5}
-              url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-              attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
-              projection="EPSG:3857"
-            />
-            {boundaryShowing && city && <BounadryLayer />}
-            {city && <VisualizationLayers layers={layers} city={city.value} />}
-          </RMap>
-        </div>
+      <div
+        style={{ width: '100%', height: 'calc(100vh - 60px)', marginTop: 60 }}
+        ref={mapHoveredRef}
+      >
+        {mapHovered && !isMobile && !ctrlHeld && isScrolling && (
+          <Overlay color="#000" backgroundOpacity={0.35} blur={5} zIndex={100}>
+            <Flex justify="center" align="center" h="100%">
+              <Text size="xl" c="white">
+                Use <Kbd>{os === 'windows' ? 'Ctrl' : os === 'macos' ? '⌘' : 'Super'}</Kbd> + scroll
+                to zoom the map
+              </Text>
+            </Flex>
+          </Overlay>
+        )}
+        <RMap
+          initial={initial}
+          height="100%"
+          noDefaultInteractions
+          noDefaultControls
+          view={[view, setView]}
+        >
+          <RDoubleClickZoom />
+          <RDragPan />
+          <RPinchRotate />
+          <RPinchZoom />
+          <RMouseWheelZoom condition={platformModifierKeyOnly} />
+          <RLayerTile
+            zIndex={5}
+            url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+            attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
+            projection="EPSG:3857"
+          />
+          {boundaryShowing && city && <BounadryLayer />}
+          {city && <VisualizationLayers layers={layers} city={city.value} />}
+        </RMap>
       </div>
       <div style={{ bottom: 20, left: 20, position: 'absolute', zIndex: 200 }}>
         {city && (
