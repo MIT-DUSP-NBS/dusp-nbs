@@ -10,6 +10,7 @@ import {
   Overlay,
   Flex,
   Kbd,
+  Transition,
 } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
@@ -218,7 +219,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
     if (isScrolling && Date.now() - lastScroll > 500) {
       setIsScrolling(false);
     }
-  }, 100);
+  }, 500);
   useEffect(() => {
     if (isScrolling) {
       interval.start();
@@ -245,16 +246,18 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
         style={{ width: '100%', height: 'calc(100vh - 60px)', marginTop: 60 }}
         ref={mapHoveredRef}
       >
-        {mapHovered && !isMobile && !ctrlHeld && isScrolling && (
-          <Overlay color="#000" backgroundOpacity={0.35} blur={5} zIndex={100}>
-            <Flex justify="center" align="center" h="100%">
-              <Text size="xl" c="white">
-                Use <Kbd>{os === 'windows' ? 'Ctrl' : os === 'macos' ? '⌘' : 'Super'}</Kbd> + scroll
-                to zoom the map
-              </Text>
-            </Flex>
-          </Overlay>
-        )}
+        <Transition mounted={mapHovered && !isMobile && !ctrlHeld && isScrolling} transition="fade">
+          {(styles) => (
+            <Overlay color="#000" backgroundOpacity={0.35} blur={5} zIndex={100} style={styles}>
+              <Flex justify="center" align="center" h="100%">
+                <Text size="xl" c="white">
+                  Use <Kbd>{os === 'windows' ? 'Ctrl' : os === 'macos' ? '⌘' : 'Super'}</Kbd> +
+                  scroll to zoom the map
+                </Text>
+              </Flex>
+            </Overlay>
+          )}
+        </Transition>
         <RMap
           initial={initial}
           height="100%"
