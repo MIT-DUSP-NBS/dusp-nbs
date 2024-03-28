@@ -184,7 +184,6 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
   const { hovered: mapHovered, ref: mapHoveredRef } = useHover();
 
   const os = useOs();
-  const isMobile = os === 'android' || os === 'ios';
 
   function downHandler({ key }: KeyboardEvent) {
     if (key === 'Control') {
@@ -246,7 +245,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
         style={{ width: '100%', height: 'calc(100vh - 60px)', marginTop: 60 }}
         ref={mapHoveredRef}
       >
-        <Transition mounted={mapHovered && !isMobile && !ctrlHeld && isScrolling} transition="fade">
+        <Transition mounted={mapHovered && !ctrlHeld && isScrolling} transition="fade">
           {(styles) => (
             <Overlay color="#000" backgroundOpacity={0.35} blur={5} zIndex={100} style={styles}>
               <Flex justify="center" align="center" h="100%">
