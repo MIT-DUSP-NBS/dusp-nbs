@@ -12,7 +12,7 @@ import {
   Kbd,
   Transition,
 } from '@mantine/core';
-import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
+import { RMap, RLayerTile, RLayerVector, RStyle, RControl, ROSM } from 'rlayers';
 import { Feature } from 'ol';
 import { Geometry } from 'ol/geom';
 import { fromLonLat } from 'ol/proj';
@@ -29,6 +29,9 @@ import { Coordinate } from 'ol/coordinate';
 import { useHover, useInterval, useOs } from '@mantine/hooks';
 
 import 'ol/ol.css';
+import 'rlayers/control/layers.css';
+
+const layersButton = <button type="button">&#9776;</button>;
 
 const map_layers = import.meta.glob('../../assets/map_layers/*/*.json');
 const boundaries = import.meta.glob('../../assets/boundaries/*.json', { eager: true });
@@ -269,12 +272,17 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
           <RPinchRotate />
           <RPinchZoom />
           <RMouseWheelZoom condition={platformModifierKeyOnly} />
-          <RLayerTile
-            zIndex={5}
-            url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-            attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
-            projection="EPSG:3857"
-          />
+          <RControl.RLayers element={layersButton}>
+            <RLayerTile
+              zIndex={5}
+              url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+              attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
+              projection="EPSG:3857"
+              properties={{ label: 'ESRI World Imagery' }}
+            />
+            <ROSM properties={{ label: 'OpenStreetMap' }} />
+          </RControl.RLayers>
+
           {boundaryShowing && city && <BounadryLayer />}
           {city && <VisualizationLayers layers={layers} city={city.value} />}
         </RMap>

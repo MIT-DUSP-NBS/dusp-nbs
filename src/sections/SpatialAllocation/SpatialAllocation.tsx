@@ -66,7 +66,7 @@ const SpatialAllocation = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>)
   const items = data.map((item) => <Feature {...item} key={item.title} />);
 
   return (
-    <Container pb={32} size="lg" ref={ref}>
+    <Container pb={80} size="lg" ref={ref}>
       <Title className={classes.title}>Vision a city designed with nature</Title>
       <EmissionsImage />
       <Space h="xl" />
