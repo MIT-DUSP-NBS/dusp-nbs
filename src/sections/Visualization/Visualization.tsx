@@ -11,8 +11,13 @@ import {
   Flex,
   Kbd,
   Transition,
+  Group,
+  ActionIcon,
+  Popover,
+  Radio,
+  Stack,
 } from '@mantine/core';
-import { RMap, RLayerTile, RLayerVector, RStyle, RControl, ROSM } from 'rlayers';
+import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
 import { Geometry } from 'ol/geom';
 import { fromLonLat } from 'ol/proj';
@@ -30,8 +35,7 @@ import { useHover, useInterval, useOs } from '@mantine/hooks';
 
 import 'ol/ol.css';
 import 'rlayers/control/layers.css';
-
-const layersButton = <button type="button">&#9776;</button>;
+import { IconAdjustments } from '@tabler/icons-react';
 
 const map_layers = import.meta.glob('../../assets/map_layers/*/*.json');
 const boundaries = import.meta.glob('../../assets/boundaries/*.json', { eager: true });
@@ -86,6 +90,19 @@ interface CitiesType extends ComboboxItem {
     transporation: `${number}%` | number;
   };
 }
+
+const basemaps = [
+  {
+    label: 'ESRI World Imagery',
+    url: 'https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attributions: 'Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+  },
+  {
+    label: 'OpenStreetMap',
+    url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attributions: '© OpenStreetMap contributors',
+  },
+];
 
 const cities: CitiesType[] = [
   {
@@ -185,6 +202,8 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
   const [city, setCity] = useState<CitiesType | null>(null);
   const [view, setView] = useState(initial);
   const { hovered: mapHovered, ref: mapHoveredRef } = useHover();
+  const [basemap, setBasemap] = useState(basemaps[0]);
+  const [basemapOpened, setBasemapOpened] = useState(false);
 
   const os = useOs();
 
@@ -272,16 +291,13 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
           <RPinchRotate />
           <RPinchZoom />
           <RMouseWheelZoom condition={platformModifierKeyOnly} />
-          <RControl.RLayers element={layersButton}>
-            <RLayerTile
-              zIndex={5}
-              url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-              attributions="Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
-              projection="EPSG:3857"
-              properties={{ label: 'ESRI World Imagery' }}
-            />
-            <ROSM properties={{ label: 'OpenStreetMap' }} />
-          </RControl.RLayers>
+          <RLayerTile
+            zIndex={5}
+            url={basemap.url}
+            attributions={basemap.attributions}
+            projection="EPSG:3857"
+            properties={{ label: basemap.label }}
+          />
 
           {boundaryShowing && city && <BounadryLayer />}
           {city && <VisualizationLayers layers={layers} city={city.value} />}
@@ -293,7 +309,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
             shadow="xs"
             withBorder
             p="xl"
-            style={{ width: '22em', maxWidth: 'calc(100vw - 40px)' }}
+            style={{ maxWidth: 'min(calc(100vw - 40px), 22em)' }}
           >
             <Checkbox.Group
               label={`Locate NbS in ${city.label}`}
@@ -326,21 +342,63 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
           shadow="xs"
           withBorder
           p="xl"
-          style={{ width: '22em', maxWidth: 'calc(100vw - 40px)' }}
+          style={{ maxWidth: 'min(calc(100vw - 40px), 20.5em)' }}
         >
-          <Select
-            data={cities}
-            placeholder="Pick a city!"
-            value={city ? city.value : null}
-            onChange={(_value, option: CitiesType) => {
-              setCity(option);
-              setLayers([]);
-              if (option.newView) {
-                setView({ center: option.newView.center, zoom: option.newView.zoom });
-              }
-            }}
-            allowDeselect={false}
-          />
+          <Group>
+            <Select
+              data={cities}
+              placeholder="Pick a city!"
+              value={city ? city.value : null}
+              onChange={(_value, option: CitiesType) => {
+                setCity(option);
+                setLayers([]);
+                if (option.newView) {
+                  setView({ center: option.newView.center, zoom: option.newView.zoom });
+                }
+              }}
+              allowDeselect={false}
+            />
+            <Popover
+              width={280}
+              shadow="md"
+              withArrow
+              opened={basemapOpened}
+              onChange={setBasemapOpened}
+            >
+              <Popover.Target>
+                <ActionIcon
+                  variant="default"
+                  aria-label="Settings"
+                  size="input-sm"
+                  onClick={() => setBasemapOpened((o) => !o)}
+                >
+                  <IconAdjustments style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                </ActionIcon>
+              </Popover.Target>
+              <Popover.Dropdown>
+                <Radio.Group
+                  value={basemap.url}
+                  onChange={(value) => {
+                    setBasemap(basemaps.find((b) => b.url === value) ?? basemaps[0]);
+                    setBasemapOpened((o) => !o);
+                  }}
+                  name="basemap"
+                  label="Basemap"
+                  description="Select the appropriate basemap to use"
+                >
+                  <Stack mt="xs">
+                    {basemaps.map((radioBasemap) => (
+                      <Radio
+                        key={radioBasemap.label}
+                        label={radioBasemap.label}
+                        value={radioBasemap.url}
+                      />
+                    ))}
+                  </Stack>
+                </Radio.Group>
+              </Popover.Dropdown>
+            </Popover>
+          </Group>
           {city?.nbsData && (
             <>
               <Space h="lg" />
