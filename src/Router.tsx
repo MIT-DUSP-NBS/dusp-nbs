@@ -14,16 +14,16 @@ function Router() {
     offset: 60,
   });
   const scrollSpatialAllocation = useScrollIntoView<HTMLDivElement>({
-    offset: 60,
+    offset: 80,
   });
   const scrollComparison = useScrollIntoView<HTMLDivElement>({
-    offset: 60,
+    offset: 80,
   });
   const scrollVisualization = useScrollIntoView<HTMLDivElement>({
-    offset: 60,
+    offset: 59,
   });
   const scrollFooter = useScrollIntoView<HTMLDivElement>({
-    offset: 60,
+    offset: 59,
   });
 
   const links = [
