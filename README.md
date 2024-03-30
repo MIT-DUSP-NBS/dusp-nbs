@@ -1,6 +1,6 @@
 # Nature-Based Solutions Dashboard to Support Carbon Neutrality in Major EU Cities
 
-[![Deploy React on GH Pages](https://github.com/dtemkin1/dusp-nbs/actions/workflows/vite.yml/badge.svg)](https://github.com/dtemkin1/dusp-nbs/actions/workflows/vite.yml)
+[![Deploy React on GH Pages](https://github.com/mit-dusp-nbs/dusp-nbs/actions/workflows/vite.yml/badge.svg)](https://github.com/mit-dusp-nbs/dusp-nbs/actions/workflows/vite.yml)
 
 ## React + TypeScript + Vite
 
