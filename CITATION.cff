@@ -12,8 +12,12 @@ authors:
     family-names: Diego
     email: dtemkin@mit.edu
     affiliation: Massachusetts Institute of Technology
-repository-code: 'https://github.com/dtemkin1/dusp-nbs'
-url: 'https://dtemkin1.github.io/dusp-nbs/'
+  - given-names: Cong
+    family-names: Cong
+    email: ccong2@mit.edu
+    affiliation: Massachusetts Institute of Technology
+repository-code: 'https://github.com/mit-dusp-nbs/dusp-nbs'
+url: 'https://mit-dusp-nbs.github.io/dusp-nbs/'
 license: MIT
 preferred-citation:
   type: article
