@@ -35,7 +35,7 @@ import { useHover, useInterval, useOs } from '@mantine/hooks';
 
 import 'ol/ol.css';
 import 'rlayers/control/layers.css';
-import { IconAdjustments } from '@tabler/icons-react';
+import { IconAdjustmentsHorizontal } from '@tabler/icons-react';
 
 const map_layers = import.meta.glob('../../assets/map_layers/*/*.json');
 const boundaries = import.meta.glob('../../assets/boundaries/*.json', { eager: true });
@@ -48,12 +48,19 @@ Object.keys(boundaries).forEach((key) => {
   }).readFeatures(boundaries[key]);
 });
 
-const data = [
+const data: {
+  color: string;
+  value: string;
+  title: string;
+  id: number;
+  cityData?: Record<string, `${number}%` | number>;
+}[] = [
   {
     color: 'lime',
     value: 'GBI',
     title: 'Green Infrastructure (GBI)',
     id: 0,
+    // example data... cityData: { stockholm: '17.4%', vienna: '14.0%', madrid: '9.6%' },
   },
   {
     color: 'cyan',
@@ -109,7 +116,7 @@ const cities: CitiesType[] = [
     label: 'Stockholm',
     value: 'stockholm',
     newView: { center: fromLonLat([18.0686, 59.3293]), zoom: 9 },
-    nbsData: { average: '17.4%', residential: '8.1%', industrial: '14.0%', transporation: '9.6%' },
+    // nbsData: { average: '17.4%', residential: '8.1%', industrial: '14.0%', transporation: '9.6%' },
   },
   {
     label: 'Vienna',
@@ -313,14 +320,27 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
           >
             <Checkbox.Group
               label={`Locate NbS in ${city.label}`}
-              description={`Taking ${city.label} as our study site, we identify the demands, locations, and types of NbS interventions that could maximize carbon reduction benefits.`}
+              description={
+                city.nbsData
+                  ? `Implementing NBS in ${city.label} can reduce total carbon emissions by, on average, ${city?.nbsData?.average}, with ${city?.nbsData?.residential} in the residential sector, ${city?.nbsData?.industrial} in the industrial sector, and ${city?.nbsData?.transporation} in the transportation sector.`
+                  : `Taking ${city.label} as our study site, we identify the demands, locations, and types of NbS interventions that could maximize carbon reduction benefits.`
+              }
               value={layers}
               onChange={setLayers}
             >
               {data.map((value) => (
                 <div key={`checkbox_${value.value}`}>
                   <Space h="xs" key={`space_${value.value}`} />
-                  <Checkbox label={value.title} color={value.color} value={value.value} />
+                  <Checkbox
+                    label={value.title}
+                    color={value.color}
+                    value={value.value}
+                    description={
+                      layers.includes(value.value) && value.cityData?.[city.value]
+                        ? `Reduces emissions by ${value.cityData[city.value]}`
+                        : null
+                    }
+                  />
                 </div>
               ))}
             </Checkbox.Group>
@@ -330,7 +350,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
                 <Switch
                   checked={boundaryShowing}
                   onChange={(event) => setBoundaryShowing(event.currentTarget.checked)}
-                  label={`Show ${city.label} county boundary`}
+                  label={`Show ${city.label} boundary`}
                 />
               </>
             )}
@@ -372,7 +392,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
                   size="input-sm"
                   onClick={() => setBasemapOpened((o) => !o)}
                 >
-                  <IconAdjustments style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                  <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
                 </ActionIcon>
               </Popover.Target>
               <Popover.Dropdown>
@@ -399,17 +419,6 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
               </Popover.Dropdown>
             </Popover>
           </Group>
-          {city?.nbsData && (
-            <>
-              <Space h="lg" />
-              <Text size="sm">
-                Implementing NBS in {city.label} can reduce total carbon emissions by, on average,{' '}
-                {city?.nbsData?.average}, with {city?.nbsData?.residential} in the residential
-                sector, {city?.nbsData?.industrial} in the industrial sector, and{' '}
-                {city?.nbsData?.transporation} in the transportation sector.
-              </Text>
-            </>
-          )}
         </Paper>
       </div>
     </div>
