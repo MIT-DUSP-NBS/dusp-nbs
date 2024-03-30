@@ -3,8 +3,8 @@ import { Container, Group, Anchor, Text } from '@mantine/core';
 import classes from './Footer.module.css';
 
 const links = [
-  { link: 'https://github.com/dtemkin1/dusp-nbs', label: 'Github' },
-  { link: 'mailto:dtemkin@mit.edu', label: 'Contact' },
+  { link: 'https://github.com/mit-dusp-nbs/dusp-nbs', label: 'Github' },
+  { link: 'mailto:dusp-nbs@mit.edu', label: 'Contact' },
   //   { link: '#', label: 'Privacy' },
   //   { link: '#', label: 'Blog' },
   //   { link: '#', label: 'Careers' },
