@@ -103,12 +103,12 @@ const data: {
 
 interface CitiesType extends ComboboxItem {
   newView?: { center: Coordinate; zoom: number };
-  nbsData?: {
-    average: `${number}%` | number;
-    residential: `${number}%` | number;
-    industrial: `${number}%` | number;
-    transporation: `${number}%` | number;
-  };
+  // nbsData?: {
+  //   average: `${number}%` | number;
+  //   residential: `${number}%` | number;
+  //   industrial: `${number}%` | number;
+  //   transporation: `${number}%` | number;
+  // };
 }
 
 const basemaps = [
@@ -333,11 +333,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
           >
             <Checkbox.Group
               label={`Locate NbS in ${city.label}`}
-              description={`${
-                city.nbsData
-                  ? `Implementing NBS in ${city.label} can reduce total carbon emissions by, on average, ${city?.nbsData?.average}, with ${city?.nbsData?.residential} in the residential sector, ${city?.nbsData?.industrial} in the industrial sector, and ${city?.nbsData?.transporation} in the transportation sector.`
-                  : `Taking ${city.label} as our study site, we identify the demands, locations, and types of NbS interventions that could maximize carbon reduction benefits.`
-              } Emissions statistics are calculated based on 2019 emissions and application of the NbS on all available land parcels`}
+              description="Emissions statistics are calculated based on 2019 emissions and application of the NbS on all available land parcels"
               value={layers}
               onChange={setLayers}
             >
