@@ -52,39 +52,52 @@ const data: {
   color: string;
   value: string;
   title: string;
-  id: number;
-  cityData?: Record<string, `${number}%` | number>;
+  cityData?: { perYear: Record<string, number>; reductionShare: Record<string, `${number}%`> };
 }[] = [
   {
     color: 'lime',
     value: 'GBI',
     title: 'Green Infrastructure (GBI)',
-    id: 0,
-    // example data... cityData: { stockholm: '17.4%', vienna: '14.0%', madrid: '9.6%' },
+    cityData: {
+      perYear: { stockholm: 0.93, vienna: 0.56, madrid: 1.58 },
+      reductionShare: { stockholm: '23.5%', vienna: '5.0%', madrid: '9.7%' },
+    },
   },
   {
     color: 'cyan',
     value: 'green_roof',
     title: 'Green Roof',
-    id: 1,
+    cityData: {
+      perYear: { stockholm: 0.34, vienna: 0.71, madrid: 0.43 },
+      reductionShare: { stockholm: '8.5%', vienna: '6.3%', madrid: '2.7%' },
+    },
   },
   {
     color: 'pink',
     value: 'greenbelt',
     title: 'Greenbelt',
-    id: 2,
+    cityData: {
+      perYear: { stockholm: 0.79, vienna: 1.09, madrid: 1.93 },
+      reductionShare: { stockholm: '19.8%', vienna: '9.7%', madrid: '11.8%' },
+    },
   },
   {
     color: 'violet',
     value: 'street_trees',
     title: 'Street Trees',
-    id: 3,
+    cityData: {
+      perYear: { stockholm: 0.3, vienna: 0.92, madrid: 1.27 },
+      reductionShare: { stockholm: '7.6%', vienna: '8.2%', madrid: '7.8%' },
+    },
   },
   {
     color: 'orange',
     value: 'urban_green_areas',
     title: 'Urban Green Areas',
-    id: 4,
+    cityData: {
+      perYear: { stockholm: 0.53, vienna: 1.41, madrid: 1.47 },
+      reductionShare: { stockholm: '13.4%', vienna: '12.6%', madrid: '9.0%' },
+    },
   },
 ];
 
@@ -320,11 +333,11 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
           >
             <Checkbox.Group
               label={`Locate NbS in ${city.label}`}
-              description={
+              description={`${
                 city.nbsData
                   ? `Implementing NBS in ${city.label} can reduce total carbon emissions by, on average, ${city?.nbsData?.average}, with ${city?.nbsData?.residential} in the residential sector, ${city?.nbsData?.industrial} in the industrial sector, and ${city?.nbsData?.transporation} in the transportation sector.`
                   : `Taking ${city.label} as our study site, we identify the demands, locations, and types of NbS interventions that could maximize carbon reduction benefits.`
-              }
+              } Emissions statistics are calculated based on 2019 emissions and application of the NbS on all available land parcels`}
               value={layers}
               onChange={setLayers}
             >
@@ -336,9 +349,9 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
                     color={value.color}
                     value={value.value}
                     description={
-                      layers.includes(value.value) && value.cityData?.[city.value]
-                        ? `Reduces emissions by ${value.cityData[city.value]}`
-                        : null
+                      layers.includes(value.value) &&
+                      value.cityData?.perYear[city.value] &&
+                      `Reduces emissions by up to ${value.cityData.perYear[city.value]} MtCO2/year${value.cityData?.reductionShare[city.value] && ` (${value.cityData.reductionShare[city.value]} of 2019 emissions)`}`
                     }
                   />
                 </div>
