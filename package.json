@@ -11,9 +11,9 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
-    "@mantine/carousel": "^7.7.0",
-    "@mantine/core": "^7.7.0",
-    "@mantine/hooks": "^7.7.0",
+    "@mantine/carousel": "^7.9.0",
+    "@mantine/core": "^7.9.0",
+    "@mantine/hooks": "^7.9.0",
     "@tabler/icons-react": "^3.2.0",
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
