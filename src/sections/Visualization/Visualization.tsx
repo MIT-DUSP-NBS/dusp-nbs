@@ -57,7 +57,7 @@ const data: {
   {
     color: 'lime',
     value: 'GBI',
-    title: 'Green Infrastructure (GBI)',
+    title: 'Green Infrastructure (GI)',
     cityData: {
       perYear: { stockholm: 0.93, vienna: 0.56, madrid: 1.58 },
       reductionShare: { stockholm: '23.5%', vienna: '5.0%', madrid: '9.7%' },
@@ -93,7 +93,7 @@ const data: {
   {
     color: 'orange',
     value: 'urban_green_areas',
-    title: 'Urban Green Areas',
+    title: 'Urban Parks',
     cityData: {
       perYear: { stockholm: 0.53, vienna: 1.41, madrid: 1.47 },
       reductionShare: { stockholm: '13.4%', vienna: '12.6%', madrid: '9.0%' },
