@@ -160,7 +160,7 @@ const About = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => {
   return (
     <Container size="lg" className={classes.wrapper} ref={ref}>
       <Title ta="center" className={classes.title}>
-        Read our Research
+        Read More!
       </Title>
       {/* TODO: ADD LINKS TO RESEARCH PAPERS */}
       <Accordion variant="separated">
