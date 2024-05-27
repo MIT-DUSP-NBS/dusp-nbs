@@ -39,8 +39,8 @@ dependencies:
     specifier: ^6.23.1
     version: 6.23.1(react-dom@18.3.1)(react@18.3.1)
   rlayers:
-    specifier: ^2.3.1
-    version: 2.3.1(ol@9.1.0)(react-dom@18.3.1)(react@18.3.1)
+    specifier: ^2.3.2
+    version: 2.3.2(ol@9.1.0)(react-dom@18.3.1)(react@18.3.1)
 
 devDependencies:
   '@types/react':
@@ -2983,8 +2983,8 @@ packages:
       glob: 7.2.3
     dev: true
 
-  /rlayers@2.3.1(ol@9.1.0)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-o/58VNsWBRz/kPJ5czbM30tzXZ4m9wZKE/zoyWjTI5ufNOZqKn8wKlt4CwLLnfvCmv64TVJo1+F58OR1FD8+ng==}
+  /rlayers@2.3.2(ol@9.1.0)(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-PVG2edJ+9l8+0SQFbIznhkhx8L2Mim921wsa9u1qH5+HLZ+U7ublX1OzjtPcqx8mvKZ3hYo55grt6OODDoZe6g==}
     peerDependencies:
       ol: '>=6.10.0 <9.2.0'
       react: '>=16.8'
