@@ -447,7 +447,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
       <div
         style={{
           bottom: 20,
-          right: 20,
+          right: 0,
           height: 'calc(100vh - 60px)',
           position: 'absolute',
           zIndex: 200,
