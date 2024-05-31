@@ -20,6 +20,8 @@ import {
   Image,
   rem,
   NumberFormatter,
+  alpha,
+  AspectRatio,
 } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
@@ -57,7 +59,10 @@ const data: {
   value: string;
   title: string;
   image: string;
-  cityData?: { perYear: Record<string, number>; reductionShare: Record<string, `${number}%`> };
+  cityData?: {
+    emissions: { perYear: Record<string, number>; reductionShare: Record<string, `${number}%`> };
+    effectsPerUnit: { area: number; lower: Record<string, number>; upper: Record<string, number> };
+  };
 }[] = [
   {
     color: 'lime',
@@ -66,8 +71,15 @@ const data: {
     image:
       'https://ddot.dc.gov/sites/default/files/dc/sites/ddot/page_content/images/DDOT-GI-Main.jpg?itok=e4yJgI9_',
     cityData: {
-      perYear: { stockholm: 0.93, vienna: 0.56, madrid: 1.58 },
-      reductionShare: { stockholm: '23.5%', vienna: '5.0%', madrid: '9.7%' },
+      emissions: {
+        perYear: { stockholm: 0.93, vienna: 0.56, madrid: 1.58 },
+        reductionShare: { stockholm: '23.5%', vienna: '5.0%', madrid: '9.7%' },
+      },
+      effectsPerUnit: {
+        area: 1,
+        lower: { stockholm: 0.5, vienna: 0.3, madrid: 0.2 },
+        upper: { stockholm: 3.6, vienna: 2.4, madrid: 4.3 },
+      },
     },
   },
   {
@@ -77,8 +89,15 @@ const data: {
     image:
       'https://images.squarespace-cdn.com/content/v1/5ac3c68055b02ce8b735f455/1590887451253-0688F2DV0JE3R4LLUDOV/GreenHouse.jpg',
     cityData: {
-      perYear: { stockholm: 0.34, vienna: 0.71, madrid: 0.43 },
-      reductionShare: { stockholm: '8.5%', vienna: '6.3%', madrid: '2.7%' },
+      emissions: {
+        perYear: { stockholm: 0.34, vienna: 0.71, madrid: 0.43 },
+        reductionShare: { stockholm: '8.5%', vienna: '6.3%', madrid: '2.7%' },
+      },
+      effectsPerUnit: {
+        area: 10,
+        lower: { stockholm: 0.05, vienna: 0.1, madrid: 0.08 },
+        upper: { stockholm: 1.2, vienna: 2.8, madrid: 1.5 },
+      },
     },
   },
   {
@@ -88,8 +107,15 @@ const data: {
     image:
       'https://upload.wikimedia.org/wikipedia/commons/2/2b/Tochal_from_Modarres_Expressway.jpg',
     cityData: {
-      perYear: { stockholm: 0.79, vienna: 1.09, madrid: 1.93 },
-      reductionShare: { stockholm: '19.8%', vienna: '9.7%', madrid: '11.8%' },
+      emissions: {
+        perYear: { stockholm: 0.79, vienna: 1.09, madrid: 1.93 },
+        reductionShare: { stockholm: '19.8%', vienna: '9.7%', madrid: '11.8%' },
+      },
+      effectsPerUnit: {
+        area: 1,
+        lower: { stockholm: 0.2, vienna: 0.3, madrid: 0.5 },
+        upper: { stockholm: 1.3, vienna: 4.0, madrid: 5.6 },
+      },
     },
   },
   {
@@ -99,8 +125,15 @@ const data: {
     image:
       'https://images.squarespace-cdn.com/content/v1/53dd6676e4b0fedfbc26ea91/03c8acef-e91e-49a4-8513-1fa6188e1382/faith-crabtree-6ROWaq9mdew-unsplash.jpg',
     cityData: {
-      perYear: { stockholm: 0.3, vienna: 0.92, madrid: 1.27 },
-      reductionShare: { stockholm: '7.6%', vienna: '8.2%', madrid: '7.8%' },
+      emissions: {
+        perYear: { stockholm: 0.3, vienna: 0.92, madrid: 1.27 },
+        reductionShare: { stockholm: '7.6%', vienna: '8.2%', madrid: '7.8%' },
+      },
+      effectsPerUnit: {
+        area: 1,
+        lower: { stockholm: 0.1, vienna: 0.5, madrid: 0.2 },
+        upper: { stockholm: 1.8, vienna: 3.0, madrid: 4.0 },
+      },
     },
   },
   {
@@ -110,8 +143,15 @@ const data: {
     image:
       'https://upload.wikimedia.org/wikipedia/commons/c/ca/20170721_Gotham_Shield_NYC_Aerials-225_medium_%28cropped%29.jpg',
     cityData: {
-      perYear: { stockholm: 0.53, vienna: 1.41, madrid: 1.47 },
-      reductionShare: { stockholm: '13.4%', vienna: '12.6%', madrid: '9.0%' },
+      emissions: {
+        perYear: { stockholm: 0.53, vienna: 1.41, madrid: 1.47 },
+        reductionShare: { stockholm: '13.4%', vienna: '12.6%', madrid: '9.0%' },
+      },
+      effectsPerUnit: {
+        area: 1,
+        lower: { stockholm: 0.2, vienna: 0.4, madrid: 0.1 },
+        upper: { stockholm: 3.0, vienna: 4.5, madrid: 5.2 },
+      },
     },
   },
 ];
@@ -424,7 +464,9 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
                     color={value.color}
                     value={value.value}
                     description={
-                      layers.includes(value.value) && value.cityData?.perYear[city.value] && `` // `Reduces emissions by up to ${value.cityData.perYear[city.value]} MtCO2/year${value.cityData?.reductionShare[city.value] && ` (${value.cityData.reductionShare[city.value]} of 2019 emissions)`}`
+                      layers.includes(value.value) &&
+                      value.cityData?.emissions.perYear[city.value] &&
+                      `` // `Reduces emissions by up to ${value.cityData.perYear[city.value]} MtCO2/year${value.cityData?.reductionShare[city.value] && ` (${value.cityData.reductionShare[city.value]} of 2019 emissions)`}`
                     }
                   />
                 </div>
@@ -453,32 +495,46 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
         }}
       >
         {city && layers.length > 0 && (
-          <Paper p="xl" h="96%" m="xl" w={450}>
+          <Paper
+            p="xl"
+            h="96%"
+            m="xl"
+            w={400}
+            style={{ backgroundColor: alpha('var(--mantine-color-body)', 0.7) }}
+          >
             <Flex direction="column" h="100%">
               <SimpleGrid cols={2}>
                 {layers.map((layer) => {
                   const layerData = data.find((value) => value.value === layer);
                   return (
-                    <div
+                    <AspectRatio
+                      ratio={1 / 1}
+                      maw={160}
+                      mx="auto"
+                      pos="relative"
                       key={`${city.value}${layerData?.value}`}
-                      style={{ position: 'relative', textAlign: 'center' }}
+                      style={{ textAlign: 'center', overflow: 'hidden' }}
                     >
-                      <Image src={layerData?.image} h={175} w={175} radius="md" />
+                      <Image src={layerData?.image} radius="md" />
                       <Text
                         fw={500}
                         style={{
                           position: 'absolute',
                           top: '50%',
                           left: '50%',
-                          transform: 'translate(-60%, -50%)',
+                          transform: 'translate(-50%, -20%)',
                           color: 'white',
+                          zIndex: 300,
                         }}
                       >
-                        1m<sup>2</sup> of {layerData?.title}
+                        {layerData?.cityData?.effectsPerUnit.area}m<sup>2</sup> of{' '}
+                        {layerData?.title}
                         <br />
-                        {layerData?.cityData?.perYear[city?.value]} MtCO<sub>2</sub>/year
+                        {layerData?.cityData?.effectsPerUnit.lower[city?.value]}&ndash;
+                        {layerData?.cityData?.effectsPerUnit.upper[city?.value]}kg
                       </Text>
-                    </div>
+                      <Overlay color="#000" backgroundOpacity={0.4} component="image" radius="md" />
+                    </AspectRatio>
                   );
                 })}
               </SimpleGrid>
@@ -494,7 +550,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
                         const layerData = data.find((value) => value.value === layer);
                         return layerData
                           ? layerData.cityData
-                            ? layerData.cityData.perYear[city?.value]
+                            ? layerData.cityData.emissions.perYear[city?.value]
                             : 0
                           : 0;
                       })
