@@ -17,6 +17,10 @@ import {
   Radio,
   Stack,
   Grid,
+  SimpleGrid,
+  Image,
+  rem,
+  NumberFormatter,
 } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
@@ -53,12 +57,15 @@ const data: {
   color: string;
   value: string;
   title: string;
+  image: string;
   cityData?: { perYear: Record<string, number>; reductionShare: Record<string, `${number}%`> };
 }[] = [
   {
     color: 'lime',
     value: 'GBI',
     title: 'Green Infrastructure (GI)',
+    image:
+      'https://ddot.dc.gov/sites/default/files/dc/sites/ddot/page_content/images/DDOT-GI-Main.jpg?itok=e4yJgI9_',
     cityData: {
       perYear: { stockholm: 0.93, vienna: 0.56, madrid: 1.58 },
       reductionShare: { stockholm: '23.5%', vienna: '5.0%', madrid: '9.7%' },
@@ -68,6 +75,8 @@ const data: {
     color: 'cyan',
     value: 'green_roof',
     title: 'Green Roof',
+    image:
+      'https://images.squarespace-cdn.com/content/v1/5ac3c68055b02ce8b735f455/1590887451253-0688F2DV0JE3R4LLUDOV/GreenHouse.jpg',
     cityData: {
       perYear: { stockholm: 0.34, vienna: 0.71, madrid: 0.43 },
       reductionShare: { stockholm: '8.5%', vienna: '6.3%', madrid: '2.7%' },
@@ -77,6 +86,8 @@ const data: {
     color: 'pink',
     value: 'greenbelt',
     title: 'Greenbelt',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/2/2b/Tochal_from_Modarres_Expressway.jpg',
     cityData: {
       perYear: { stockholm: 0.79, vienna: 1.09, madrid: 1.93 },
       reductionShare: { stockholm: '19.8%', vienna: '9.7%', madrid: '11.8%' },
@@ -86,6 +97,8 @@ const data: {
     color: 'violet',
     value: 'street_trees',
     title: 'Street Trees',
+    image:
+      'https://images.squarespace-cdn.com/content/v1/53dd6676e4b0fedfbc26ea91/03c8acef-e91e-49a4-8513-1fa6188e1382/faith-crabtree-6ROWaq9mdew-unsplash.jpg',
     cityData: {
       perYear: { stockholm: 0.3, vienna: 0.92, madrid: 1.27 },
       reductionShare: { stockholm: '7.6%', vienna: '8.2%', madrid: '7.8%' },
@@ -95,6 +108,8 @@ const data: {
     color: 'orange',
     value: 'urban_green_areas',
     title: 'Urban Parks',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/c/ca/20170721_Gotham_Shield_NYC_Aerials-225_medium_%28cropped%29.jpg',
     cityData: {
       perYear: { stockholm: 0.53, vienna: 1.41, madrid: 1.47 },
       reductionShare: { stockholm: '13.4%', vienna: '12.6%', madrid: '9.0%' },
@@ -401,7 +416,7 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
                           description={
                             layers.includes(value.value) &&
                             value.cityData?.perYear[city.value] &&
-                            `Reduces emissions by up to ${value.cityData.perYear[city.value]} MtCO2/year${value.cityData?.reductionShare[city.value] && ` (${value.cityData.reductionShare[city.value]} of 2019 emissions)`}`
+                            `` // `Reduces emissions by up to ${value.cityData.perYear[city.value]} MtCO2/year${value.cityData?.reductionShare[city.value] && ` (${value.cityData.reductionShare[city.value]} of 2019 emissions)`}`
                           }
                         />
                       </div>
@@ -422,7 +437,62 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
             </Flex>
           </Grid.Col>
           <Grid.Col span="auto"></Grid.Col>
-          <Grid.Col span="content">{/* <Paper h={'calc(100vh - 60px)'}>test</Paper> */}</Grid.Col>
+          <Grid.Col span="content">
+            {city && layers.length > 0 && (
+              <Flex h={'calc(100vh - 60px)'}>
+                <Paper p="xl" m="xl" w={475}>
+                  <Flex direction="column" h={'100%'}>
+                    <SimpleGrid cols={2}>
+                      {layers.map((layer) => {
+                        const layerData = data.find((value) => value.value === layer);
+                        return (
+                          <div style={{ position: 'relative', textAlign: 'center' }}>
+                            <Image src={layerData?.image} h={175} w={175} radius="md" />
+                            <Text
+                              fw={500}
+                              style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-60%, -50%)',
+                                color: 'white',
+                              }}
+                            >
+                              1m<sup>2</sup> of {layerData?.title}
+                              <br />
+                              {layerData?.cityData?.perYear[city?.value]} MtCO<sub>2</sub>/year
+                            </Text>
+                          </div>
+                        );
+                      })}
+                    </SimpleGrid>
+                    <div style={{ flexGrow: 2 }} />
+                    <div>
+                      <Text style={{ fontSize: rem(28), fontWeight: 700, lineHeight: 1.25 }}>
+                        When fully implemented, reduces emissions up to
+                      </Text>
+                      <Text style={{ fontSize: rem(36), fontWeight: 900, lineHeight: 1.5 }}>
+                        <NumberFormatter
+                          value={layers
+                            .map((layer) => {
+                              const layerData = data.find((value) => value.value === layer);
+                              return layerData
+                                ? layerData.cityData
+                                  ? layerData.cityData.perYear[city?.value]
+                                  : 0
+                                : 0;
+                            })
+                            .reduce((a, b) => a + b, 0)}
+                          decimalScale={2}
+                        />
+                        MT per year
+                      </Text>
+                    </div>
+                  </Flex>
+                </Paper>
+              </Flex>
+            )}
+          </Grid.Col>
         </Grid>
         <RMap
           initial={initial}
