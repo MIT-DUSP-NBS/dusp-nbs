@@ -16,7 +16,6 @@ import {
   Popover,
   Radio,
   Stack,
-  Grid,
   SimpleGrid,
   Image,
   rem,
@@ -454,13 +453,16 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
         }}
       >
         {city && layers.length > 0 && (
-          <Paper p="xl" h={'96%'} m="xl" w={450}>
-            <Flex direction="column" h={'100%'}>
+          <Paper p="xl" h="96%" m="xl" w={450}>
+            <Flex direction="column" h="100%">
               <SimpleGrid cols={2}>
                 {layers.map((layer) => {
                   const layerData = data.find((value) => value.value === layer);
                   return (
-                    <div style={{ position: 'relative', textAlign: 'center' }}>
+                    <div
+                      key={`${city.value}${layerData?.value}`}
+                      style={{ position: 'relative', textAlign: 'center' }}
+                    >
                       <Image src={layerData?.image} h={175} w={175} radius="md" />
                       <Text
                         fw={500}
