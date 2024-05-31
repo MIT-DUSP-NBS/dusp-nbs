@@ -16,6 +16,7 @@ import {
   Popover,
   Radio,
   Stack,
+  Grid,
 } from '@mantine/core';
 import { RMap, RLayerTile, RLayerVector, RStyle } from 'rlayers';
 import { Feature } from 'ol';
@@ -299,6 +300,130 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
             </Overlay>
           )}
         </Transition>
+        <Grid h={'100%'} w={'98%'} style={{ zIndex: 200, position: 'absolute' }}>
+          <Grid.Col span="content" h={'100%'}>
+            <Flex
+              h={'calc(100vh - 60px) '}
+              gap="md"
+              justify="center"
+              align="flex-start"
+              direction="column"
+              wrap="wrap"
+            >
+              <Paper
+                shadow="xs"
+                withBorder
+                p="xl"
+                m="xl"
+                style={{ maxWidth: 'min(calc(100vw - 40px), 20.5em)' }}
+              >
+                <Group>
+                  <Select
+                    data={cities}
+                    placeholder="Pick a city!"
+                    value={city ? city.value : null}
+                    onChange={(_value, option: CitiesType) => {
+                      setCity(option);
+                      setLayers([]);
+                      if (option.newView) {
+                        setView({ center: option.newView.center, zoom: option.newView.zoom });
+                      }
+                    }}
+                    allowDeselect={false}
+                  />
+                  <Popover
+                    width={280}
+                    shadow="md"
+                    withArrow
+                    opened={basemapOpened}
+                    onChange={setBasemapOpened}
+                  >
+                    <Popover.Target>
+                      <ActionIcon
+                        variant="default"
+                        aria-label="Settings"
+                        size="input-sm"
+                        onClick={() => setBasemapOpened((o) => !o)}
+                      >
+                        <IconAdjustmentsHorizontal
+                          style={{ width: '70%', height: '70%' }}
+                          stroke={1.5}
+                        />
+                      </ActionIcon>
+                    </Popover.Target>
+                    <Popover.Dropdown>
+                      <Radio.Group
+                        value={basemap.url}
+                        onChange={(value) => {
+                          setBasemap(basemaps.find((b) => b.url === value) ?? basemaps[0]);
+                          setBasemapOpened((o) => !o);
+                        }}
+                        name="basemap"
+                        label="Basemap"
+                        description="Select the appropriate basemap to use"
+                      >
+                        <Stack mt="xs">
+                          {basemaps.map((radioBasemap) => (
+                            <Radio
+                              key={radioBasemap.label}
+                              label={radioBasemap.label}
+                              value={radioBasemap.url}
+                            />
+                          ))}
+                        </Stack>
+                      </Radio.Group>
+                    </Popover.Dropdown>
+                  </Popover>
+                </Group>
+              </Paper>
+              <div style={{ flexGrow: 2 }} />
+              {city && (
+                <Paper
+                  shadow="xs"
+                  withBorder
+                  p="xl"
+                  m="xl"
+                  style={{ maxWidth: 'min(calc(100vw - 40px), 22em)' }}
+                >
+                  <Checkbox.Group
+                    label={`Locate NbS in ${city.label}`}
+                    description="Emissions statistics are calculated based on 2019 emissions and application of the NbS on all available land parcels"
+                    value={layers}
+                    onChange={setLayers}
+                  >
+                    {data.map((value) => (
+                      <div key={`checkbox_${value.value}`}>
+                        <Space h="xs" key={`space_${value.value}`} />
+                        <Checkbox
+                          label={value.title}
+                          color={value.color}
+                          value={value.value}
+                          description={
+                            layers.includes(value.value) &&
+                            value.cityData?.perYear[city.value] &&
+                            `Reduces emissions by up to ${value.cityData.perYear[city.value]} MtCO2/year${value.cityData?.reductionShare[city.value] && ` (${value.cityData.reductionShare[city.value]} of 2019 emissions)`}`
+                          }
+                        />
+                      </div>
+                    ))}
+                  </Checkbox.Group>
+                  {`../../assets/boundaries/${city.value}.json` in boundaries && (
+                    <>
+                      <Space h="lg" />
+                      <Switch
+                        checked={boundaryShowing}
+                        onChange={(event) => setBoundaryShowing(event.currentTarget.checked)}
+                        label={`Show ${city.label} boundary`}
+                      />
+                    </>
+                  )}
+                </Paper>
+              )}
+            </Flex>
+          </Grid.Col>
+          <Grid.Col span="auto"></Grid.Col>
+          <Grid.Col span="content">{/* <Paper h={'calc(100vh - 60px)'}>test</Paper> */}</Grid.Col>
+        </Grid>
         <RMap
           initial={initial}
           height="100%"
@@ -322,113 +447,6 @@ const Visualization = forwardRef((_props, ref: ForwardedRef<HTMLDivElement>) => 
           {boundaryShowing && city && <BounadryLayer />}
           {city && <VisualizationLayers layers={layers} city={city.value} />}
         </RMap>
-      </div>
-      <div style={{ bottom: 20, left: 20, position: 'absolute', zIndex: 200 }}>
-        {city && (
-          <Paper
-            shadow="xs"
-            withBorder
-            p="xl"
-            style={{ maxWidth: 'min(calc(100vw - 40px), 22em)' }}
-          >
-            <Checkbox.Group
-              label={`Locate NbS in ${city.label}`}
-              description="Emissions statistics are calculated based on 2019 emissions and application of the NbS on all available land parcels"
-              value={layers}
-              onChange={setLayers}
-            >
-              {data.map((value) => (
-                <div key={`checkbox_${value.value}`}>
-                  <Space h="xs" key={`space_${value.value}`} />
-                  <Checkbox
-                    label={value.title}
-                    color={value.color}
-                    value={value.value}
-                    description={
-                      layers.includes(value.value) &&
-                      value.cityData?.perYear[city.value] &&
-                      `Reduces emissions by up to ${value.cityData.perYear[city.value]} MtCO2/year${value.cityData?.reductionShare[city.value] && ` (${value.cityData.reductionShare[city.value]} of 2019 emissions)`}`
-                    }
-                  />
-                </div>
-              ))}
-            </Checkbox.Group>
-            {`../../assets/boundaries/${city.value}.json` in boundaries && (
-              <>
-                <Space h="lg" />
-                <Switch
-                  checked={boundaryShowing}
-                  onChange={(event) => setBoundaryShowing(event.currentTarget.checked)}
-                  label={`Show ${city.label} boundary`}
-                />
-              </>
-            )}
-          </Paper>
-        )}
-      </div>
-      <div style={{ top: 20, left: 20, position: 'absolute', zIndex: 200 }}>
-        <Paper
-          shadow="xs"
-          withBorder
-          p="xl"
-          style={{ maxWidth: 'min(calc(100vw - 40px), 20.5em)' }}
-        >
-          <Group>
-            <Select
-              data={cities}
-              placeholder="Pick a city!"
-              value={city ? city.value : null}
-              onChange={(_value, option: CitiesType) => {
-                setCity(option);
-                setLayers([]);
-                if (option.newView) {
-                  setView({ center: option.newView.center, zoom: option.newView.zoom });
-                }
-              }}
-              allowDeselect={false}
-            />
-            <Popover
-              width={280}
-              shadow="md"
-              withArrow
-              opened={basemapOpened}
-              onChange={setBasemapOpened}
-            >
-              <Popover.Target>
-                <ActionIcon
-                  variant="default"
-                  aria-label="Settings"
-                  size="input-sm"
-                  onClick={() => setBasemapOpened((o) => !o)}
-                >
-                  <IconAdjustmentsHorizontal style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                </ActionIcon>
-              </Popover.Target>
-              <Popover.Dropdown>
-                <Radio.Group
-                  value={basemap.url}
-                  onChange={(value) => {
-                    setBasemap(basemaps.find((b) => b.url === value) ?? basemaps[0]);
-                    setBasemapOpened((o) => !o);
-                  }}
-                  name="basemap"
-                  label="Basemap"
-                  description="Select the appropriate basemap to use"
-                >
-                  <Stack mt="xs">
-                    {basemaps.map((radioBasemap) => (
-                      <Radio
-                        key={radioBasemap.label}
-                        label={radioBasemap.label}
-                        value={radioBasemap.url}
-                      />
-                    ))}
-                  </Stack>
-                </Radio.Group>
-              </Popover.Dropdown>
-            </Popover>
-          </Group>
-        </Paper>
       </div>
     </div>
   );
