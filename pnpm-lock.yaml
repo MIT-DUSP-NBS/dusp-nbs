@@ -18,8 +18,8 @@ importers:
         specifier: ^7.10.2
         version: 7.10.2(react@18.3.1)
       '@tabler/icons-react':
-        specifier: ^3.9.0
-        version: 3.9.0(react@18.3.1)
+        specifier: ^3.10.0
+        version: 3.10.0(react@18.3.1)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -495,13 +495,13 @@ packages:
   '@swc/types@0.1.9':
     resolution: {integrity: sha512-qKnCno++jzcJ4lM4NTfYifm1EFSCeIfKiAHAfkENZAV5Kl9PjJIyd2yeeVv6c/2CckuLyv2NmRC5pv6pm2WQBg==}
 
-  '@tabler/icons-react@3.9.0':
-    resolution: {integrity: sha512-7Fbcrb5LYBGd9rwfkgrJsvLYGqPqO4WV3u6lfqE2wRzEVcevDQcdvo8toKp5Jcc66MPMEmMg+/tnUGwFIKQmUQ==}
+  '@tabler/icons-react@3.10.0':
+    resolution: {integrity: sha512-FTES0wJLIV+M9Ggng0j/6Kn/j43ZuBukR5n6DNV8Npk4woPCDcRjA+2KzKQyvSdwtPMAM6o1e8fQBPDS337Spg==}
     peerDependencies:
       react: '>= 16'
 
-  '@tabler/icons@3.9.0':
-    resolution: {integrity: sha512-wZAwEu4iI0WmUA/bjstzNYri13D8X14f/SCRrzr2MyU+WP/6Vd+xq4YLM52dOS8V6ZVt+ujuE9IFkuJdsdSVAQ==}
+  '@tabler/icons@3.10.0':
+    resolution: {integrity: sha512-jCMO+hDTw8Gn1CNb15zIENLQ9b0UplGXtjMnEUhDoKH+Q4fta8tBLUxZpPpFtpV+q+gzGqfM76xNAoD1GBpmnA==}
 
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
@@ -2219,12 +2219,12 @@ snapshots:
     dependencies:
       '@swc/counter': 0.1.3
 
-  '@tabler/icons-react@3.9.0(react@18.3.1)':
+  '@tabler/icons-react@3.10.0(react@18.3.1)':
     dependencies:
-      '@tabler/icons': 3.9.0
+      '@tabler/icons': 3.10.0
       react: 18.3.1
 
-  '@tabler/icons@3.9.0': {}
+  '@tabler/icons@3.10.0': {}
 
   '@types/estree@1.0.5': {}
 
