@@ -59,7 +59,7 @@ importers:
         version: 7.18.0(eslint@8.57.0)(typescript@5.5.4)
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(vite@5.3.5(sugarss@4.0.1(postcss@8.4.41)))
+        version: 3.7.0(vite@5.4.0(sugarss@4.0.1(postcss@8.4.41)))
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -97,8 +97,8 @@ importers:
         specifier: ^5.5.4
         version: 5.5.4
       vite:
-        specifier: ^5.3.5
-        version: 5.3.5(sugarss@4.0.1(postcss@8.4.41))
+        specifier: ^5.4.0
+        version: 5.4.0(sugarss@4.0.1(postcss@8.4.41))
 
 packages:
 
@@ -1889,8 +1889,8 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
-  vite@5.3.5:
-    resolution: {integrity: sha512-MdjglKR6AQXQb9JGiS7Rc2wC6uMjcm7Go/NHNO63EwiJXfuk9PgqiP/n5IDJCziMkfw9n4Ubp7lttNwz+8ZVKA==}
+  vite@5.4.0:
+    resolution: {integrity: sha512-5xokfMX0PIiwCMCMb9ZJcMyh5wbBun0zUzKib+L65vAZ8GY9ePZMXxFrHbr/Kyll2+LSCY7xtERPpxkBDKngwg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -1898,6 +1898,7 @@ packages:
       less: '*'
       lightningcss: ^1.21.0
       sass: '*'
+      sass-embedded: '*'
       stylus: '*'
       sugarss: '*'
       terser: ^5.4.0
@@ -1909,6 +1910,8 @@ packages:
       lightningcss:
         optional: true
       sass:
+        optional: true
+      sass-embedded:
         optional: true
       stylus:
         optional: true
@@ -2368,10 +2371,10 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitejs/plugin-react-swc@3.7.0(vite@5.3.5(sugarss@4.0.1(postcss@8.4.41)))':
+  '@vitejs/plugin-react-swc@3.7.0(vite@5.4.0(sugarss@4.0.1(postcss@8.4.41)))':
     dependencies:
       '@swc/core': 1.6.5
-      vite: 5.3.5(sugarss@4.0.1(postcss@8.4.41))
+      vite: 5.4.0(sugarss@4.0.1(postcss@8.4.41))
     transitivePeerDependencies:
       - '@swc/helpers'
 
@@ -3900,7 +3903,7 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  vite@5.3.5(sugarss@4.0.1(postcss@8.4.41)):
+  vite@5.4.0(sugarss@4.0.1(postcss@8.4.41)):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.41
