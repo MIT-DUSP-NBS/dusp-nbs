@@ -17,7 +17,7 @@
     "@tabler/icons-react": "^3.26.0",
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
-    "embla-carousel-react": "^8.5.1",
+    "embla-carousel-react": "^8.5.2",
     "ol": "~9.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
