@@ -59,7 +59,7 @@ importers:
         version: 18.3.1
       '@vitejs/plugin-react-swc':
         specifier: ^3.8.0
-        version: 3.8.0(vite@6.2.1(sugarss@4.0.1(postcss@8.5.3)))
+        version: 3.8.0(vite@6.2.2(sugarss@4.0.1(postcss@8.5.3)))
       eslint:
         specifier: ^9.22.0
         version: 9.22.0
@@ -97,8 +97,8 @@ importers:
         specifier: ^8.26.0
         version: 8.26.0(eslint@9.22.0)(typescript@5.7.3)
       vite:
-        specifier: ^6.2.1
-        version: 6.2.1(sugarss@4.0.1(postcss@8.5.3))
+        specifier: ^6.2.2
+        version: 6.2.2(sugarss@4.0.1(postcss@8.5.3))
 
 packages:
 
@@ -1699,8 +1699,8 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
-  vite@6.2.1:
-    resolution: {integrity: sha512-n2GnqDb6XPhlt9B8olZPrgMD/es/Nd1RdChF6CBD/fHW6pUyUTt2sQW2fPRX5GiD9XEa6+8A6A4f2vT6pSsE7Q==}
+  vite@6.2.2:
+    resolution: {integrity: sha512-yW7PeMM+LkDzc7CgJuRLMW2Jz0FxMOsVJ8Lv3gpgW9WLcb9cTW+121UEr1hvmfR7w3SegR5ItvYyzVz1vxNJgQ==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
     peerDependencies:
@@ -2192,10 +2192,10 @@ snapshots:
       '@typescript-eslint/types': 8.26.0
       eslint-visitor-keys: 4.2.0
 
-  '@vitejs/plugin-react-swc@3.8.0(vite@6.2.1(sugarss@4.0.1(postcss@8.5.3)))':
+  '@vitejs/plugin-react-swc@3.8.0(vite@6.2.2(sugarss@4.0.1(postcss@8.5.3)))':
     dependencies:
       '@swc/core': 1.10.15
-      vite: 6.2.1(sugarss@4.0.1(postcss@8.5.3))
+      vite: 6.2.2(sugarss@4.0.1(postcss@8.5.3))
     transitivePeerDependencies:
       - '@swc/helpers'
 
@@ -3503,7 +3503,7 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  vite@6.2.1(sugarss@4.0.1(postcss@8.5.3)):
+  vite@6.2.2(sugarss@4.0.1(postcss@8.5.3)):
     dependencies:
       esbuild: 0.25.1
       postcss: 8.5.3
