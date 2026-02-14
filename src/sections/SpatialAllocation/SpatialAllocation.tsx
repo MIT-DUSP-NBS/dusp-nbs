@@ -1,7 +1,7 @@
 import {
+  ComponentPropsWithoutRef,
   ForwardRefExoticComponent,
   ForwardedRef,
-  FunctionComponent,
   RefAttributes,
   forwardRef,
 } from 'react';
@@ -16,10 +16,8 @@ import classes from './SpatialAllocation.module.css';
 
 import EmissionsImage from '../../components/EmissionsImage';
 
-interface FeatureProps extends React.ComponentPropsWithoutRef<'div'> {
-  icon: ForwardRefExoticComponent<
-    Omit<IconProps, 'ref'> & RefAttributes<FunctionComponent<IconProps>>
-  >;
+interface FeatureProps extends ComponentPropsWithoutRef<'div'> {
+  icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
   title: string;
   description: string;
 }
